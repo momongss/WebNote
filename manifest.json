@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+  "name": "Note everywhere",
+  "version": "0.0.1",
+  "description": "make note everywhere",
+  "author": "taehyung",
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "css": ["src/style.css"],
+      "js": ["src/contentScript.js"]
+    }
+  ],
+  "permissions": ["activeTab", "fontSettings", "storage"],
+
+  "web_accessible_resources": ["src/*", "fonts/*"]
+}
