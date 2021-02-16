@@ -1,63 +1,64 @@
-import { setCaretIndex, applyCaret } from "../utils/caret.js";
-import { selectText as selectTextAll } from "../utils/selectDiv.js";
+import Caret from "../utils/caret.js";
+import { keyBackspace, keyTab } from "../utils/keyboardInput.js";
 
-console.log("app running");
+let classThis;
 
-const $title = document.querySelector(".title");
-const $docs = document.querySelector(".docs");
+export default class Docs {
+  constructor($target, hideNote, toggleNote, saveNote) {
+    classThis = this;
 
-let titleState = "init";
-let caret = null;
-const pageTitle = document.querySelector("title").innerText;
+    this.$docs = $target.querySelector(".docs");
 
-$title.innerHTML = pageTitle;
+    this.timeout = null;
+    this.isAltPressed = false;
 
-$title.addEventListener("click", (e) => {
-  if (titleState === "init") selectTextAll($title);
-});
+    this.hideNote = hideNote;
+    this.toggleNote = toggleNote;
+    this.saveNote = saveNote;
 
-$title.addEventListener("keydown", (e) => {
-  if (e.key === "Enter" || e.key === "Escape") {
-    e.preventDefault();
-    setCaretIndex(caret);
-    $docs.focus();
-    if ($title.innerHTML === "") {
-      $title.innerHTML = pageTitle;
-      titleState = "init";
-    }
-    return;
-  }
-  titleState = "stated";
-});
-
-let timeout = null;
-$docs.addEventListener("keydown", (e) => {
-  if (e.key === "Tab") {
-    e.preventDefault();
-    document.execCommand("insertText", true, "    ");
-  } else if (e.key === "Backspace") {
-    const selection = document.getSelection();
-    if (selection.anchorOffset - 3 <= 0) {
-      return;
-    }
-
-    const newRange = document.createRange();
-    newRange.setStart(selection.anchorNode, selection.anchorOffset - 3);
-    newRange.setEnd(selection.anchorNode, selection.anchorOffset);
-    if (newRange.toString().trim().length === 0) {
-      newRange.deleteContents();
-    }
+    this.render();
   }
 
-  clearTimeout(timeout);
+  render() {
+    this.$docs.addEventListener("click", () => {
+      Caret.storeCaret();
+    });
 
-  timeout = setTimeout(() => {
-    caret = applyCaret(caret);
-  }, 200);
+    this.$docs.addEventListener("keyup", (e) => {
+      e.stopPropagation();
 
-  console.log(e.key);
-});
+      if (e.key === "w" || e.key === "W") {
+        classThis.toggleNote();
+      } else if (e.key === "Alt") {
+        classThis.isAltPressed = false;
+      }
+    });
 
-$docs.addEventListener("click", () => {
-  caret = applyCaret(caret);
-});
+    this.$docs.addEventListener("keydown", (e) => {
+      e.stopPropagation();
+
+      if (e.key === "Tab") {
+        e.preventDefault();
+        keyTab();
+      } else if (e.key === "Backspace") {
+        // 첫 줄의 div 영역이 지워지는 걸 방지
+        const line = classThis.$docs.innerHTML.trim();
+        if (line === "<div><br></div>") {
+          e.preventDefault();
+        }
+        keyBackspace();
+      } else if (e.key === "Escape") {
+        classThis.hideNote();
+      } else if (e.key === "Alt") {
+        classThis.isAltPressed = true;
+      }
+
+      clearTimeout(classThis.timeout);
+
+      classThis.timeout = setTimeout(() => {
+        Caret.storeCaret();
+        classThis.saveNote();
+      }, 600);
+    });
+  }
+}

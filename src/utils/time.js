@@ -1,4 +1,4 @@
-export function getformattedTime() {
+export function getTime() {
   const date = new Date();
   let year = date.getFullYear();
   let month = 1 + date.getMonth();
