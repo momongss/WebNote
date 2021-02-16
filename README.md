@@ -1,8 +1,4 @@
-## 구글 독스 제목 클론
-
-<img src="./img/google_title.png">
-
----
+### 제목 파트
 
 디자인
 
