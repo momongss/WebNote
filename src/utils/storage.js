@@ -1,13 +1,29 @@
-import { URL } from "../const/URL.js";
+import { getURL } from "../const/URL.js";
 
-const key = "Note everywhere";
 const storage = chrome.storage.local;
+const key = "Note everywhere";
 
 export default class Storage {
-  static setItem(data) {
-    console.log(memoLists);
-    storage.set({
-      [key]: JSON.stringify(data),
+  static initStorage() {
+    let gettingItem = new Promise((resolve) => storage.get(key, resolve));
+    gettingItem.then((re) => {});
+  }
+
+  static async setItem(data) {
+    let gettingItem = new Promise((resolve) => storage.get(key, resolve));
+    gettingItem.then((re) => {
+      if (Object.keys(re).length === 0) {
+        re = {
+          [key]: {
+            [getURL()]: data,
+          },
+        };
+      } else {
+        re[key][getURL()] = data;
+      }
+      storage.set({
+        [key]: re[key],
+      });
     });
   }
 
@@ -17,16 +33,28 @@ export default class Storage {
       if (Object.keys(re).length === 0 && re.constructor === Object) {
         return [];
       }
-      return JSON.parse(JSON.parse(re[key]));
+      return re[key][getURL()];
     });
   }
 
   static clearStorage() {
-    chrome.storage.local.clear(function () {
+    storage.clear(function () {
       const error = chrome.runtime.lastError;
       if (error) {
         console.error(error);
       }
+    });
+  }
+
+  static printStorage() {
+    let gettingItem = new Promise((resolve) => storage.get(key, resolve));
+    return gettingItem.then((re) => {
+      Object.keys(re[key]).forEach((url) => {
+        console.log(url);
+      });
+      Object.keys(re[key]).forEach((url) => {
+        console.log(re[key][url]);
+      });
     });
   }
 }

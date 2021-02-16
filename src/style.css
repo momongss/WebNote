@@ -11,21 +11,45 @@
   --background-color-dark: rgb(47, 52, 55); /* notion dark color */
   --text-color-white: aliceblue;
 
-  --app-height: 90vh;
+  --app-height: 85vh;
   --docs-margin: 20px;
   --docs-padding: 12px;
 }
 
+@keyframes slidein {
+  from {
+    margin-left: 100%;
+    right: -520px;
+  }
+
+  to {
+    margin-left: 0%;
+    right: 20px;
+  }
+}
+
+@keyframes slideout {
+  from {
+    margin-left: 0%;
+    right: 20px;
+  }
+
+  to {
+    margin-left: 100%;
+    right: -520px;
+  }
+}
+
 .web-docs-app {
   position: fixed;
-  right: 0;
   top: 50%;
+  right: -520px;
   transform: translate(0, -50%);
   z-index: 2147483647;
 
   display: flex;
   flex-direction: column;
-  width: 500px;
+  width: 420px;
   height: var(--app-height);
   color: var(--text-color-white);
   background-color: var(--background-color-dark);
@@ -34,19 +58,22 @@
   padding: 20px;
 
   font-family: bemin_dohun;
+
+  animation-duration: 1.5s;
 }
 
 .web-docs-app header {
   display: flex;
   background-color: inherit; /* 기본 header 속성 적용을 막기 위해 필요 */
   justify-content: space-between;
+  align-items: center;
   width: 100%;
   padding-bottom: 15px;
 }
 
 .web-docs-app .title-wrapper {
   display: flex;
-  flex-direction: row;
+  align-items: center;
 }
 
 .web-docs-app #logo {
@@ -60,7 +87,7 @@
   font-size: 18.5px;
   text-align: center;
   display: inline-block;
-  padding: 3px 8px 1px 8px;
+  padding: 0px 8px 1px 8px;
   border: 2px solid transparent;
   border-radius: 5px;
   max-width: 350px;
@@ -70,10 +97,12 @@
   border: 2px solid rgba(209, 209, 209, 0.4);
 }
 
-.web-docs-app .exitBtn {
-  background-color: rgb(19, 19, 19);
-  width: 20px;
-  height: 20px;
+.web-docs-app .closeBtn {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  margin-right: 3px;
+  font-size: 19.5px;
 }
 
 .web-docs-app .docs-wrapper {
@@ -113,5 +142,5 @@
 }
 
 .web-docs-app .docs div {
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }

@@ -1,3 +1,3 @@
-const URL = window.location.href;
-
-export { URL };
+export function getURL() {
+  return window.location.href;
+}
