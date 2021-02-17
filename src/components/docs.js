@@ -1,5 +1,5 @@
 import Caret from "../utils/caret.js";
-import { keyBackspace, keyTab } from "../utils/keyboardInput.js";
+import { keyBackspace, keyTab, keyAlt } from "../utils/keyboardInput.js";
 
 let classThis;
 
@@ -10,7 +10,6 @@ export default class Docs {
     this.$docs = $target.querySelector(".docs");
 
     this.timeout = null;
-    this.isAltPressed = false;
 
     this.hideNote = hideNote;
     this.toggleNote = toggleNote;
@@ -29,10 +28,18 @@ export default class Docs {
     this.$docs.addEventListener("keyup", (e) => {
       e.stopPropagation();
 
-      if (e.key === "w" || e.key === "W") {
+      // 첫 줄의 div 영역이 지워지는 걸 방지
+      let text = classThis.$docs.innerHTML;
+      if (text.slice(0, 5) !== "<div>") {
+        const length = text.length;
+        text = "<div>" + text + "</div>";
+        classThis.$docs.innerHTML = text;
+      }
+
+      if (e.key === "Alt") {
+        keyAlt.isAltPressed = false;
+      } else if (keyAlt.isAltPressed && (e.key === "w" || e.key === "W")) {
         classThis.toggleNote();
-      } else if (e.key === "Alt") {
-        classThis.isAltPressed = false;
       }
     });
 
@@ -44,23 +51,18 @@ export default class Docs {
         keyTab();
       } else if (e.key === "Backspace") {
         // 첫 줄의 div 영역이 지워지는 걸 방지
-        let text = classThis.$docs.innerHTML;
-        if (text.slice(0, 5) !== "<div>") {
-          const length = text.length;
-          text = "<div>" + text + "</div>";
-          classThis.$docs.innerHTML = text;
-          console.log(text);
-        }
-
         const line = classThis.$docs.innerHTML.trim();
         if (line === "<div><br></div>") {
           e.preventDefault();
+          return;
         }
+
         keyBackspace();
       } else if (e.key === "Escape") {
+        e.preventDefault();
         classThis.hideNote();
       } else if (e.key === "Alt") {
-        classThis.isAltPressed = true;
+        keyAlt.isAltPressed = true;
       }
 
       clearTimeout(classThis.timeout);

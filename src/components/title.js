@@ -42,6 +42,7 @@ export default class Title {
     });
 
     this.$title.addEventListener("keyup", (e) => {
+      e.stopPropagation();
       clearTimeout(classThis.timeout);
 
       classThis.timeout = setTimeout(() => {

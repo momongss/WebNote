@@ -12,7 +12,17 @@
       "js": ["src/contentScript.js"]
     }
   ],
-  "permissions": ["activeTab", "fontSettings", "storage", "unlimitedStorage"],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "fontSettings",
+    "storage",
+    "unlimitedStorage"
+  ],
 
   "web_accessible_resources": ["src/*", "fonts/*"]
 }

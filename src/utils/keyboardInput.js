@@ -16,4 +16,12 @@ function keyTab() {
   document.execCommand("insertText", false, "    ");
 }
 
-export { keyBackspace, keyTab };
+class KeyAlt {
+  constructor() {
+    this.isAltPressed = false;
+  }
+}
+
+const keyAlt = new KeyAlt();
+
+export { keyBackspace, keyTab, keyAlt };
