@@ -5,13 +5,7 @@ import { getTime } from "./utils/time.js";
 let classThis;
 
 export default class App {
-  NoteData = {
-    title: null,
-    content: "<div><br /></div>",
-    createTime: getTime(),
-    updateTime: getTime(),
-    state: false,
-  };
+  NoteData = null;
   $title = null;
   $docs = null;
 
@@ -24,9 +18,24 @@ export default class App {
 
     console.log("app running");
 
-    const title = new Title(this.$app, this.hideApp, this.saveNote);
+    const NoteLists = this.loadNoteLists();
+    if (NoteLists == null || NoteLists.length === 0) {
+      this.showNoteLists();
+      this.setNoteData();
+    } else {
+      this.showNoteLists(NoteLists);
+      this.setNoteData(NoteLists[0]);
+    }
+
+    const title = new Title(
+      this.$app,
+      this.NoteData,
+      this.hideApp,
+      this.saveNote
+    );
     const docs = new Docs(
       this.$app,
+      this.NoteData,
       this.hideApp,
       this.toggleApp,
       this.saveNote
@@ -34,20 +43,22 @@ export default class App {
 
     this.isAltPressed = false;
 
-    this.render();
+    this.render(this.NoteData);
   }
 
   render() {
     window.addEventListener("keydown", (e) => {
+      console.log(e.key);
       if (e.key === "Alt") {
         this.isAltPressed = true;
       }
     });
 
     window.addEventListener("keyup", (e) => {
+      console.log(e.key);
       if (e.key === "Alt") {
         this.isAltPressed = false;
-      } else if (e.key === "w" || e.key === "W") {
+      } else if (this.isAltPressed && (e.key === "w" || e.key === "W")) {
         this.toggleApp();
       }
     });
@@ -62,6 +73,28 @@ export default class App {
     classThis.NoteData.title = classThis.$title.innerHTML;
     classThis.NoteData.content = classThis.$docs.innerHTML;
     classThis.NoteData.updateTime = getTime();
+  }
+
+  loadNoteLists() {}
+
+  showNoteLists(NoteLists) {}
+
+  setNoteData(noteData) {
+    if (noteData == null) {
+      console.log("새로운 노트");
+      classThis.NoteData = {
+        id: 0,
+        title: "제목 없는 문서",
+        url: window.location.href,
+        content: "<div><br /></div>",
+        createTime: getTime(),
+        updateTime: getTime(),
+        state: false,
+      };
+    } else {
+      console.log("노트 불러와짐.");
+      classThis.NoteData = noteData;
+    }
   }
 
   showApp() {

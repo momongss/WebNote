@@ -8,8 +8,11 @@
 }
 
 :root {
-  --background-color-dark: rgb(47, 52, 55); /* notion dark color */
-  --text-color-white: aliceblue;
+  --color-background-dark: rgb(45, 50, 54); /* notion dark color */
+  --color-docs-dark: rgb(53, 59, 61);
+  --color-closeBtn-dark: rgb(80, 82, 86);
+
+  --text-color-white: rgb(235, 230, 225);
 
   --app-height: 85vh;
   --docs-margin: 20px;
@@ -51,15 +54,14 @@
   flex-direction: column;
   width: 420px;
   height: var(--app-height);
-  color: var(--text-color-white);
-  background-color: var(--background-color-dark);
+  background-color: var(--color-background-dark);
   border: 1px solid rgb(0, 0, 0);
   border-radius: 15px;
   padding: 20px;
 
   font-family: bemin_dohun;
 
-  animation-duration: 1.5s;
+  animation-duration: 1.2s;
 }
 
 .web-docs-app header {
@@ -81,10 +83,14 @@
   color: rgb(110, 110, 110);
   padding-left: 10px;
   padding-right: 10px;
+
+  margin: 0;
 }
 
 .web-docs-app .title {
   font-size: 18.5px;
+  color: var(--text-color-white);
+
   text-align: center;
   display: inline-block;
   padding: 0px 8px 1px 8px;
@@ -102,7 +108,9 @@
   align-items: center;
   justify-self: center;
   margin-right: 3px;
-  font-size: 19.5px;
+  /* font-size: 19.5px; */
+  font-size: 22.5px;
+  color: var(--color-closeBtn-dark);
 }
 
 .web-docs-app .docs-wrapper {
@@ -112,18 +120,25 @@
   flex-direction: column;
   flex: 1;
   overflow: hidden;
-  background-color: rgb(52, 58, 60);
+  background-color: var(--color-docs-dark);
 }
 
 .web-docs-app .docs {
-  font-size: 16px;
   padding: var(--docs-padding);
   margin: 5px;
   height: 100%;
   outline: 0px solid transparent;
-  background-color: rgb(52, 58, 60);
   overflow: scroll;
   overflow-x: hidden;
+
+  font-size: 16px;
+  color: var(--text-color-white);
+}
+
+.web-docs-app .docs * {
+  font-size: 16px;
+  color: var(--text-color-white);
+  margin-bottom: 10px;
 }
 
 .web-docs-app .docs::-webkit-scrollbar {
@@ -139,8 +154,4 @@
   background-color: grey;
   border-radius: 5px;
   box-shadow: inset 0px 0px 5px white;
-}
-
-.web-docs-app .docs div {
-  margin-bottom: 10px;
 }

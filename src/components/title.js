@@ -3,7 +3,7 @@ import Caret from "../utils/caret.js";
 let classThis;
 
 export default class Title {
-  constructor($target, hideNote, saveNote) {
+  constructor($target, NoteData, hideNote, saveNote) {
     classThis = this;
 
     this.$target = $target;
@@ -14,11 +14,12 @@ export default class Title {
     this.hideNote = hideNote;
     this.saveNote = saveNote;
 
-    this.render();
+    this.render(NoteData.title);
   }
 
-  render() {
-    this.$title.innerHTML = "제목 없는 문서";
+  render(title) {
+    this.$title.innerHTML = title;
+
     this.$title.addEventListener("click", (e) => {
       if (classThis.state === "init") Caret.selectTextAll(classThis.$title);
     });

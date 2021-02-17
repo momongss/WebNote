@@ -4,7 +4,7 @@ import { keyBackspace, keyTab } from "../utils/keyboardInput.js";
 let classThis;
 
 export default class Docs {
-  constructor($target, hideNote, toggleNote, saveNote) {
+  constructor($target, NoteData, hideNote, toggleNote, saveNote) {
     classThis = this;
 
     this.$docs = $target.querySelector(".docs");
@@ -16,10 +16,12 @@ export default class Docs {
     this.toggleNote = toggleNote;
     this.saveNote = saveNote;
 
-    this.render();
+    this.render(NoteData.content);
   }
 
-  render() {
+  render(content) {
+    this.$docs.innerHTML = content;
+
     this.$docs.addEventListener("click", () => {
       Caret.storeCaret();
     });
@@ -42,6 +44,14 @@ export default class Docs {
         keyTab();
       } else if (e.key === "Backspace") {
         // 첫 줄의 div 영역이 지워지는 걸 방지
+        let text = classThis.$docs.innerHTML;
+        if (text.slice(0, 5) !== "<div>") {
+          const length = text.length;
+          text = "<div>" + text + "</div>";
+          classThis.$docs.innerHTML = text;
+          console.log(text);
+        }
+
         const line = classThis.$docs.innerHTML.trim();
         if (line === "<div><br></div>") {
           e.preventDefault();

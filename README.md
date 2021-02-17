@@ -25,3 +25,5 @@
 
   더 자세한 기록 :
   <https://www.notion.so/2-5e55bb53ae8e4d1a85122509bb40dbf9>
+
+폰트색 : rgb(240, 248, 255)

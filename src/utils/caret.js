@@ -19,13 +19,10 @@ export default class Caret {
     return this.caret;
   }
 
-  static setCaretLast() {
-    const $docs = document.querySelector(".docs");
+  static setCaretbyIndex($el, index) {
     this.caret = document.createRange();
-
-    // const node = $docs.lastChild.firstChild;
-    // caret.setStart(node, node.length);
-    // caret.setEnd(node, node.length);
+    this.caret.setStart($el.lastChild, index);
+    this.caret.setEnd($el.lastChild, index);
 
     document.getSelection().addRange(this.caret);
   }
