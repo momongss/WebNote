@@ -24,7 +24,7 @@ export default class App {
 
     this.loadNoteLists().then((NoteLists) => {
       console.log(NoteLists);
-      classThis.NoteLists = NoteLists;
+      this.NoteLists = NoteLists;
 
       if (NoteLists == null || NoteLists.length === 0) {
         this.showNoteLists();
@@ -58,13 +58,7 @@ export default class App {
       this.$app.style.right = "20px";
     } else {
       this.$app.style.right = "-520px";
-      // this.$app.style.animationName = "slideout";
     }
-
-    const $createBtn = classThis.$app.querySelector("#createBtn");
-    $createBtn.addEventListener("click", () => {
-      classThis.createNote();
-    });
 
     window.addEventListener("keydown", (e) => {
       if (e.key === "Alt") {
@@ -78,7 +72,7 @@ export default class App {
       if (e.key === "Alt") {
         keyAlt.isAltPressed = false;
       } else if (keyAlt.isAltPressed && (e.key === "w" || e.key === "W")) {
-        this.toggleApp();
+        classThis.toggleApp();
       }
 
       // Debug
@@ -96,6 +90,11 @@ export default class App {
       chrome.tabs.create({
         url: "chrome-extension://mgffajndabdbnejmehloekjclmaikagb/options.html",
       });
+    });
+
+    const $createBtn = this.$app.querySelector("#createBtn");
+    $createBtn.addEventListener("click", () => {
+      classThis.createNote();
     });
 
     const $exitBtn = this.$app.querySelector(".closeBtn");
