@@ -44,6 +44,36 @@
   }
 }
 
+@keyframes web-docs-app-slideout-down {
+  0% {
+    margin-top: 0%;
+    top: 50%;
+    margin-left: 0%;
+    right: 20px;
+  }
+
+  33% {
+    margin-top: 100%;
+    top: 100%;
+    margin-left: 0%;
+    right: 20px;
+  }
+
+  66% {
+    margin-top: 100%;
+    top: 100%;
+    margin-left: 100%;
+    right: -520px;
+  }
+
+  100% {
+    margin-top: 0%;
+    top: 50%;
+    margin-left: 100%;
+    right: -520px;
+  }
+}
+
 div {
   display: block;
   padding: 0;
@@ -122,6 +152,17 @@ div {
 }
 
 .web-docs-app #createBtn:hover {
+  color: var(--color-button-hover);
+  cursor: pointer;
+}
+
+.web-docs-app #deleteBtn {
+  font-size: 18px;
+  color: var(--color-button-dark);
+  margin-left: 10px;
+}
+
+.web-docs-app #deleteBtn:hover {
   color: var(--color-button-hover);
   cursor: pointer;
 }

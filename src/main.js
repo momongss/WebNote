@@ -15,6 +15,7 @@ $app.innerHTML = `
       <i id="logo" class="fas fa-book"></i>
       <div class="title" contenteditable="true"></div>      
       <i id="createBtn" class="fas fa-plus-square" aria-hidden="true"></i>
+      <i id="deleteBtn" class="fas fa-trash-alt"></i>
     </div>
     <div class="closeBtn">
       <i class="fas fa-times"></i>

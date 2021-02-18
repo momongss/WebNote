@@ -1,0 +1,71 @@
+@import url("note.css");
+
+body {
+  background-color: rgb(200, 205, 210);
+  padding-left: 20px;
+  padding-top: 10px;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}
+
+a:visited {
+  color: #4b70fd;
+}
+
+h1 {
+  padding: 0;
+  margin: 0;
+  font-size: 25px;
+}
+
+header {
+  padding-left: 10px;
+  padding-bottom: 30px;
+}
+
+.note-list {
+  padding-left: 30px;
+  padding-top: 20px;
+}
+
+.note {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgb(179, 179, 179);
+
+  padding: 0 15px 0 15px;
+  width: 500px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.note:hover {
+  background-color: rgb(182, 185, 192);
+  border-radius: 30px;
+}
+
+.note .note-url {
+  width: 195px;
+  height: calc(100% - 10px);
+  display: inline-block;
+  color: rgb(75, 75, 75);
+
+  padding: 10px 10px 0 10px;
+  border-radius: 15px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.note .note-url:hover {
+  background-color: rgb(85, 85, 85);
+  color: rgb(184, 184, 184);
+}

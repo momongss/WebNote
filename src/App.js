@@ -30,9 +30,9 @@ export default class App {
         this.showNoteLists();
         this.setNoteData();
       } else {
+        const url = window.location.href;
         this.showNoteLists(NoteLists);
-        console.log(NoteLists[NoteLists.length - 1]);
-        this.setNoteData(NoteLists[NoteLists.length - 1]);
+        this.setNoteData(this.findNoteByURL(url, NoteLists));
       }
 
       this.render(this.NoteData);
@@ -87,20 +87,47 @@ export default class App {
     const $logo = this.$app.querySelector("#logo");
     $logo.addEventListener("click", () => {
       console.log("tab");
-      chrome.tabs.create({
-        url: "chrome-extension://mgffajndabdbnejmehloekjclmaikagb/options.html",
-      });
+      chrome.runtime.sendMessage({ open: true });
     });
 
     const $createBtn = this.$app.querySelector("#createBtn");
     $createBtn.addEventListener("click", () => {
       classThis.createNote();
+      classThis.$app.style.right = "-520px";
+      setTimeout(classThis.showApp, 200);
+    });
+
+    const $deleteBtn = this.$app.querySelector("#deleteBtn");
+    $deleteBtn.addEventListener("click", () => {
+      console.log("trash!");
+      classThis.deleteNote();
     });
 
     const $exitBtn = this.$app.querySelector(".closeBtn");
     $exitBtn.addEventListener("click", () => {
       classThis.hideApp();
     });
+  }
+
+  findNoteByURL(url, NoteLists) {
+    for (let i = NoteLists.length - 1; i >= 0; i--) {
+      if (NoteLists[i].url === url) {
+        return NoteLists[i];
+      }
+    }
+    return null;
+  }
+
+  deleteNote() {
+    for (let i = 0; i < classThis.NoteLists.length; i++) {
+      if (classThis.NoteLists[i].id === classThis.NoteData.id) {
+        classThis.NoteLists.splice(i, 1);
+        classThis.hideAppDown();
+        classThis.createNote();
+        Storage.setItem(classThis.NoteLists);
+        return;
+      }
+    }
   }
 
   createNote() {
@@ -137,7 +164,6 @@ export default class App {
     while (true) {
       let flag = true;
       for (const note of classThis.NoteLists) {
-        console.log(id);
         if (note.id === id) {
           flag = false;
           break;
@@ -164,12 +190,12 @@ export default class App {
       };
       classThis.NoteLists.push(classThis.NoteData);
     } else {
-      console.log("노트 불러와짐.");
       classThis.NoteData = noteData;
     }
   }
 
   showApp() {
+    classThis.$app.style.animationDuration = "1.2s";
     classThis.$app.style.animationName = "web-docs-app-slidein";
     classThis.$app.style.right = "20px";
     classThis.$docs.focus();
@@ -179,6 +205,7 @@ export default class App {
   }
 
   hideApp() {
+    classThis.$app.style.animationDuration = "1.2s";
     classThis.$app.style.animationName = "web-docs-app-slideout";
     classThis.$app.style.right = "-520px";
     classThis.NoteData.state = false;
@@ -191,5 +218,13 @@ export default class App {
     } else {
       classThis.showApp();
     }
+  }
+
+  hideAppDown() {
+    classThis.$app.style.animationDuration = "3.6s";
+    classThis.$app.style.animationName = "web-docs-app-slideout-down";
+    classThis.$app.style.top = "50%";
+    classThis.$app.style.right = "-520px";
+    classThis.NoteData.state = false;
   }
 }

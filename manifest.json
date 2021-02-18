@@ -4,11 +4,14 @@
   "version": "0.0.1",
   "description": "make note everywhere",
   "author": "taehyung",
-
+  "background": {
+    "scripts": ["src/background.js"],
+    "persistent": false
+  },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "css": ["src/style.css"],
+      "css": ["src/note.css"],
       "js": ["src/contentScript.js"]
     }
   ],
@@ -19,6 +22,5 @@
     "storage",
     "unlimitedStorage"
   ],
-
   "web_accessible_resources": ["src/*", "fonts/*"]
 }
