@@ -8,12 +8,16 @@ import { keyAlt } from "./utils/keyboardInput.js";
 let classThis;
 
 export default class App {
-  NoteData = null;
+  Note = null;
   NoteLists = [];
   $title = null;
   $docs = null;
 
   constructor($app) {
+    this._constructor($app);
+  }
+
+  async _constructor($app) {
     classThis = this;
 
     this.$app = $app;
@@ -22,39 +26,35 @@ export default class App {
 
     console.log("app running");
 
-    this.loadNoteLists().then((NoteLists) => {
-      console.log(NoteLists);
-      this.NoteLists = NoteLists;
+    const NoteLists = await Storage.getItem("noteLists");
+    const recentNoteId = await Storage.getItem("recentNoteId");
 
-      if (NoteLists == null || NoteLists.length === 0) {
-        this.showNoteLists();
-        this.setNoteData();
-      } else {
-        const url = window.location.href;
-        this.showNoteLists(NoteLists);
-        this.setNoteData(this.findNoteByURL(url, NoteLists));
-      }
+    this.NoteLists = NoteLists;
 
-      this.render(this.NoteData);
+    if (NoteLists == null || NoteLists.length === 0) {
+      this.showNoteLists();
+      this.setNoteData();
+    } else {
+      this.showNoteLists(NoteLists);
+      this.setNoteData(this.findNoteById(recentNoteId, NoteLists));
+    }
 
-      this.title = new Title(
-        this.$app,
-        this.NoteData,
-        this.hideApp,
-        this.saveNote
-      );
-      this.docs = new Docs(
-        this.$app,
-        this.NoteData,
-        this.hideApp,
-        this.toggleApp,
-        this.saveNote
-      );
-    });
+    this.render();
+
+    this.title = new Title(this.$app, this.Note, this.hideApp, this.saveNote);
+    this.docs = new Docs(
+      this.$app,
+      this.Note,
+      this.hideApp,
+      this.toggleApp,
+      this.saveNote
+    );
   }
 
   render() {
-    if (this.NoteData.state) {
+    console.log(this.Note.state);
+
+    if (this.Note.state) {
       this.$app.style.right = "20px";
     } else {
       this.$app.style.right = "-520px";
@@ -109,6 +109,18 @@ export default class App {
     });
   }
 
+  findNoteById(id, NoteLists) {
+    if (id == null) return NoteLists[NoteLists.length - 1];
+
+    for (const note of NoteLists) {
+      if (note.id === id) {
+        return note;
+      }
+    }
+
+    return NoteLists[NoteLists.length - 1];
+  }
+
   findNoteByURL(url, NoteLists) {
     for (let i = NoteLists.length - 1; i >= 0; i--) {
       if (NoteLists[i].url === url) {
@@ -120,18 +132,18 @@ export default class App {
 
   deleteNote() {
     for (let i = 0; i < classThis.NoteLists.length; i++) {
-      if (classThis.NoteLists[i].id === classThis.NoteData.id) {
+      if (classThis.NoteLists[i].id === classThis.Note.id) {
         classThis.NoteLists.splice(i, 1);
         classThis.hideAppDown();
         classThis.createNote();
-        Storage.setItem(classThis.NoteLists);
+        Storage.setItem("noteLists", classThis.NoteLists);
         return;
       }
     }
   }
 
   createNote() {
-    classThis.NoteData = {
+    classThis.Note = {
       id: classThis.createNewId(),
       title: "제목 없는 문서",
       url: window.location.href,
@@ -141,22 +153,25 @@ export default class App {
       state: false,
     };
 
-    classThis.title.render(classThis.NoteData.title);
-    classThis.docs.render(classThis.NoteData.content);
+    classThis.title.render(classThis.Note.title);
+    classThis.docs.render(classThis.Note.content);
 
-    classThis.NoteLists.push(classThis.NoteData);
+    classThis.NoteLists.push(classThis.Note);
   }
 
   saveNote() {
-    classThis.NoteData.title = classThis.$title.innerHTML;
-    classThis.NoteData.content = classThis.$docs.innerHTML;
-    classThis.NoteData.updateTime = getTime();
+    classThis.Note.title = classThis.$title.innerHTML;
+    classThis.Note.content = classThis.$docs.innerHTML;
+    classThis.Note.updateTime = getTime();
 
-    Storage.setItem(classThis.NoteLists);
+    Storage.setItem("noteLists", classThis.NoteLists);
+    Storage.setItem("recentNoteId", classThis.Note.id);
   }
 
-  async loadNoteLists() {
-    return await Storage.getItem();
+  async getRecentNoteId() {}
+
+  async getNoteLists() {
+    return await Storage.getItem("noteLists");
   }
 
   createNewId() {
@@ -176,10 +191,10 @@ export default class App {
 
   showNoteLists(NoteLists) {}
 
-  setNoteData(noteData) {
-    if (noteData == null) {
+  setNoteData(note) {
+    if (note == null) {
       console.log("새로운 노트");
-      classThis.NoteData = {
+      classThis.Note = {
         id: classThis.createNewId(),
         title: "제목 없는 문서",
         url: window.location.href,
@@ -188,9 +203,9 @@ export default class App {
         updateTime: getTime(),
         state: false,
       };
-      classThis.NoteLists.push(classThis.NoteData);
+      classThis.NoteLists.push(classThis.Note);
     } else {
-      classThis.NoteData = noteData;
+      classThis.Note = note;
     }
   }
 
@@ -200,7 +215,7 @@ export default class App {
     classThis.$app.style.right = "20px";
     classThis.$docs.focus();
 
-    classThis.NoteData.state = true;
+    classThis.Note.state = true;
     classThis.saveNote();
   }
 
@@ -208,7 +223,7 @@ export default class App {
     classThis.$app.style.animationDuration = "1.2s";
     classThis.$app.style.animationName = "web-docs-app-slideout";
     classThis.$app.style.right = "-520px";
-    classThis.NoteData.state = false;
+    classThis.Note.state = false;
     classThis.saveNote();
   }
 
@@ -225,6 +240,6 @@ export default class App {
     classThis.$app.style.animationName = "web-docs-app-slideout-down";
     classThis.$app.style.top = "50%";
     classThis.$app.style.right = "-520px";
-    classThis.NoteData.state = false;
+    classThis.Note.state = false;
   }
 }
