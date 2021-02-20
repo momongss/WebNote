@@ -1,5 +1,5 @@
 import Title from "./components/title.js";
-import Docs from "./components/docs.js";
+import Content from "./components/content.js";
 import Storage from "./utils/storage.js";
 
 import { getTime } from "./utils/time.js";
@@ -11,7 +11,7 @@ export default class App {
   Note = null;
   NoteLists = [];
   $title = null;
-  $docs = null;
+  $content = null;
 
   constructor($app) {
     this._constructor($app);
@@ -22,7 +22,7 @@ export default class App {
 
     this.$app = $app;
     this.$title = $app.querySelector(".title");
-    this.$docs = $app.querySelector(".docs");
+    this.$content = $app.querySelector(".content");
 
     console.log("app running");
 
@@ -42,7 +42,7 @@ export default class App {
     this.render();
 
     this.title = new Title(this.$app, this.Note, this.hideApp, this.saveNote);
-    this.docs = new Docs(
+    this.content = new Content(
       this.$app,
       this.Note,
       this.hideApp,
@@ -86,8 +86,8 @@ export default class App {
 
     const $logo = this.$app.querySelector("#logo");
     $logo.addEventListener("click", () => {
-      console.log("tab");
-      chrome.runtime.sendMessage({ open: true });
+      console.log("manage");
+      chrome.runtime.sendMessage({ path: "manage" });
     });
 
     const $createBtn = this.$app.querySelector("#createBtn");
@@ -154,14 +154,14 @@ export default class App {
     };
 
     classThis.title.render(classThis.Note.title);
-    classThis.docs.render(classThis.Note.content);
+    classThis.content.render(classThis.Note.content);
 
     classThis.NoteLists.push(classThis.Note);
   }
 
   saveNote() {
     classThis.Note.title = classThis.$title.innerHTML;
-    classThis.Note.content = classThis.$docs.innerHTML;
+    classThis.Note.content = classThis.$content.innerHTML;
     classThis.Note.updateTime = getTime();
 
     Storage.setItem("noteLists", classThis.NoteLists);
@@ -213,7 +213,7 @@ export default class App {
     classThis.$app.style.animationDuration = "1.2s";
     classThis.$app.style.animationName = "web-docs-app-slidein";
     classThis.$app.style.right = "20px";
-    classThis.$docs.focus();
+    classThis.$content.focus();
 
     classThis.Note.state = true;
     classThis.saveNote();

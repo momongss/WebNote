@@ -28,7 +28,7 @@ export default class Title {
       e.stopPropagation();
       if (e.key === "Enter") {
         e.preventDefault();
-        classThis.$target.querySelector(".docs").focus();
+        classThis.$target.querySelector(".content").focus();
         if (classThis.$title.innerHTML === "") {
           classThis.$title.innerHTML = "제목 없는 문서";
           classThis.state = "init";

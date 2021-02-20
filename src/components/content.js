@@ -3,11 +3,11 @@ import { keyBackspace, keyTab, keyAlt } from "../utils/keyboardInput.js";
 
 let classThis;
 
-export default class Docs {
+export default class Content {
   constructor($target, NoteData, hideNote, toggleNote, saveNote) {
     classThis = this;
 
-    this.$docs = $target.querySelector(".docs");
+    this.$content = $target.querySelector(".content");
 
     this.timeout = null;
 
@@ -19,21 +19,21 @@ export default class Docs {
   }
 
   render(content) {
-    this.$docs.innerHTML = content;
+    this.$content.innerHTML = content;
 
-    this.$docs.addEventListener("click", () => {
+    this.$content.addEventListener("click", () => {
       Caret.storeCaret();
     });
 
-    this.$docs.addEventListener("keyup", (e) => {
+    this.$content.addEventListener("keyup", (e) => {
       e.stopPropagation();
 
       // 첫 줄의 div 영역이 지워지는 걸 방지
-      let text = classThis.$docs.innerHTML;
+      let text = classThis.$content.innerHTML;
       if (text.slice(0, 5) !== "<div>") {
         const length = text.length;
         text = "<div>" + text + "</div>";
-        classThis.$docs.innerHTML = text;
+        classThis.$content.innerHTML = text;
       }
 
       if (e.key === "Alt") {
@@ -43,7 +43,7 @@ export default class Docs {
       }
     });
 
-    this.$docs.addEventListener("keydown", (e) => {
+    this.$content.addEventListener("keydown", (e) => {
       e.stopPropagation();
 
       if (e.key === "Tab") {
@@ -51,7 +51,7 @@ export default class Docs {
         keyTab();
       } else if (e.key === "Backspace") {
         // 첫 줄의 div 영역이 지워지는 걸 방지
-        const line = classThis.$docs.innerHTML.trim();
+        const line = classThis.$content.innerHTML.trim();
         if (line === "<div><br></div>") {
           e.preventDefault();
           return;

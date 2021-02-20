@@ -191,7 +191,7 @@ div {
   background-color: var(--color-docs-dark);
 }
 
-.web-docs-app .docs {
+.web-docs-app .content {
   padding: var(--docs-padding);
   margin: 5px;
   height: 100%;
@@ -203,17 +203,17 @@ div {
   color: var(--text-color-white);
 }
 
-.web-docs-app .docs * {
+.web-docs-app .content * {
   font-size: 16px;
   color: var(--text-color-white);
   margin-bottom: 5px;
 }
 
-.web-docs-app .docs::-webkit-scrollbar {
+.web-docs-app .content::-webkit-scrollbar {
   width: 10px;
 }
 
-.web-docs-app .docs::-webkit-scrollbar-thumb {
+.web-docs-app .content::-webkit-scrollbar-thumb {
   background-color: rgb(45, 45, 45);
   border-radius: 5px;
 }

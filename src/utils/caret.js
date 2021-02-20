@@ -2,11 +2,11 @@ export default class Caret {
   caret = null;
 
   static restoreCaret() {
-    const $docs = document.querySelector(".docs");
+    const $content = document.querySelector(".content");
     if (this.caret == null) {
       this.caret = document.createRange();
-      this.caret.setStart($docs.firstChild, 0);
-      this.caret.setEnd($docs.firstChild, 0);
+      this.caret.setStart($content.firstChild, 0);
+      this.caret.setEnd($content.firstChild, 0);
     }
     const selection = document.getSelection();
     selection.removeAllRanges();

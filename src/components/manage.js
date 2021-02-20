@@ -20,7 +20,13 @@ function addNoteList(note) {
     ;`;
   $noteLists.appendChild($list);
 
-  $list.querySelector(".note-url").addEventListener("click", () => {
+  $list.querySelector(".note-url").addEventListener("click", (e) => {
+    e.stopPropagation();
     Storage.setItem("recentNoteId", note.id);
+  });
+
+  $list.addEventListener("click", () => {
+    console.log("doccs");
+    chrome.runtime.sendMessage({ path: "docs" });
   });
 }
