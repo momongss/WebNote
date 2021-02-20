@@ -1,6 +1,12 @@
 @import url("note.css");
 
 body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /* font-family: bemin_dohun; */
+
   background-color: rgb(200, 205, 210);
   padding-left: 20px;
   padding-top: 10px;
@@ -41,9 +47,9 @@ header {
   align-items: center;
   border-bottom: 1px solid rgb(179, 179, 179);
 
-  padding: 0 15px 0 15px;
-  width: 500px;
-  height: 40px;
+  padding: 0 18px 0 18px;
+  width: 700px;
+  height: 48px;
   cursor: pointer;
 }
 
@@ -52,14 +58,20 @@ header {
   border-radius: 30px;
 }
 
+.note .note-title {
+  font-size: 14.5px;
+  width: 400px;
+}
+
 .note .note-url {
-  width: 195px;
-  height: calc(100% - 10px);
   display: inline-block;
+  line-height: 48px;
+  width: 195px;
+  height: 100%;
   color: rgb(75, 75, 75);
 
-  padding: 10px 10px 0 10px;
-  border-radius: 15px;
+  padding: 0 10px 0 10px;
+  border-radius: 23px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
