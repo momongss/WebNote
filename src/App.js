@@ -2,7 +2,7 @@ import Title from "./components/title.js";
 import Content from "./components/content.js";
 import Storage from "./utils/storage.js";
 
-import { getTime } from "./utils/time.js";
+import { getCurTime } from "./utils/time.js";
 import { keyAlt } from "./utils/keyboardInput.js";
 
 let classThis;
@@ -12,17 +12,20 @@ export default class App {
   NoteLists = [];
   $title = null;
   $content = null;
+  mode = null;
 
-  constructor($app) {
-    this._constructor($app);
+  constructor({ $app, mode }) {
+    this._constructor($app, mode);
   }
 
-  async _constructor($app) {
+  async _constructor($app, mode) {
     classThis = this;
 
     this.$app = $app;
     this.$title = $app.querySelector(".title");
     this.$content = $app.querySelector(".content");
+
+    this.mode = mode;
 
     console.log("app running");
 
@@ -39,21 +42,30 @@ export default class App {
       this.setNoteData(this.findNoteById(recentNoteId, NoteLists));
     }
 
-    this.render();
+    this.title = new Title({
+      $target: this.$app,
+      NoteData: this.Note,
+      saveNote: this.saveNote,
+      hideNote: this.mode === "normal" ? this.hideApp : null,
+    });
+    this.content = new Content({
+      $target: this.$app,
+      NoteData: this.Note,
+      saveNote: this.saveNote,
+      hideNote: this.mode === "normal" ? this.hideApp : null,
+      toggleNote: this.mode === "normal" ? this.toggleApp : null,
+    });
 
-    this.title = new Title(this.$app, this.Note, this.hideApp, this.saveNote);
-    this.content = new Content(
-      this.$app,
-      this.Note,
-      this.hideApp,
-      this.toggleApp,
-      this.saveNote
-    );
+    if (this.mode === "normal") {
+      this._render_normal();
+    } else if (this.mode == "manage") {
+      this._render_manage();
+    }
   }
 
-  render() {
-    console.log(this.Note.state);
+  _render_manage() {}
 
+  _render_normal() {
     if (this.Note.state) {
       this.$app.style.right = "20px";
     } else {
@@ -148,8 +160,8 @@ export default class App {
       title: "제목 없는 문서",
       url: window.location.href,
       content: "<div><br /></div>",
-      createTime: getTime(),
-      updateTime: getTime(),
+      createTime: getCurTime(),
+      updateTime: getCurTime(),
       state: false,
     };
 
@@ -162,7 +174,10 @@ export default class App {
   saveNote() {
     classThis.Note.title = classThis.$title.innerHTML;
     classThis.Note.content = classThis.$content.innerHTML;
-    classThis.Note.updateTime = getTime();
+    classThis.Note.updateTime = getCurTime();
+    console.log(classThis.Note);
+
+    console.log("saving note");
 
     Storage.setItem("noteLists", classThis.NoteLists);
     Storage.setItem("recentNoteId", classThis.Note.id);
@@ -199,8 +214,8 @@ export default class App {
         title: "제목 없는 문서",
         url: window.location.href,
         content: "<div><br /></div>",
-        createTime: getTime(),
-        updateTime: getTime(),
+        createTime: getCurTime(),
+        updateTime: getCurTime(),
         state: false,
       };
       classThis.NoteLists.push(classThis.Note);

@@ -1,0 +1,225 @@
+/* 에스코어드림, Noto Sans : 중요 : 타국가 지원
+  */
+
+@font-face {
+  font-family: "bemin_dohun";
+  src: url(chrome-extension://mgffajndabdbnejmehloekjclmaikagb/fonts/NotoSansKR-Medium.otf)
+    format("truetype");
+}
+
+:root {
+  --color-background-dark: rgb(45, 50, 54);
+  --color-docs-dark: rgb(53, 59, 61);
+  --color-button-dark: rgb(80, 82, 86);
+  --color-button-hover: black;
+
+  --text-color-white: rgb(235, 230, 225);
+
+  --app-height: 85vh;
+  --docs-margin: 20px;
+  --docs-padding: 12px;
+}
+
+@keyframes web-docs-app-slidein {
+  from {
+    margin-left: 100%;
+    right: -520px;
+  }
+
+  to {
+    margin-left: 0%;
+    right: 20px;
+  }
+}
+
+@keyframes web-docs-app-slideout {
+  from {
+    margin-left: 0%;
+    right: 20px;
+  }
+
+  to {
+    margin-left: 100%;
+    right: -520px;
+  }
+}
+
+@keyframes web-docs-app-slideout-down {
+  0% {
+    margin-top: 0%;
+    top: 50%;
+    margin-left: 0%;
+    right: 20px;
+  }
+
+  33% {
+    margin-top: 100%;
+    top: 100%;
+    margin-left: 0%;
+    right: 20px;
+  }
+
+  66% {
+    margin-top: 100%;
+    top: 100%;
+    margin-left: 100%;
+    right: -520px;
+  }
+
+  100% {
+    margin-top: 0%;
+    top: 50%;
+    margin-left: 100%;
+    right: -520px;
+  }
+}
+
+div {
+  display: block;
+  padding: 0;
+  margin: 0;
+}
+
+.web-docs-app {
+  position: fixed;
+  top: 50%;
+  transform: translate(0, -50%);
+  z-index: 2147483647;
+
+  display: flex;
+  flex-direction: column;
+  right: -520px;
+  width: 420px;
+  height: var(--app-height);
+  background-color: var(--color-background-dark);
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 15px;
+  padding: 20px;
+
+  font-family: bemin_dohun;
+
+  animation-duration: 1.2s;
+}
+
+.web-docs-app header {
+  display: flex;
+  background-color: inherit; /* 기본 header 속성 적용을 막기 위해 필요 */
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 15px;
+}
+
+.web-docs-app .title-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.web-docs-app #logo {
+  font-size: 30px;
+  color: rgb(110, 110, 110);
+  padding-left: 10px;
+  padding-right: 10px;
+
+  margin: 0;
+}
+
+.web-docs-app #logo:hover {
+  color: var(--color-button-hover);
+  cursor: pointer;
+}
+
+.web-docs-app .title {
+  font-size: 18.5px;
+  color: var(--text-color-white);
+
+  text-align: center;
+  display: inline-block;
+  padding: 0px 8px 1px 8px;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  max-width: 350px;
+}
+
+.web-docs-app .title:hover {
+  border: 2px solid rgba(209, 209, 209, 0.4);
+}
+
+.web-docs-app #createBtn {
+  font-size: 20px;
+  color: var(--color-button-dark);
+  margin-left: 10px;
+}
+
+.web-docs-app #createBtn:hover {
+  color: var(--color-button-hover);
+  cursor: pointer;
+}
+
+.web-docs-app #deleteBtn {
+  font-size: 18px;
+  color: var(--color-button-dark);
+  margin-left: 10px;
+}
+
+.web-docs-app #deleteBtn:hover {
+  color: var(--color-button-hover);
+  cursor: pointer;
+}
+
+.web-docs-app .closeBtn {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  margin-right: 3px;
+  font-size: 22.5px;
+  color: var(--color-button-dark);
+}
+
+.web-docs-app .closeBtn:hover {
+  color: var(--color-button-hover);
+  cursor: pointer;
+}
+
+.web-docs-app .docs-wrapper {
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+  background-color: var(--color-docs-dark);
+}
+
+.web-docs-app .content {
+  padding: var(--docs-padding);
+  margin: 5px;
+  height: 100%;
+  outline: 0px solid transparent;
+  overflow: scroll;
+  overflow-x: hidden;
+
+  font-size: 16px;
+  color: var(--text-color-white);
+}
+
+.web-docs-app .content * {
+  font-size: 16px;
+  color: var(--text-color-white);
+  margin-bottom: 5px;
+}
+
+.web-docs-app .content::-webkit-scrollbar {
+  width: 10px;
+}
+
+.web-docs-app .content::-webkit-scrollbar-thumb {
+  background-color: rgb(45, 45, 45);
+  border-radius: 5px;
+}
+
+.web-docs-app .container::-webkit-scrollbar-track {
+  background-color: grey;
+  border-radius: 5px;
+  box-shadow: inset 0px 0px 5px white;
+}

@@ -1,0 +1,21 @@
+@import url(chrome-extension://mgffajndabdbnejmehloekjclmaikagb/src/css/note.css);
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.web-docs-app {
+  width: calc(100% - 42px);
+  height: calc(100% - 42px);
+
+  display: flex;
+  right: 0;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0px;
+}
+
+.web-docs-app .docs-wrapper {
+  width: 50%;
+}

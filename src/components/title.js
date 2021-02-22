@@ -3,7 +3,7 @@ import Caret from "../utils/caret.js";
 let classThis;
 
 export default class Title {
-  constructor($target, NoteData, hideNote, saveNote) {
+  constructor({ $target, NoteData, saveNote, hideNote }) {
     classThis = this;
 
     this.$target = $target;

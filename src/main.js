@@ -29,4 +29,4 @@ $app.innerHTML = `
 `;
 document.body.appendChild($app);
 
-const app = new App($app);
+const app = new App({ $app: $app, mode: "normal" });

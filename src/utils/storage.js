@@ -8,8 +8,15 @@ export default class Storage {
   }
 
   static setItem(key, data) {
-    storage.set({
-      [mainKey + key]: data,
+    return new Promise((resolve) => {
+      storage.set(
+        {
+          [mainKey + key]: data,
+        },
+        resolve
+      );
+    }).catch((err) => {
+      console.warn(err);
     });
   }
 
@@ -19,7 +26,6 @@ export default class Storage {
     );
 
     return gettingItem.then((re) => {
-      console.log(re);
       if (Object.keys(re).length === 0 && re.constructor === Object) {
         return [];
       }

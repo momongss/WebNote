@@ -4,7 +4,7 @@ import { keyBackspace, keyTab, keyAlt } from "../utils/keyboardInput.js";
 let classThis;
 
 export default class Content {
-  constructor($target, NoteData, hideNote, toggleNote, saveNote) {
+  constructor({ $target, NoteData, saveNote, hideNote, toggleNote }) {
     classThis = this;
 
     this.$content = $target.querySelector(".content");
