@@ -14,13 +14,13 @@ export default class App {
   $content = null;
   mode = null;
 
-  constructor({ $app, mode }) {
-    this._constructor($app, mode);
-  }
-
-  async _constructor($app, mode) {
+  constructor({ $app, mode, noteId }) {
     classThis = this;
 
+    this._constructor($app, mode, noteId);
+  }
+
+  async _constructor($app, mode, noteId) {
     this.$app = $app;
     this.$title = $app.querySelector(".title");
     this.$content = $app.querySelector(".content");
@@ -30,7 +30,6 @@ export default class App {
     console.log("app running");
 
     const NoteLists = await Storage.getItem("noteLists");
-    const recentNoteId = await Storage.getItem("recentNoteId");
 
     this.NoteLists = NoteLists;
 
@@ -39,7 +38,11 @@ export default class App {
       this.setNoteData();
     } else {
       this.showNoteLists(NoteLists);
-      this.setNoteData(this.findNoteById(recentNoteId, NoteLists));
+      this.setNoteData(
+        mode === "normal"
+          ? this.findNoteByURL(window.location.href, NoteLists)
+          : this.findNoteById(noteId, NoteLists)
+      );
     }
 
     this.title = new Title({
@@ -171,13 +174,15 @@ export default class App {
     classThis.NoteLists.push(classThis.Note);
   }
 
-  saveNote() {
+  async saveNote() {
     classThis.Note.title = classThis.$title.innerHTML;
     classThis.Note.content = classThis.$content.innerHTML;
     classThis.Note.updateTime = getCurTime();
     console.log(classThis.Note);
 
     console.log("saving note");
+
+    const tmpNoteLists = await Storage.getItem("noteLists");
 
     Storage.setItem("noteLists", classThis.NoteLists);
     Storage.setItem("recentNoteId", classThis.Note.id);
@@ -231,7 +236,6 @@ export default class App {
     classThis.$content.focus();
 
     classThis.Note.state = true;
-    classThis.saveNote();
   }
 
   hideApp() {
@@ -239,7 +243,6 @@ export default class App {
     classThis.$app.style.animationName = "web-docs-app-slideout";
     classThis.$app.style.right = "-520px";
     classThis.Note.state = false;
-    classThis.saveNote();
   }
 
   toggleApp() {

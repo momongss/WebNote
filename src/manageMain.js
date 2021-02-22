@@ -18,4 +18,9 @@ $app.innerHTML = `
 `;
 document.body.appendChild($app);
 
-const app = new App({ $app: $app, mode: "manage" });
+const url = window.location.href;
+const tmp = url.split("?");
+const qs = tmp[tmp.length - 1];
+const noteId = parseInt(qs);
+
+const app = new App({ $app: $app, mode: "manage", noteId: noteId });

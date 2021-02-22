@@ -29,8 +29,6 @@ function addNoteList(note) {
   });
 
   $list.addEventListener("click", () => {
-    Storage.setItem("recentNoteId", note.id).then(() => {
-      chrome.runtime.sendMessage({ path: "docs" });
-    });
+    chrome.runtime.sendMessage({ path: "docs", noteId: note.id });
   });
 }
