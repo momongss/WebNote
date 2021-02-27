@@ -193,6 +193,7 @@ div {
 
 .web-docs-app .content {
   padding: var(--docs-padding);
+  padding-bottom: 550px;
   margin: 5px;
   height: 100%;
   outline: 0px solid transparent;
@@ -222,4 +223,9 @@ div {
   background-color: grey;
   border-radius: 5px;
   box-shadow: inset 0px 0px 5px white;
+}
+
+.web-docs-app .white-space {
+  display: block;
+  height: 100px;
 }

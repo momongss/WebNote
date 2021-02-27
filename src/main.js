@@ -28,5 +28,6 @@ $app.innerHTML = `
 </div>
 `;
 document.body.appendChild($app);
+console.log("tests");
 
 const app = new App({ $app: $app, mode: "normal" });

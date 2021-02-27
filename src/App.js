@@ -5,8 +5,6 @@ import Storage from "./utils/storage.js";
 import { getCurTime } from "./utils/time.js";
 import { keyAlt } from "./utils/keyboardInput.js";
 
-let classThis;
-
 export default class App {
   Note = null;
   NoteLists = [];
@@ -15,8 +13,6 @@ export default class App {
   mode = null;
 
   constructor({ $app, mode, noteId }) {
-    classThis = this;
-
     this._constructor($app, mode, noteId);
   }
 
@@ -29,16 +25,18 @@ export default class App {
 
     console.log("app running");
 
+    // Storage.getNoteById();
+
     const NoteLists = await Storage.getItem("noteLists");
 
     this.NoteLists = NoteLists;
 
     if (NoteLists == null || NoteLists.length === 0) {
       this.showNoteLists();
-      this.setNoteData();
+      this.setNote();
     } else {
       this.showNoteLists(NoteLists);
-      this.setNoteData(
+      this.setNote(
         mode === "normal"
           ? this.findNoteByURL(window.location.href, NoteLists)
           : this.findNoteById(noteId, NoteLists)
@@ -48,15 +46,34 @@ export default class App {
     this.title = new Title({
       $target: this.$app,
       NoteData: this.Note,
-      saveNote: this.saveNote,
-      hideNote: this.mode === "normal" ? this.hideApp : null,
+      saveNote: () => {
+        this.saveNote;
+      },
+      hideNote:
+        this.mode === "normal"
+          ? () => {
+              this.hideApp();
+            }
+          : null,
     });
     this.content = new Content({
       $target: this.$app,
       NoteData: this.Note,
-      saveNote: this.saveNote,
-      hideNote: this.mode === "normal" ? this.hideApp : null,
-      toggleNote: this.mode === "normal" ? this.toggleApp : null,
+      saveNote: () => {
+        this.saveNote();
+      },
+      hideNote:
+        this.mode === "normal"
+          ? () => {
+              this.hideApp();
+            }
+          : null,
+      toggleNote:
+        this.mode === "normal"
+          ? () => {
+              this.toggleApp;
+            }
+          : null,
     });
 
     if (this.mode === "normal") {
@@ -79,7 +96,7 @@ export default class App {
       if (e.key === "Alt") {
         keyAlt.isAltPressed = true;
       } else if (e.key === "Escape") {
-        classThis.hideApp();
+        this.hideApp();
       }
     });
 
@@ -87,7 +104,7 @@ export default class App {
       if (e.key === "Alt") {
         keyAlt.isAltPressed = false;
       } else if (keyAlt.isAltPressed && (e.key === "w" || e.key === "W")) {
-        classThis.toggleApp();
+        this.toggleApp();
       }
 
       // Debug
@@ -107,20 +124,22 @@ export default class App {
 
     const $createBtn = this.$app.querySelector("#createBtn");
     $createBtn.addEventListener("click", () => {
-      classThis.createNote();
-      classThis.$app.style.right = "-520px";
-      setTimeout(classThis.showApp, 200);
+      this.createNote();
+      this.$app.style.right = "-520px";
+      setTimeout(() => {
+        this.showApp();
+      }, 200);
     });
 
     const $deleteBtn = this.$app.querySelector("#deleteBtn");
     $deleteBtn.addEventListener("click", () => {
       console.log("trash!");
-      classThis.deleteNote();
+      this.deleteNote();
     });
 
     const $exitBtn = this.$app.querySelector(".closeBtn");
     $exitBtn.addEventListener("click", () => {
-      classThis.hideApp();
+      this.hideApp();
     });
   }
 
@@ -146,20 +165,20 @@ export default class App {
   }
 
   deleteNote() {
-    for (let i = 0; i < classThis.NoteLists.length; i++) {
-      if (classThis.NoteLists[i].id === classThis.Note.id) {
-        classThis.NoteLists.splice(i, 1);
-        classThis.hideAppDown();
-        classThis.createNote();
-        Storage.setItem("noteLists", classThis.NoteLists);
+    for (let i = 0; i < this.NoteLists.length; i++) {
+      if (this.NoteLists[i].id === this.Note.id) {
+        this.NoteLists.splice(i, 1);
+        this.hideAppDown();
+        this.createNote();
+        Storage.setItem("noteLists", this.NoteLists);
         return;
       }
     }
   }
 
   createNote() {
-    classThis.Note = {
-      id: classThis.createNewId(),
+    this.Note = {
+      id: this.createNewId(),
       title: "제목 없는 문서",
       url: window.location.href,
       content: "<div><br /></div>",
@@ -168,24 +187,23 @@ export default class App {
       state: false,
     };
 
-    classThis.title.render(classThis.Note.title);
-    classThis.content.render(classThis.Note.content);
+    this.title.render(this.Note.title);
+    this.content.render(this.Note.content);
 
-    classThis.NoteLists.push(classThis.Note);
+    this.NoteLists.push(this.Note);
   }
 
   async saveNote() {
-    classThis.Note.title = classThis.$title.innerHTML;
-    classThis.Note.content = classThis.$content.innerHTML;
-    classThis.Note.updateTime = getCurTime();
-    console.log(classThis.Note);
-
-    console.log("saving note");
+    console.log(this);
+    this.Note.title = this.$title.innerHTML;
+    this.Note.content = this.$content.innerHTML;
+    this.Note.updateTime = getCurTime();
+    console.log(this.Note);
 
     const tmpNoteLists = await Storage.getItem("noteLists");
 
-    Storage.setItem("noteLists", classThis.NoteLists);
-    Storage.setItem("recentNoteId", classThis.Note.id);
+    Storage.setItem("noteLists", this.NoteLists);
+    Storage.setItem("recentNoteId", this.Note.id);
   }
 
   async getRecentNoteId() {}
@@ -198,7 +216,7 @@ export default class App {
     let id = 0;
     while (true) {
       let flag = true;
-      for (const note of classThis.NoteLists) {
+      for (const note of this.NoteLists) {
         if (note.id === id) {
           flag = false;
           break;
@@ -211,11 +229,11 @@ export default class App {
 
   showNoteLists(NoteLists) {}
 
-  setNoteData(note) {
+  setNote(note) {
     if (note == null) {
       console.log("새로운 노트");
-      classThis.Note = {
-        id: classThis.createNewId(),
+      this.Note = {
+        id: this.createNewId(),
         title: "제목 없는 문서",
         url: window.location.href,
         content: "<div><br /></div>",
@@ -223,41 +241,41 @@ export default class App {
         updateTime: getCurTime(),
         state: false,
       };
-      classThis.NoteLists.push(classThis.Note);
+      this.NoteLists.push(this.Note);
     } else {
-      classThis.Note = note;
+      this.Note = note;
     }
   }
 
   showApp() {
-    classThis.$app.style.animationDuration = "1.2s";
-    classThis.$app.style.animationName = "web-docs-app-slidein";
-    classThis.$app.style.right = "20px";
-    classThis.$content.focus();
+    this.$app.style.animationDuration = "1.2s";
+    this.$app.style.animationName = "web-docs-app-slidein";
+    this.$app.style.right = "20px";
+    this.$content.focus();
 
-    classThis.Note.state = true;
+    this.Note.state = true;
   }
 
   hideApp() {
-    classThis.$app.style.animationDuration = "1.2s";
-    classThis.$app.style.animationName = "web-docs-app-slideout";
-    classThis.$app.style.right = "-520px";
-    classThis.Note.state = false;
+    this.$app.style.animationDuration = "1.2s";
+    this.$app.style.animationName = "web-docs-app-slideout";
+    this.$app.style.right = "-520px";
+    this.Note.state = false;
   }
 
   toggleApp() {
-    if (classThis.$app.style.right === "20px") {
-      classThis.hideApp();
+    if (this.$app.style.right === "20px") {
+      this.hideApp();
     } else {
-      classThis.showApp();
+      this.showApp();
     }
   }
 
   hideAppDown() {
-    classThis.$app.style.animationDuration = "3.6s";
-    classThis.$app.style.animationName = "web-docs-app-slideout-down";
-    classThis.$app.style.top = "50%";
-    classThis.$app.style.right = "-520px";
-    classThis.Note.state = false;
+    this.$app.style.animationDuration = "3.6s";
+    this.$app.style.animationName = "web-docs-app-slideout-down";
+    this.$app.style.top = "50%";
+    this.$app.style.right = "-520px";
+    this.Note.state = false;
   }
 }

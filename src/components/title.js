@@ -1,11 +1,7 @@
 import Caret from "../utils/caret.js";
 
-let classThis;
-
 export default class Title {
   constructor({ $target, NoteData, saveNote, hideNote }) {
-    classThis = this;
-
     this.$target = $target;
     this.$title = $target.querySelector(".title");
     this.state = "init";
@@ -21,21 +17,21 @@ export default class Title {
     this.$title.innerHTML = title;
 
     this.$title.addEventListener("click", (e) => {
-      if (classThis.state === "init") Caret.selectTextAll(classThis.$title);
+      if (this.state === "init") Caret.selectTextAll(this.$title);
     });
 
     this.$title.addEventListener("keydown", (e) => {
       e.stopPropagation();
       if (e.key === "Enter") {
         e.preventDefault();
-        classThis.$target.querySelector(".content").focus();
-        if (classThis.$title.innerHTML === "") {
-          classThis.$title.innerHTML = "제목 없는 문서";
-          classThis.state = "init";
+        this.$target.querySelector(".content").focus();
+        if (this.$title.innerHTML === "") {
+          this.$title.innerHTML = "제목 없는 문서";
+          this.state = "init";
         }
         return;
       } else if (e.key === "Escape") {
-        classThis.hideNote();
+        this.hideNote();
       }
 
       this.state = "stated";
@@ -43,10 +39,10 @@ export default class Title {
 
     this.$title.addEventListener("keyup", (e) => {
       e.stopPropagation();
-      clearTimeout(classThis.timeout);
+      clearTimeout(this.timeout);
 
-      classThis.timeout = setTimeout(() => {
-        classThis.saveNote();
+      this.timeout = setTimeout(() => {
+        this.saveNote();
       }, 600);
     });
   }
