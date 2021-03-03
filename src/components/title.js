@@ -21,10 +21,10 @@ export default class Title {
     });
 
     this.$title.addEventListener("keydown", (e) => {
-      e.stopPropagation();
       if (e.key === "Enter") {
         e.preventDefault();
         this.$target.querySelector(".content").focus();
+        Caret.restoreCaret();
         if (this.$title.innerHTML === "") {
           this.$title.innerHTML = "제목 없는 문서";
           this.state = "init";
@@ -38,7 +38,6 @@ export default class Title {
     });
 
     this.$title.addEventListener("keyup", (e) => {
-      e.stopPropagation();
       clearTimeout(this.timeout);
 
       this.timeout = setTimeout(() => {

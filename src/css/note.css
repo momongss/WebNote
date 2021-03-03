@@ -7,6 +7,10 @@
     format("truetype");
 }
 
+*:focus {
+  background-color: red;
+}
+
 :root {
   --color-background-dark: rgb(45, 50, 54);
   --color-docs-dark: rgb(53, 59, 61);

@@ -77,20 +77,25 @@ export default class App {
     });
 
     if (this.mode === "normal") {
-      this._render_normal();
+      this.appEventListeners();
     } else if (this.mode == "manage") {
-      this._render_manage();
     }
   }
 
-  _render_manage() {}
-
-  _render_normal() {
+  appEventListeners() {
     if (this.Note.state) {
       this.$app.style.right = "20px";
     } else {
       this.$app.style.right = "-520px";
     }
+
+    this.$app.addEventListener("keydown", (e) => {
+      e.stopPropagation();
+    });
+
+    this.$app.addEventListener("keyup", (e) => {
+      e.stopPropagation();
+    });
 
     window.addEventListener("keydown", (e) => {
       if (e.key === "Alt") {
@@ -264,6 +269,7 @@ export default class App {
   }
 
   toggleApp() {
+    console.log("test");
     if (this.$app.style.right === "20px") {
       this.hideApp();
     } else {

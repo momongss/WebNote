@@ -13,17 +13,23 @@
 
 ## 신경 쓴 부분들
 
-디자인, UI UX
+**디자인, UI UX**
 
-- 노트 하단에 여백을 줘 항상 라인을 위로 올릴 수 있게함.
+- 하단에 여백을 줘 항상 라인을 위로 올릴 수 있게함.
   <br>(보통 코드 에디터들은 이렇게 되어있는데, 노션이나 구글 독스는 그렇지 않아서 불편했었다. 시선이 아래로 향하니까..)
 - 버튼들에 마우스 hover 될 때 UI 처리.
 - 어두운 배경.. 구글 독스는 너무 밝아..
 
+**버그해결**
+
+- 네이버에서 키 입력시 포커스를 검색창으로 가져가버리는 문제
+  : e.stopPropagation() 으로 `해결`
+
 ### 알게된 것, 인상깊었던 것
 
 - arrow function 은 this 바인딩을 안한다는 것.
-  (let that = this 식으로 this를 유지시키던 걸 모두 arrow function에서 this를 쓰는 걸로 바꿈.)
+  <br>(let that = this 식으로 this를 유지시키던 걸 모두 arrow function에서 this를 쓰는 걸로 바꿈.)
+  <br>let that = this 이런 식으로 쓰면 이름 일괄변경이 안됨.
 
 - selection, range
   <br>selection과 range로 커서(caret) 조작을 할 수 있다.

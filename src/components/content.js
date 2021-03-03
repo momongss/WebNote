@@ -22,8 +22,6 @@ export default class Content {
     });
 
     this.$content.addEventListener("keyup", (e) => {
-      e.stopPropagation();
-
       // 첫 줄의 div 영역이 지워지는 걸 방지
       let text = this.$content.innerHTML;
       if (text.slice(0, 5) !== "<div>") {
@@ -35,13 +33,12 @@ export default class Content {
       if (e.key === "Alt") {
         keyAlt.isAltPressed = false;
       } else if (keyAlt.isAltPressed && (e.key === "w" || e.key === "W")) {
+        console.log(keyAlt.isAltPressed);
         this.toggleNote();
       }
     });
 
     this.$content.addEventListener("keydown", (e) => {
-      e.stopPropagation();
-
       if (e.key === "Tab") {
         e.preventDefault();
         keyTab();
@@ -59,6 +56,7 @@ export default class Content {
         this.hideNote();
       } else if (e.key === "Alt") {
         keyAlt.isAltPressed = true;
+        console.log(keyAlt.isAltPressed);
       }
 
       clearTimeout(this.timeout);
