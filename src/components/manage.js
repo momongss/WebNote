@@ -5,13 +5,15 @@ console.log("managing");
 
 const $noteLists = document.querySelector(".note-list");
 
-Storage.getItem("noteLists").then((NoteLists) => {
+Storage.getNoteList().then((NoteLists) => {
+  console.log(NoteLists);
   NoteLists.forEach((note) => {
-    addNoteList(note);
+    addNoteList(note.id);
   });
 });
 
-function addNoteList(note) {
+async function addNoteList(id) {
+  const note = await Storage.getNoteById(id);
   const timeDiff = getTimeDiff(note.updateTime);
 
   const $list = document.createElement("list");

@@ -7,17 +7,28 @@ export default class Storage {
     gettingItem.then((re) => {});
   }
 
-  static setItem(key, data) {
-    return new Promise((resolve) => {
-      storage.set(
-        {
-          [mainKey + key]: data,
-        },
-        resolve
-      );
-    }).catch((err) => {
-      console.warn(err);
-    });
+  static setNoteById(id, note) {
+    console.log(id, note);
+    this.setItem(`noteId${id}`, note);
+  }
+
+  static async getNoteById(id) {
+    const note = await this.getItem(`noteId${id}`);
+    console.log(note);
+    return note;
+  }
+
+  static delNoteById(id) {
+    this.setNoteById(id, {});
+  }
+
+  static async getNoteList() {
+    const noteLists = await this.getItem("noteLists");
+    return noteLists;
+  }
+
+  static async setNoteList(noteLists) {
+    return await this.setItem("noteLists", noteLists);
   }
 
   static getItem(key) {
@@ -30,6 +41,19 @@ export default class Storage {
         return [];
       }
       return re[mainKey + key];
+    });
+  }
+
+  static setItem(key, data) {
+    return new Promise((resolve) => {
+      storage.set(
+        {
+          [mainKey + key]: data,
+        },
+        resolve
+      );
+    }).catch((err) => {
+      console.warn(err);
     });
   }
 
@@ -63,3 +87,8 @@ export default class Storage {
     });
   }
 }
+
+// throw e , console.error 차이
+// 위에서 resolve 가 어떻게 쓰이고 있는지
+
+// re constructor 가 뭔지. 왜 썼는지.

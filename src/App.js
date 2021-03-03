@@ -8,9 +8,9 @@ import { keyAlt } from "./utils/keyboardInput.js";
 export default class App {
   Note = null;
   NoteLists = [];
-  $title = null;
-  $content = null;
+
   mode = null;
+  AppState = "run";
 
   constructor({ $app, mode, noteId }) {
     this._constructor($app, mode, noteId);
@@ -18,43 +18,38 @@ export default class App {
 
   async _constructor($app, mode, noteId) {
     this.$app = $app;
-    this.$title = $app.querySelector(".title");
-    this.$content = $app.querySelector(".content");
-
     this.mode = mode;
 
     console.log("app running");
 
-    // Storage.getNoteById();
+    this.NoteLists = await Storage.getNoteList();
 
-    const NoteLists = await Storage.getItem("noteLists");
+    this.showNoteLists(this.NoteLists);
+    const noteInfo = this.findNoteByURL(window.location.href, this.NoteLists);
 
-    this.NoteLists = NoteLists;
-
-    if (NoteLists == null || NoteLists.length === 0) {
-      this.showNoteLists();
-      this.setNote();
+    if (mode === "normal") {
+      const note = noteInfo ? await Storage.getNoteById(noteInfo.id) : null;
+      if (note == null) {
+        this.AppState = "wait";
+      } else {
+        this.setNote(note);
+      }
+    } else if (mode === "manage") {
+      const note = await Storage.getNoteById(noteId);
+      this.setNote(note);
     } else {
-      this.showNoteLists(NoteLists);
-      this.setNote(
-        mode === "normal"
-          ? this.findNoteByURL(window.location.href, NoteLists)
-          : this.findNoteById(noteId, NoteLists)
-      );
+      console.error("모드 에러");
     }
 
     this.title = new Title({
       $target: this.$app,
       NoteData: this.Note,
       saveNote: () => {
-        this.saveNote;
+        this.saveNote();
       },
-      hideNote:
-        this.mode === "normal"
-          ? () => {
-              this.hideApp();
-            }
-          : null,
+      hideNote: () => {
+        this.hideApp();
+      },
     });
     this.content = new Content({
       $target: this.$app,
@@ -62,33 +57,18 @@ export default class App {
       saveNote: () => {
         this.saveNote();
       },
-      hideNote:
-        this.mode === "normal"
-          ? () => {
-              this.hideApp();
-            }
-          : null,
-      toggleNote:
-        this.mode === "normal"
-          ? () => {
-              this.toggleApp;
-            }
-          : null,
+      hideNote: () => {
+        this.hideApp();
+      },
+      toggleNote: () => {
+        this.toggleApp;
+      },
     });
 
-    if (this.mode === "normal") {
-      this.appEventListeners();
-    } else if (this.mode == "manage") {
-    }
+    if (this.mode === "normal") this.appEventListeners();
   }
 
   appEventListeners() {
-    if (this.Note.state) {
-      this.$app.style.right = "20px";
-    } else {
-      this.$app.style.right = "-520px";
-    }
-
     this.$app.addEventListener("keydown", (e) => {
       e.stopPropagation();
 
@@ -110,16 +90,20 @@ export default class App {
     window.addEventListener("keydown", (e) => {
       if (e.key === "Alt") {
         keyAlt.isAltPressed = true;
+      } else if (keyAlt.isAltPressed && (e.key === "w" || e.key === "W")) {
+        this.toggleApp();
       } else if (e.key === "Escape") {
         this.hideApp();
+      } else if (e.key === "]") {
+        Storage.getNoteList().then((noteLists) => {
+          console.log(noteLists);
+        });
       }
     });
 
     window.addEventListener("keyup", (e) => {
       if (e.key === "Alt") {
         keyAlt.isAltPressed = false;
-      } else if (keyAlt.isAltPressed && (e.key === "w" || e.key === "W")) {
-        this.toggleApp();
       }
 
       // Debug
@@ -133,7 +117,6 @@ export default class App {
 
     const $logo = this.$app.querySelector("#logo");
     $logo.addEventListener("click", () => {
-      console.log("manage");
       chrome.runtime.sendMessage({ path: "manage" });
     });
 
@@ -158,18 +141,6 @@ export default class App {
     });
   }
 
-  findNoteById(id, NoteLists) {
-    if (id == null) return NoteLists[NoteLists.length - 1];
-
-    for (const note of NoteLists) {
-      if (note.id === id) {
-        return note;
-      }
-    }
-
-    return NoteLists[NoteLists.length - 1];
-  }
-
   findNoteByURL(url, NoteLists) {
     for (let i = NoteLists.length - 1; i >= 0; i--) {
       if (NoteLists[i].url === url) {
@@ -179,59 +150,65 @@ export default class App {
     return null;
   }
 
-  deleteNote() {
+  async deleteNote() {
+    await Storage.delNoteById(this.Note.id);
+    const noteLists = await Storage.getNoteList();
+    this.NoteLists = noteLists ? noteLists : [];
+
     for (let i = 0; i < this.NoteLists.length; i++) {
       if (this.NoteLists[i].id === this.Note.id) {
+        this.AppState = "wait";
         this.NoteLists.splice(i, 1);
+        await Storage.setNoteList(this.NoteLists);
         this.hideAppDown();
-        this.createNote();
-        Storage.setItem("noteLists", this.NoteLists);
         return;
       }
     }
   }
 
-  createNote() {
-    this.Note = {
-      id: this.createNewId(),
+  async createNote() {
+    console.log("createMode");
+
+    this.AppState = "run";
+
+    const noteLists = await Storage.getNoteList();
+    this.NoteLists = noteLists ? noteLists : [];
+
+    const note = {
+      id: this.createNewId(this.NoteLists),
       title: "제목 없는 문서",
       url: window.location.href,
-      content: "<div><br /></div>",
       createTime: getCurTime(),
       updateTime: getCurTime(),
       state: false,
     };
 
+    this.NoteLists.push(note);
+
+    this.Note = Object.assign({}, note);
+    this.Note.content = "<div><br /></div>";
     this.title.render(this.Note.title);
     this.content.render(this.Note.content);
 
-    this.NoteLists.push(this.Note);
+    this.$app.style.right = "-520px";
+
+    await Storage.setNoteList(this.NoteLists);
+    await Storage.setNoteById(this.Note.id, this.Note);
   }
 
-  async saveNote() {
-    console.log(this);
-    this.Note.title = this.$title.innerHTML;
-    this.Note.content = this.$content.innerHTML;
+  saveNote() {
+    this.Note.title = this.title.$title.innerHTML;
+    this.Note.content = this.content.$content.innerHTML;
     this.Note.updateTime = getCurTime();
-    console.log(this.Note);
 
-    const tmpNoteLists = await Storage.getItem("noteLists");
-
-    Storage.setItem("noteLists", this.NoteLists);
-    Storage.setItem("recentNoteId", this.Note.id);
+    Storage.setNoteById(this.Note.id, this.Note);
   }
 
-  async getRecentNoteId() {}
-
-  async getNoteLists() {
-    return await Storage.getItem("noteLists");
-  }
-
-  createNewId() {
+  createNewId(noteLists) {
     let id = 0;
     while (true) {
       let flag = true;
-      for (const note of this.NoteLists) {
+      for (const note of noteLists) {
         if (note.id === id) {
           flag = false;
           break;
@@ -245,28 +222,35 @@ export default class App {
   showNoteLists(NoteLists) {}
 
   setNote(note) {
-    if (note == null) {
-      console.log("새로운 노트");
-      this.Note = {
-        id: this.createNewId(),
-        title: "제목 없는 문서",
-        url: window.location.href,
-        content: "<div><br /></div>",
-        createTime: getCurTime(),
-        updateTime: getCurTime(),
-        state: false,
-      };
-      this.NoteLists.push(this.Note);
+    this.AppState = "run";
+    console.log("loadMode");
+
+    this.Note = note;
+    if (this.Note.state) {
+      this.$app.style.right = "20px";
     } else {
-      this.Note = note;
+      this.$app.style.right = "-520px";
     }
   }
 
-  showApp() {
+  async showApp() {
+    if (this.AppState === "wait") {
+      this.NoteLists = await Storage.getNoteList();
+      const noteInfo = this.findNoteByURL(window.location.href, this.NoteLists);
+      if (noteInfo) {
+        const note = await Storage.getNoteById(noteInfo.id);
+        this.setNote(note);
+        this.title.render(this.Note.title);
+        this.content.render(this.Note.content);
+      } else {
+        await this.createNote();
+      }
+    }
+
     this.$app.style.animationDuration = "1.2s";
     this.$app.style.animationName = "web-docs-app-slidein";
     this.$app.style.right = "20px";
-    this.$content.focus();
+    this.content.$content.focus();
 
     this.Note.state = true;
   }
@@ -279,7 +263,6 @@ export default class App {
   }
 
   toggleApp() {
-    console.log("test");
     if (this.$app.style.right === "20px") {
       this.hideApp();
     } else {

@@ -11,7 +11,7 @@ export default class Content {
     this.toggleNote = toggleNote;
     this.saveNote = saveNote;
 
-    this.render(NoteData.content);
+    this.render(NoteData ? NoteData.content : "<div><br /></div>");
   }
 
   render(content) {

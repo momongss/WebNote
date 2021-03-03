@@ -10,7 +10,7 @@ export default class Title {
     this.hideNote = hideNote;
     this.saveNote = saveNote;
 
-    this.render(NoteData.title);
+    this.render(NoteData ? NoteData.title : "");
   }
 
   render(title) {
