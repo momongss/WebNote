@@ -1,5 +1,5 @@
 import Caret from "../utils/caret.js";
-import { keyBackspace, keyTab, keyAlt } from "../utils/keyboardInput.js";
+import { keyBackspace, keyTab } from "../utils/keyboardInput.js";
 
 export default class Content {
   constructor({ $target, NoteData, saveNote, hideNote, toggleNote }) {
@@ -29,13 +29,6 @@ export default class Content {
         text = "<div>" + text + "</div>";
         this.$content.innerHTML = text;
       }
-
-      if (e.key === "Alt") {
-        keyAlt.isAltPressed = false;
-      } else if (keyAlt.isAltPressed && (e.key === "w" || e.key === "W")) {
-        console.log(keyAlt.isAltPressed);
-        this.toggleNote();
-      }
     });
 
     this.$content.addEventListener("keydown", (e) => {
@@ -54,9 +47,6 @@ export default class Content {
       } else if (e.key === "Escape") {
         e.preventDefault();
         this.hideNote();
-      } else if (e.key === "Alt") {
-        keyAlt.isAltPressed = true;
-        console.log(keyAlt.isAltPressed);
       }
 
       clearTimeout(this.timeout);

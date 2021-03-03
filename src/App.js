@@ -91,10 +91,20 @@ export default class App {
 
     this.$app.addEventListener("keydown", (e) => {
       e.stopPropagation();
+
+      if (e.key === "Alt") {
+        keyAlt.isAltPressed = true;
+      } else if (keyAlt.isAltPressed && (e.key === "w" || e.key === "W")) {
+        this.toggleApp();
+      }
     });
 
     this.$app.addEventListener("keyup", (e) => {
       e.stopPropagation();
+
+      if (e.key === "Alt") {
+        keyAlt.isAltPressed = false;
+      }
     });
 
     window.addEventListener("keydown", (e) => {
