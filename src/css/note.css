@@ -23,60 +23,6 @@
   --docs-padding: 12px;
 }
 
-@keyframes web-docs-app-slidein {
-  from {
-    margin-left: 100%;
-    right: -520px;
-  }
-
-  to {
-    margin-left: 0%;
-    right: 20px;
-  }
-}
-
-@keyframes web-docs-app-slideout {
-  from {
-    margin-left: 0%;
-    right: 20px;
-  }
-
-  to {
-    margin-left: 100%;
-    right: -520px;
-  }
-}
-
-@keyframes web-docs-app-slideout-down {
-  0% {
-    margin-top: 0%;
-    top: 50%;
-    margin-left: 0%;
-    right: 20px;
-  }
-
-  33% {
-    margin-top: 100%;
-    top: 100%;
-    margin-left: 0%;
-    right: 20px;
-  }
-
-  66% {
-    margin-top: 100%;
-    top: 100%;
-    margin-left: 100%;
-    right: -520px;
-  }
-
-  100% {
-    margin-top: 0%;
-    top: 50%;
-    margin-left: 100%;
-    right: -520px;
-  }
-}
-
 div {
   display: block;
   padding: 0;
@@ -101,7 +47,7 @@ div {
   display: flex;
   flex-direction: column;
   right: -440px;
-  top: 0; /* 항상 중앙에 위치하도록 개선필요 */
+  top: 0;
   bottom: 0;
   width: 440px;
   background-color: var(--color-background-dark);
