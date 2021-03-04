@@ -32,7 +32,7 @@ div {
 /* transform 정리 */
 
 .web-docs-app.show {
-  transform: translateX(-440px);
+  transform: translateX(-520px);
   transition: transform 0.8s;
 }
 
@@ -46,7 +46,7 @@ div {
 
   display: flex;
   flex-direction: column;
-  right: -440px;
+  right: -520px;
   top: 0;
   bottom: 0;
   width: 440px;
