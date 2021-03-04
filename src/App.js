@@ -125,7 +125,6 @@ export default class App {
     const $createBtn = this.$app.querySelector("#createBtn");
     $createBtn.addEventListener("click", () => {
       this.createNote();
-      this.$app.style.right = "-520px";
       setTimeout(() => {
         this.showApp();
       }, 200);
@@ -162,7 +161,7 @@ export default class App {
         this.AppState = false;
         this.NoteLists.splice(i, 1);
         await Storage.setNoteList(this.NoteLists);
-        this.hideAppDown();
+        this.hideApp();
         return;
       }
     }
@@ -191,8 +190,6 @@ export default class App {
     this.Note.content = "<div><br /></div>";
     this.title.render(this.Note.title);
     this.content.render(this.Note.content);
-
-    this.$app.style.right = "-520px";
 
     await Storage.setNoteList(this.NoteLists);
     await Storage.setNoteById(this.Note.id, this.Note);
@@ -228,9 +225,9 @@ export default class App {
 
     this.Note = note;
     if (this.Note.state) {
-      this.$app.style.right = "20px";
+      this.$app.classList.add("show");
     } else {
-      this.$app.style.right = "-520px";
+      this.$app.classList.remove("show");
     }
   }
 
@@ -252,35 +249,22 @@ export default class App {
       }
     }
 
-    this.$app.style.animationDuration = "1.2s";
-    this.$app.style.animationName = "web-docs-app-slidein";
-    this.$app.style.right = "20px";
+    this.$app.classList.add("show");
 
     this.content.$content.focus();
     this.Note.state = true;
   }
 
   hideApp() {
-    this.$app.style.animationDuration = "1.2s";
-    this.$app.style.animationName = "web-docs-app-slideout";
-    this.$app.style.right = "-520px";
-
+    this.$app.classList.remove("show");
     this.Note.state = false;
   }
 
   toggleApp() {
-    if (this.$app.style.right === "20px") {
+    if (this.$app.classList.contains("show")) {
       this.hideApp();
     } else {
       this.showApp();
     }
-  }
-
-  hideAppDown() {
-    this.$app.style.animationDuration = "3.6s";
-    this.$app.style.animationName = "web-docs-app-slideout-down";
-    this.$app.style.top = "50%";
-    this.$app.style.right = "-520px";
-    this.Note.state = false;
   }
 }

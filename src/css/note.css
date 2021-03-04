@@ -83,17 +83,27 @@ div {
   margin: 0;
 }
 
+/* transform 정리 */
+
+.web-docs-app.show {
+  transform: translateX(-440px);
+  transition: transform 0.8s;
+}
+
 .web-docs-app {
   position: fixed;
   top: 50%;
-  transform: translate(0, -50%);
   z-index: 2147483647;
+
+  transform: translate(0, 0);
+  transition: transform 0.8s;
 
   display: flex;
   flex-direction: column;
-  right: -520px;
-  width: 420px;
-  height: var(--app-height);
+  right: -440px;
+  top: 0; /* 항상 중앙에 위치하도록 개선필요 */
+  bottom: 0;
+  width: 440px;
   background-color: var(--color-background-dark);
   border: 1px solid rgb(0, 0, 0);
   border-radius: 15px;
