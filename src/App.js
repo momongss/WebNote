@@ -9,8 +9,8 @@ export default class App {
   Note = null;
   NoteLists = [];
 
-  mode = null;
-  AppState = "run";
+  mode = null; // 일반페이지 or 관리페이지
+  AppState = true; // 현재 열려있는 노트가 있는지, 없는지
 
   constructor({ $app, mode, noteId }) {
     this._constructor($app, mode, noteId);
@@ -24,14 +24,16 @@ export default class App {
 
     this.NoteLists = await Storage.getNoteList();
 
-    this.showNoteLists(this.NoteLists);
-    const noteInfo = this.findNoteByURL(window.location.href, this.NoteLists);
-
     if (mode === "normal") {
-      const note = noteInfo ? await Storage.getNoteById(noteInfo.id) : null;
-      if (note == null) {
-        this.AppState = "wait";
+      const recentNoteInfo = this.findNoteByURL(
+        window.location.href,
+        this.NoteLists
+      );
+      if (recentNoteInfo == null) {
+        this.AppState = false;
       } else {
+        this.AppState = true;
+        const note = await Storage.getNoteById(recentNoteInfo.id);
         this.setNote(note);
       }
     } else if (mode === "manage") {
@@ -157,7 +159,7 @@ export default class App {
 
     for (let i = 0; i < this.NoteLists.length; i++) {
       if (this.NoteLists[i].id === this.Note.id) {
-        this.AppState = "wait";
+        this.AppState = false;
         this.NoteLists.splice(i, 1);
         await Storage.setNoteList(this.NoteLists);
         this.hideAppDown();
@@ -169,7 +171,7 @@ export default class App {
   async createNote() {
     console.log("createMode");
 
-    this.AppState = "run";
+    this.AppState = true;
 
     const noteLists = await Storage.getNoteList();
     this.NoteLists = noteLists ? noteLists : [];
@@ -222,7 +224,6 @@ export default class App {
   showNoteLists(NoteLists) {}
 
   setNote(note) {
-    this.AppState = "run";
     console.log("loadMode");
 
     this.Note = note;
@@ -234,11 +235,15 @@ export default class App {
   }
 
   async showApp() {
-    if (this.AppState === "wait") {
+    if (!this.AppState) {
       this.NoteLists = await Storage.getNoteList();
-      const noteInfo = this.findNoteByURL(window.location.href, this.NoteLists);
-      if (noteInfo) {
-        const note = await Storage.getNoteById(noteInfo.id);
+      const recentNoteInfo = this.findNoteByURL(
+        window.location.href,
+        this.NoteLists
+      );
+      if (recentNoteInfo) {
+        this.AppState = true;
+        const note = await Storage.getNoteById(recentNoteInfo.id);
         this.setNote(note);
         this.title.render(this.Note.title);
         this.content.render(this.Note.content);
@@ -250,8 +255,8 @@ export default class App {
     this.$app.style.animationDuration = "1.2s";
     this.$app.style.animationName = "web-docs-app-slidein";
     this.$app.style.right = "20px";
-    this.content.$content.focus();
 
+    this.content.$content.focus();
     this.Note.state = true;
   }
 
@@ -259,6 +264,7 @@ export default class App {
     this.$app.style.animationDuration = "1.2s";
     this.$app.style.animationName = "web-docs-app-slideout";
     this.$app.style.right = "-520px";
+
     this.Note.state = false;
   }
 

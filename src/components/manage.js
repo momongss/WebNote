@@ -6,7 +6,6 @@ console.log("managing");
 const $noteLists = document.querySelector(".note-list");
 
 Storage.getNoteList().then((NoteLists) => {
-  console.log(NoteLists);
   NoteLists.forEach((note) => {
     addNoteList(note.id);
   });
