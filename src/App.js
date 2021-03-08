@@ -9,7 +9,6 @@ export default class App {
   Note = null;
   NoteLists = [];
 
-  mode = null; // 일반페이지 or 관리페이지
   AppState = true; // 현재 열려있는 노트가 있는지, 없는지
 
   constructor({ $app, mode, noteId }) {
@@ -18,11 +17,13 @@ export default class App {
 
   async _constructor($app, mode, noteId) {
     this.$app = $app;
-    this.mode = mode;
 
     console.log("app running");
+    console.log(mode);
 
     this.NoteLists = await Storage.getNoteList();
+
+    console.log(this.NoteLists);
 
     if (mode === "normal") {
       const recentNoteInfo = this.findNoteByURL(
@@ -34,14 +35,21 @@ export default class App {
       } else {
         this.AppState = true;
         const note = await Storage.getNoteById(recentNoteInfo.id);
-        this.setNote(note);
+        this.Note = note;
+        if (this.Note.state) {
+          this.$app.classList.add("show");
+        } else {
+          this.$app.classList.remove("show");
+        }
       }
     } else if (mode === "manage") {
       const note = await Storage.getNoteById(noteId);
-      this.setNote(note);
+      this.Note = note;
     } else {
       console.error("모드 에러");
     }
+
+    console.log(this.Note);
 
     this.title = new Title({
       $target: this.$app,
@@ -67,7 +75,7 @@ export default class App {
       },
     });
 
-    if (this.mode === "normal") this.appEventListeners();
+    if (mode === "normal") this.appEventListeners();
   }
 
   appEventListeners() {
@@ -177,16 +185,16 @@ export default class App {
 
     const note = {
       id: this.createNewId(this.NoteLists),
-      title: "제목 없는 문서",
       url: window.location.href,
       createTime: getCurTime(),
-      updateTime: getCurTime(),
-      state: false,
     };
 
     this.NoteLists.push(note);
 
     this.Note = Object.assign({}, note);
+    this.Note.title = "제목 없는 문서";
+    this.Note.updateTime = getCurTime();
+    this.Note.state = false;
     this.Note.content = "<div><br /></div>";
     this.title.render(this.Note.title);
     this.content.render(this.Note.content);
@@ -221,8 +229,6 @@ export default class App {
   showNoteLists(NoteLists) {}
 
   setNote(note) {
-    console.log("loadMode");
-
     this.Note = note;
     if (this.Note.state) {
       this.$app.classList.add("show");
