@@ -228,15 +228,6 @@ export default class App {
 
   showNoteLists(NoteLists) {}
 
-  setNote(note) {
-    this.Note = note;
-    if (this.Note.state) {
-      this.$app.classList.add("show");
-    } else {
-      this.$app.classList.remove("show");
-    }
-  }
-
   async showApp() {
     if (!this.AppState) {
       this.NoteLists = await Storage.getNoteList();
@@ -247,7 +238,7 @@ export default class App {
       if (recentNoteInfo) {
         this.AppState = true;
         const note = await Storage.getNoteById(recentNoteInfo.id);
-        this.setNote(note);
+        this.Note = note;
         this.title.render(this.Note.title);
         this.content.render(this.Note.content);
       } else {

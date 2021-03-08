@@ -7,6 +7,18 @@ export default class Storage {
     gettingItem.then((re) => {});
   }
 
+  static async setContent(id, content) {
+    return await this.setItem(`${id}content`, content);
+  }
+
+  static async setTitle(id, title) {
+    return await this.setItem(`${id}content`, title);
+  }
+
+  static async setUpdateTime(id, updateTime) {
+    return await this.setItem(`${id}content`, updateTime);
+  }
+
   static setNoteById(id, note) {
     console.log(id, note);
     this.setItem(`noteId${id}`, note);
@@ -14,7 +26,6 @@ export default class Storage {
 
   static async getNoteById(id) {
     const note = await this.getItem(`noteId${id}`);
-    console.log(note);
     return note;
   }
 

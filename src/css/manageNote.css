@@ -10,12 +10,28 @@ body {
   height: calc(100% - 42px);
 
   display: flex;
-  right: 0;
+  left: 0;
+  min-width: calc(440px / 0.95);
   flex-direction: column;
   align-items: center;
   border-radius: 0px;
 }
 
-.web-docs-app .docs-wrapper {
-  width: 50%;
+@media screen and (min-width: 760px) {
+  .web-docs-app header,
+  .web-docs-app .docs-wrapper {
+    width: 680px;
+  }
 }
+
+@media screen and (max-width: 760px) {
+  .web-docs-app header,
+  .web-docs-app .docs-wrapper {
+    width: 95%;
+    min-width: 440px;
+  }
+}
+
+/* 미디어 쿼리 공부
+https://developer.mozilla.org/ko/docs/Learn/CSS/CSS_layout/Media_queries
+*/

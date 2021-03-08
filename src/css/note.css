@@ -2,7 +2,7 @@
   */
 
 @font-face {
-  font-family: "bemin_dohun";
+  font-family: "note-sans";
   src: url(chrome-extension://mgffajndabdbnejmehloekjclmaikagb/fonts/NotoSansKR-Medium.otf)
     format("truetype");
 }
@@ -13,14 +13,20 @@
 :root {
   --color-background-dark: rgb(45, 50, 54);
   --color-docs-dark: rgb(53, 59, 61);
+  /* --color-background-dark: rgb(50, 55, 59);
+  --color-docs-dark: rgb(255, 255, 255);
+  --color-docs-dark: rgb(151, 156, 161); */
+
   --color-button-dark: rgb(80, 82, 86);
   --color-button-hover: black;
 
+  --title-color-white: rgb(235, 230, 225);
   --text-color-white: rgb(235, 230, 225);
+  /* --text-color-white: black; */
 
   --app-height: 85vh;
   --docs-margin: 20px;
-  --docs-padding: 12px;
+  --docs-padding: 12pt;
 }
 
 div {
@@ -55,7 +61,8 @@ div {
   border-radius: 15px;
   padding: 20px;
 
-  font-family: bemin_dohun;
+  /* font-family: note-sans; */
+  font-family: Arial;
 
   animation-duration: 1.2s;
 }
@@ -90,7 +97,7 @@ div {
 
 .web-docs-app .title {
   font-size: 18.5px;
-  color: var(--text-color-white);
+  color: var(--title-color-white);
 
   text-align: center;
   display: inline-block;
@@ -159,14 +166,21 @@ div {
   overflow: scroll;
   overflow-x: hidden;
 
-  font-size: 16px;
+  font-size: 12pt;
   color: var(--text-color-white);
 }
 
 .web-docs-app .content * {
-  font-size: 16px;
   color: var(--text-color-white);
   margin-bottom: 5px;
+}
+
+.web-docs-app .content img {
+  width: 380px;
+}
+
+.web-docs-app .content *::selection {
+  background: rgba(69, 127, 131, 0.41);
 }
 
 .web-docs-app .content::-webkit-scrollbar {
