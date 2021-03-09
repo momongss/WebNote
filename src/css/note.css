@@ -79,11 +79,12 @@ div {
 .web-docs-app .title-wrapper {
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .web-docs-app #logo {
-  font-size: 30px;
-  color: rgb(110, 110, 110);
+  /* font-size: 30px; */
+  height: 40px;
   padding-left: 10px;
   padding-right: 10px;
 
@@ -91,7 +92,7 @@ div {
 }
 
 .web-docs-app #logo:hover {
-  color: var(--color-button-hover);
+  filter: brightness(0%);
   cursor: pointer;
 }
 
@@ -112,38 +113,31 @@ div {
 }
 
 .web-docs-app #createBtn {
-  font-size: 20px;
-  color: var(--color-button-dark);
+  height: 20px;
   margin-left: 10px;
 }
 
 .web-docs-app #createBtn:hover {
-  color: var(--color-button-hover);
+  filter: brightness(0%);
   cursor: pointer;
 }
 
 .web-docs-app #deleteBtn {
-  font-size: 18px;
-  color: var(--color-button-dark);
+  height: 20px;
   margin-left: 10px;
 }
 
 .web-docs-app #deleteBtn:hover {
-  color: var(--color-button-hover);
+  filter: brightness(0%);
   cursor: pointer;
 }
 
-.web-docs-app .closeBtn {
-  display: flex;
-  align-items: center;
-  justify-self: center;
-  margin-right: 3px;
-  font-size: 22.5px;
-  color: var(--color-button-dark);
+.web-docs-app #closeBtn {
+  height: 16px;
 }
 
-.web-docs-app .closeBtn:hover {
-  color: var(--color-button-hover);
+.web-docs-app #closeBtn:hover {
+  filter: brightness(0%);
   cursor: pointer;
 }
 

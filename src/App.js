@@ -19,7 +19,6 @@ export default class App {
     this.$app = $app;
 
     console.log("app running");
-    console.log(mode);
 
     this.NoteLists = await Storage.getNoteInfoList();
 
@@ -124,9 +123,14 @@ export default class App {
     });
 
     const $logo = this.$app.querySelector("#logo");
-    $logo.addEventListener("click", () => {
-      chrome.runtime.sendMessage({ path: "manage" });
-    });
+    console.log($logo, "logo");
+    $logo.addEventListener(
+      "click",
+      () => {
+        chrome.runtime.sendMessage({ path: "manage" });
+      },
+      true
+    );
 
     const $createBtn = this.$app.querySelector("#createBtn");
     $createBtn.addEventListener("click", () => {
@@ -142,8 +146,8 @@ export default class App {
       this.deleteNote();
     });
 
-    const $exitBtn = this.$app.querySelector(".closeBtn");
-    $exitBtn.addEventListener("click", () => {
+    const $closeBtn = this.$app.querySelector("#closeBtn");
+    $closeBtn.addEventListener("click", () => {
       this.hideApp();
     });
   }

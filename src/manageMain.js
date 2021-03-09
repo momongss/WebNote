@@ -6,7 +6,7 @@ $app.className = "web-docs-app";
 $app.innerHTML = `
 <header>
     <div class="title-wrapper">
-      <i id="logo" class="fas fa-book"></i>
+    <img id="logo" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/docs.svg" alt="문서">
       <div class="title" contenteditable="true"></div>      
     </div>
 </header>

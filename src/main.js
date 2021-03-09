@@ -1,25 +1,20 @@
 import App from "./App.js";
 
-// for icon
-const $iconHead = document.createElement("script");
-$iconHead.src = "https://kit.fontawesome.com/2fda1b0923.js";
-$iconHead.crossOrigin = "anonymous";
-document.querySelector("head").appendChild($iconHead);
-
 // app
+// <i id="logo" class="fas fa-book"></i>
+// <img id="logo" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/docs.svg" alt="문서">
+// <object id="logo" type="image/svg+xml" data="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/docs.svg"></object>
 const $app = document.createElement("div");
 $app.className = "web-docs-app";
 $app.innerHTML = `
 <header>
     <div class="title-wrapper">
-      <i id="logo" class="fas fa-book"></i>
+      <img id="logo" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/docs.svg" alt="문서">
       <div class="title" contenteditable="true"></div>      
-      <i id="createBtn" class="fas fa-plus-square" aria-hidden="true"></i>
-      <i id="deleteBtn" class="fas fa-trash-alt"></i>
+      <img id="createBtn" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/add.svg" alt="문서">
+      <img id="deleteBtn" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/trash.svg" alt="문서">
     </div>
-    <div class="closeBtn">
-      <i class="fas fa-times"></i>
-    </div>
+    <img id="closeBtn" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/delete.svg" alt="문서">
 </header>
 <div class="docs-wrapper">
     <div class="content" contenteditable="true">
@@ -30,3 +25,7 @@ $app.innerHTML = `
 document.body.appendChild($app);
 
 const app = new App({ $app: $app, mode: "normal" });
+
+// svg
+// https://svgontheweb.com/ko/
+// https://nykim.work/35
