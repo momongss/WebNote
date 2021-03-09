@@ -7,40 +7,38 @@ const $noteLists = document.querySelector(".note-list");
 (async () => {
   const NoteList = [];
 
-  const noteInfoList = await Storage.getNoteList();
-  for (const noteInfo of noteInfoList) {
-    const note = await Storage.getNoteById(noteInfo.id);
-    NoteList.push(note);
-  }
+  const noteInfoList = await Storage.getNoteInfoList();
 
-  NoteList.sort((a, b) => {
+  noteInfoList.sort((a, b) => {
     return new Date(b.updateTime) - new Date(a.updateTime);
   });
 
-  for (const note of NoteList) {
-    addNoteList(note);
+  for (const noteInfo of noteInfoList) {
+    addNoteList(noteInfo);
   }
 })();
 
-function addNoteList(note) {
+function addNoteList(noteInfo) {
   // const note = await Storage.getNoteById(id);
   const $list = document.createElement("list");
   $list.className = "note";
   $list.innerHTML = `
-    <div class="note-title">${note.title}</div>
-    <a target="_blank" href="${note.url}" class="note-url">${note.url}</a>
-    <div class="note-time">${getTimeDiff(note.updateTime)}</div>
+    <div class="note-title">${noteInfo.title}</div>
+    <a target="_blank" href="${noteInfo.url}" class="note-url">${
+    noteInfo.url
+  }</a>
+    <div class="note-time">${getTimeDiff(noteInfo.updateTime)}</div>
     :`;
   $noteLists.appendChild($list);
 
   $list.querySelector(".note-url").addEventListener("click", async (e) => {
-    note.updateTime = getCurTime();
-    await Storage.setNoteById(note.id, note);
     e.stopPropagation();
+    noteInfo.updateTime = getCurTime();
+    await Storage.setNoteById(noteInfo.id, noteInfo);
   });
 
   $list.addEventListener("click", () => {
-    chrome.runtime.sendMessage({ path: "docs", noteId: note.id });
+    chrome.runtime.sendMessage({ path: "docs", noteId: noteInfo.id });
   });
 }
 

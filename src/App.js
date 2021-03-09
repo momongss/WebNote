@@ -21,7 +21,7 @@ export default class App {
     console.log("app running");
     console.log(mode);
 
-    this.NoteLists = await Storage.getNoteList();
+    this.NoteLists = await Storage.getNoteInfoList();
 
     console.log(this.NoteLists);
 
@@ -34,7 +34,7 @@ export default class App {
         this.AppState = false;
       } else {
         this.AppState = true;
-        const note = await Storage.getNoteById(recentNoteInfo.id);
+        const note = await Storage.getNote(recentNoteInfo.id);
         this.Note = note;
         if (this.Note.state) {
           this.$app.classList.add("show");
@@ -43,13 +43,11 @@ export default class App {
         }
       }
     } else if (mode === "manage") {
-      const note = await Storage.getNoteById(noteId);
+      const note = await Storage.getNote(noteId);
       this.Note = note;
     } else {
       console.error("모드 에러");
     }
-
-    console.log(this.Note);
 
     this.title = new Title({
       $target: this.$app,
@@ -105,7 +103,7 @@ export default class App {
       } else if (e.key === "Escape") {
         this.hideApp();
       } else if (e.key === "]") {
-        Storage.getNoteList().then((noteLists) => {
+        Storage.getNoteInfoList().then((noteLists) => {
           console.log(noteLists);
         });
       }
@@ -159,20 +157,10 @@ export default class App {
     return null;
   }
 
-  async deleteNote() {
-    await Storage.delNoteById(this.Note.id);
-    const noteLists = await Storage.getNoteList();
-    this.NoteLists = noteLists ? noteLists : [];
-
-    for (let i = 0; i < this.NoteLists.length; i++) {
-      if (this.NoteLists[i].id === this.Note.id) {
-        this.AppState = false;
-        this.NoteLists.splice(i, 1);
-        await Storage.setNoteList(this.NoteLists);
-        this.hideApp();
-        return;
-      }
-    }
+  deleteNote() {
+    this.AppState = false;
+    this.hideApp();
+    Storage.delNote(this.Note.id);
   }
 
   async createNote() {
@@ -180,27 +168,27 @@ export default class App {
 
     this.AppState = true;
 
-    const noteLists = await Storage.getNoteList();
+    const noteLists = await Storage.getNoteInfoList();
     this.NoteLists = noteLists ? noteLists : [];
 
     const note = {
       id: this.createNewId(this.NoteLists),
-      url: window.location.href,
-      createTime: getCurTime(),
     };
 
     this.NoteLists.push(note);
 
     this.Note = Object.assign({}, note);
     this.Note.title = "제목 없는 문서";
+    this.Note.url = window.location.href;
+    this.Note.createTime = getCurTime();
     this.Note.updateTime = getCurTime();
     this.Note.state = false;
     this.Note.content = "<div><br /></div>";
     this.title.render(this.Note.title);
     this.content.render(this.Note.content);
 
-    await Storage.setNoteList(this.NoteLists);
-    await Storage.setNoteById(this.Note.id, this.Note);
+    Storage.setNoteInfoList(this.NoteLists);
+    Storage.setNote(this.Note);
   }
 
   saveNote() {
@@ -208,7 +196,9 @@ export default class App {
     this.Note.content = this.content.$content.innerHTML;
     this.Note.updateTime = getCurTime();
 
-    Storage.setNoteById(this.Note.id, this.Note);
+    console.log(this.Note);
+
+    Storage.setNote(this.Note);
   }
 
   createNewId(noteLists) {
@@ -230,14 +220,14 @@ export default class App {
 
   async showApp() {
     if (!this.AppState) {
-      this.NoteLists = await Storage.getNoteList();
+      this.NoteLists = await Storage.getNoteInfoList();
       const recentNoteInfo = this.findNoteByURL(
         window.location.href,
         this.NoteLists
       );
       if (recentNoteInfo) {
         this.AppState = true;
-        const note = await Storage.getNoteById(recentNoteInfo.id);
+        const note = await Storage.getNote(recentNoteInfo.id);
         this.Note = note;
         this.title.render(this.Note.title);
         this.content.render(this.Note.content);
