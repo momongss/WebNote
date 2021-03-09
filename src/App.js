@@ -149,12 +149,20 @@ export default class App {
   }
 
   findNoteByURL(url, NoteLists) {
-    for (let i = NoteLists.length - 1; i >= 0; i--) {
-      if (NoteLists[i].url === url) {
-        return NoteLists[i];
-      }
+    const urlNoteList = [];
+    for (const note of NoteLists) {
+      if (note.url === url) urlNoteList.push(note);
     }
-    return null;
+
+    if (urlNoteList.length === 0) return null;
+
+    urlNoteList.sort((a, b) => {
+      return new Date(b.updateTime) - new Date(a.updateTime);
+    });
+
+    console.log(urlNoteList);
+
+    return urlNoteList[0];
   }
 
   deleteNote() {
