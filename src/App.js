@@ -160,8 +160,6 @@ export default class App {
       return new Date(b.updateTime) - new Date(a.updateTime);
     });
 
-    console.log(urlNoteList);
-
     return urlNoteList[0];
   }
 

@@ -91,12 +91,12 @@ export default class Storage {
   }
 
   static setNote(note) {
-    this.setTitle(note.id, note.title);
-    this.setContent(note.id, note.content);
-    this.setUrl(note.id, note.url);
-    this.setCreateTime(note.id, note.createTime);
-    this.setUpdateTime(note.id, note.updateTime);
-    this.setState(note.id, note.state);
+    if (note.title != null) this.setTitle(note.id, note.title);
+    if (note.content != null) this.setContent(note.id, note.content);
+    if (note.url != null) this.setUrl(note.id, note.url);
+    if (note.createTime != null) this.setCreateTime(note.id, note.createTime);
+    if (note.updateTime != null) this.setUpdateTime(note.id, note.updateTime);
+    if (note.state != null) this.setState(note.id, note.state);
   }
 
   static async getNoteIdList() {

@@ -5,8 +5,6 @@ console.log("managing");
 const $noteLists = document.querySelector(".note-list");
 
 (async () => {
-  const NoteList = [];
-
   const noteInfoList = await Storage.getNoteInfoList();
 
   noteInfoList.sort((a, b) => {
@@ -34,7 +32,7 @@ function addNoteList(noteInfo) {
   $list.querySelector(".note-url").addEventListener("click", async (e) => {
     e.stopPropagation();
     noteInfo.updateTime = getCurTime();
-    await Storage.setNoteById(noteInfo.id, noteInfo);
+    await Storage.setNote(noteInfo);
   });
 
   $list.addEventListener("click", () => {
