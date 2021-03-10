@@ -1,7 +1,15 @@
 import Caret from "../utils/caret.js";
+import { getTimeDiff } from "../utils/time.js";
 
 export default class Title {
-  constructor({ $target, NoteData, saveNote, hideNote }) {
+  constructor({
+    $target,
+    NoteData,
+    recentNoteLists,
+    saveNote,
+    hideNote,
+    openNote,
+  }) {
     this.$target = $target;
     this.$title = $target.querySelector(".title");
     this.state = "init";
@@ -9,15 +17,44 @@ export default class Title {
     this.timeout = null;
     this.hideNote = hideNote;
     this.saveNote = saveNote;
+    this.openNote = openNote;
 
-    this.render(NoteData ? NoteData.title : "");
+    this.render(NoteData ? NoteData.title : "", recentNoteLists);
   }
 
-  render(title) {
+  render(title, recentNoteLists) {
     this.$title.innerHTML = title;
+
+    const $recentNoteList = document.createElement("ul");
+    $recentNoteList.className = "recent-list";
+
+    $recentNoteList.innerHTML = recentNoteLists
+      .map(
+        (noteInfo) =>
+          `<li data-id=${noteInfo.id}>
+        <span class="item-title">${noteInfo.title}</span>
+        <span class="item-update">${getTimeDiff(noteInfo.updateTime)}</span>
+      </li>`
+      )
+      .join("");
+
+    $recentNoteList.querySelectorAll("li").forEach(($li) => {
+      $li.addEventListener("mousedown", (e) => {
+        const id = $li.dataset.id;
+        this.openNote(id);
+      });
+    });
+
+    this.$target.querySelector("header").appendChild($recentNoteList);
 
     this.$title.addEventListener("click", (e) => {
       if (this.state === "init") Caret.selectTextAll(this.$title);
+
+      $recentNoteList.classList.toggle("showUp");
+    });
+
+    this.$title.addEventListener("blur", (e) => {
+      $recentNoteList.classList.remove("showUp");
     });
 
     this.$title.addEventListener("keydown", (e) => {
@@ -42,7 +79,7 @@ export default class Title {
 
       this.timeout = setTimeout(() => {
         this.saveNote();
-      }, 600);
+      }, 50);
     });
   }
 }

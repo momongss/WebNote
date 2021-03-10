@@ -25,14 +25,19 @@ export default class App {
     console.log(this.NoteLists);
 
     if (mode === "normal") {
-      const recentNoteInfo = this.findNoteByURL(
+      const urlNoteLists = this.findNotesByURL(
         window.location.href,
         this.NoteLists
       );
+
+      this.recentNoteLists = urlNoteLists;
+
+      const recentNoteInfo = urlNoteLists ? urlNoteLists[0] : null;
       if (recentNoteInfo == null) {
         this.AppState = false;
       } else {
         this.AppState = true;
+        console.log(recentNoteInfo);
         const note = await Storage.getNote(recentNoteInfo.id);
         this.Note = note;
         if (this.Note.state) {
@@ -51,11 +56,20 @@ export default class App {
     this.title = new Title({
       $target: this.$app,
       NoteData: this.Note,
+      recentNoteLists: this.recentNoteLists,
       saveNote: () => {
         this.saveNote();
       },
       hideNote: () => {
         this.hideApp();
+      },
+
+      openNote: async (id) => {
+        this.AppState = true;
+        const note = await Storage.getNote(id);
+        this.Note = note;
+        this.title.render(this.Note.title, this.recentNoteLists);
+        this.content.render(this.Note.content);
       },
     });
     this.content = new Content({
@@ -152,19 +166,21 @@ export default class App {
     });
   }
 
-  findNoteByURL(url, NoteLists) {
-    const urlNoteList = [];
+  showRecentNoteList(noteList) {}
+
+  findNotesByURL(url, NoteLists) {
+    const urlNoteLists = [];
     for (const note of NoteLists) {
-      if (note.url === url) urlNoteList.push(note);
+      if (note.url === url) urlNoteLists.push(note);
     }
 
-    if (urlNoteList.length === 0) return null;
+    if (urlNoteLists.length === 0) return null;
 
-    urlNoteList.sort((a, b) => {
+    urlNoteLists.sort((a, b) => {
       return new Date(b.updateTime) - new Date(a.updateTime);
     });
 
-    return urlNoteList[0];
+    return urlNoteLists;
   }
 
   deleteNote() {
@@ -181,6 +197,13 @@ export default class App {
     const noteLists = await Storage.getNoteInfoList();
     this.NoteLists = noteLists ? noteLists : [];
 
+    const urlNoteLists = this.findNotesByURL(
+      window.location.href,
+      this.NoteLists
+    );
+
+    this.recentNoteLists = urlNoteLists;
+
     const note = {
       id: this.createNewId(this.NoteLists),
     };
@@ -194,8 +217,8 @@ export default class App {
     this.Note.updateTime = getCurTime();
     this.Note.state = false;
     this.Note.content = "<div><br /></div>";
-    this.title.render(this.Note.title);
-    this.content.render(this.Note.content);
+    this.title.render(this.Note.title, urlNoteLists);
+    this.content.render(this.Note.content, urlNoteLists);
 
     Storage.setNoteInfoList(this.NoteLists);
     Storage.setNote(this.Note);
@@ -226,20 +249,24 @@ export default class App {
     }
   }
 
-  showNoteLists(NoteLists) {}
-
   async showApp() {
     if (!this.AppState) {
       this.NoteLists = await Storage.getNoteInfoList();
-      const recentNoteInfo = this.findNoteByURL(
+      const urlNoteLists = this.findNotesByURL(
         window.location.href,
         this.NoteLists
       );
+
+      this.recentNoteLists = urlNoteLists;
+
+      console.log(urlNoteLists, "url");
+
+      const recentNoteInfo = urlNoteLists ? urlNoteLists[0] : null;
       if (recentNoteInfo) {
         this.AppState = true;
-        const note = await Storage.getNote(recentNoteInfo.id);
+        const note = await Storage.getNote(id);
         this.Note = note;
-        this.title.render(this.Note.title);
+        this.title.render(this.Note.title, urlNoteLists);
         this.content.render(this.Note.content);
       } else {
         await this.createNote();

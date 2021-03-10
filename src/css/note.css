@@ -7,33 +7,30 @@
     format("truetype");
 }
 
-*:focus {
+ul {
+  list-style: none;
 }
 
 :root {
   --color-background-dark: rgb(45, 50, 54);
   --color-docs-dark: rgb(53, 59, 61);
-  /* --color-background-dark: rgb(50, 55, 59);
-  --color-docs-dark: rgb(255, 255, 255);
-  --color-docs-dark: rgb(151, 156, 161); */
 
   --color-button-dark: rgb(80, 82, 86);
   --color-button-hover: black;
 
   --title-color-white: rgb(235, 230, 225);
   --text-color-white: rgb(235, 230, 225);
-  /* --text-color-white: black; */
 
   --app-height: 85vh;
   --docs-margin: 20px;
   --docs-padding: 12pt;
 }
 
-div {
-  display: block;
-  padding: 0;
-  margin: 0;
+.web-docs-app header {
+  all: initial;
 }
+
+/* all: initial 일 때 contenteditable 이 안됨. */
 
 /* transform 정리 */
 
@@ -52,10 +49,11 @@ div {
 
   display: flex;
   flex-direction: column;
-  right: -520px;
   top: 0;
+  right: -520px;
   bottom: 0;
   width: 440px;
+
   background-color: var(--color-background-dark);
   border: 1px solid rgb(0, 0, 0);
   border-radius: 15px;
@@ -63,8 +61,6 @@ div {
 
   /* font-family: note-sans; */
   font-family: Arial;
-
-  animation-duration: 1.2s;
 }
 
 .web-docs-app header {
@@ -74,6 +70,49 @@ div {
   align-items: center;
   width: 100%;
   padding-bottom: 15px;
+
+  position: relative;
+}
+
+.web-docs-app .recent-list {
+  display: none;
+  position: absolute;
+  /* color: var(--text-color-white); */
+  top: 60px;
+  left: 65px;
+}
+
+.web-docs-app .recent-list.showUp {
+  display: block;
+}
+
+.web-docs-app .recent-list li {
+  height: 30px;
+  background-color: rgb(190, 189, 189);
+  border: 1px solid black;
+}
+
+.web-docs-app .recent-list li:hover {
+  background-color: rgb(98, 97, 102);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* inline el width */
+
+.web-docs-app .recent-list .item-title {
+  display: inline-block;
+  width: 150px;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.web-docs-app .recent-list .item-update {
+  display: inline-block;
+  width: 100px;
+  text-align: right;
 }
 
 .web-docs-app .title-wrapper {

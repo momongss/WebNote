@@ -17,26 +17,45 @@ const $noteLists = document.querySelector(".note-list");
 })();
 
 function addNoteList(noteInfo) {
-  // const note = await Storage.getNoteById(id);
   const $list = document.createElement("list");
   $list.className = "note";
   $list.innerHTML = `
+    <div class="delete">삭제</div>
+    <button class="option-btn"><img src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/more.svg" alt=":"></button>
     <div class="note-title">${noteInfo.title}</div>
     <a target="_blank" href="${noteInfo.url}" class="note-url">${
     noteInfo.url
   }</a>
-    <div class="note-time">${getTimeDiff(noteInfo.updateTime)}</div>
-    :`;
+    <div class="note-time">${getTimeDiff(noteInfo.updateTime)}</div>`;
   $noteLists.appendChild($list);
 
-  $list.querySelector(".note-url").addEventListener("click", async (e) => {
+  $list.addEventListener("click", () => {
+    chrome.runtime.sendMessage({ path: "docs", noteId: noteInfo.id });
+  });
+
+  const $url = $list.querySelector(".note-url");
+  $url.addEventListener("click", async (e) => {
     e.stopPropagation();
     noteInfo.updateTime = getCurTime();
     await Storage.setNote(noteInfo);
   });
 
-  $list.addEventListener("click", () => {
-    chrome.runtime.sendMessage({ path: "docs", noteId: noteInfo.id });
+  const $optionBtn = $list.querySelector(".option-btn");
+  const $delete = $list.querySelector(".delete");
+
+  $optionBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    $delete.classList.toggle("show");
+  });
+
+  $delete.addEventListener("mousedown", (e) => {
+    e.stopPropagation();
+    $list.remove();
+    Storage.delNote(noteInfo.id);
+  });
+
+  $optionBtn.addEventListener("blur", (e) => {
+    $delete.classList.remove("show");
   });
 }
 

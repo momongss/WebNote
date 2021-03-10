@@ -25,7 +25,6 @@ export default class Content {
       // 첫 줄의 div 영역이 지워지는 걸 방지
       let text = this.$content.innerHTML;
       if (text.slice(0, 5) !== "<div>") {
-        const length = text.length;
         text = "<div>" + text + "</div>";
         this.$content.innerHTML = text;
       }

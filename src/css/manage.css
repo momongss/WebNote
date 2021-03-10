@@ -10,6 +10,19 @@ body {
   padding-top: 10px;
 }
 
+button {
+  all: unset;
+}
+
+* {
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+
+  -ms-user-select: none;
+  user-select: none;
+}
+
 ul {
   padding: 0;
   margin: 0;
@@ -45,6 +58,8 @@ header {
   align-items: center;
   border-bottom: 1px solid rgb(179, 179, 179);
 
+  position: relative;
+
   padding: 0 18px 0 18px;
   width: 700px;
   height: 48px;
@@ -56,12 +71,12 @@ header {
   border-radius: 30px;
 }
 
-.note .note-title {
+.note-title {
   font-size: 14.5px;
   width: 400px;
 }
 
-.note .note-url {
+.note-url {
   display: inline-block;
   line-height: 48px;
   width: 195px;
@@ -75,7 +90,54 @@ header {
   white-space: nowrap;
 }
 
-.note .note-url:hover {
+.note-url:hover {
   background-color: rgb(85, 85, 85);
   color: rgb(184, 184, 184);
+}
+
+.option-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+
+  border-radius: 100%;
+}
+
+.option-btn:hover {
+  background-color: bisque;
+}
+
+.option-btn img {
+  height: 12px;
+}
+
+.delete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: -102px;
+
+  visibility: hidden;
+
+  background-color: rgb(200, 205, 210);
+  width: 100px;
+  height: 46px;
+  border: 1px solid black;
+  border-radius: 27px;
+
+  font-size: 14.5px;
+
+  z-index: 10;
+}
+
+.delete.show {
+  visibility: visible;
+}
+
+.delete:hover {
+  background-color: rgb(85, 85, 85);
+  color: rgb(223, 223, 223);
 }

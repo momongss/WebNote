@@ -12,15 +12,10 @@ export default class Storage {
 
     const noteIdList = await this.getNoteIdList();
 
-    console.log(noteIdList);
-
     for (let i = 0; i < noteIdList.length; i++) {
-      console.log(noteIdList[i], id);
       if (noteIdList[i] === id) {
-        console.log(i);
         noteIdList.splice(i, 1);
         Storage.setNoteIdList(noteIdList);
-        console.log(noteIdList);
         return;
       }
     }
@@ -28,7 +23,6 @@ export default class Storage {
 
   static async getTitle(id) {
     const title = await this.getItem(`title${id}`);
-    console.log(title);
     return title;
   }
 
@@ -119,8 +113,6 @@ export default class Storage {
         updateTime: await this.getUpdateTime(id),
       });
     }
-
-    console.log(noteInfoList);
 
     return noteInfoList;
   }
