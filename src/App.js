@@ -19,37 +19,28 @@ export default class App {
     console.log("app running");
 
     if (mode === "normal") {
-      const noteLists = await this.getNoteList();
-      const urlNoteLists = this.findNotesByURL(window.location.href, noteLists);
+      const urlNoteList = await this.getUrlNoteList();
 
-      this.recentNoteLists = urlNoteLists;
-
-      const recentNoteInfo = urlNoteLists ? urlNoteLists[0] : null;
-      if (recentNoteInfo == null) {
-        this.AppState = false;
-      } else {
+      const recentNote = urlNoteList ? urlNoteList[0] : null;
+      if (recentNote) {
         this.AppState = true;
-        console.log(recentNoteInfo);
-        const note = await Storage.getNote(recentNoteInfo.id);
-        this.Note = note;
+        this.Note = await Storage.getNote(recentNote.id);
         if (this.Note.state) {
           this.$app.classList.add("show");
         } else {
           this.$app.classList.remove("show");
         }
+      } else {
+        this.AppState = false;
       }
     } else if (mode === "manage") {
-      const note = await Storage.getNote(noteId);
-      this.Note = note;
-    } else {
-      console.error("모드 에러");
+      this.Note = await Storage.getNote(noteId);
     }
 
     this.title = new Title({
       mode: mode,
       $target: this.$app,
       NoteData: this.Note,
-      recentNoteLists: this.recentNoteLists,
       saveNote: () => {
         this.saveNote();
       },
@@ -61,8 +52,13 @@ export default class App {
         this.AppState = true;
         const note = await Storage.getNote(id);
         this.Note = note;
-        this.title.render(this.Note.title, this.recentNoteLists);
+        this.title.render(this.Note.title);
         this.content.render(this.Note.content);
+      },
+
+      showList: async () => {
+        //
+        this.sho;
       },
     });
     this.content = new Content({
@@ -71,15 +67,6 @@ export default class App {
       NoteData: this.Note,
       saveNote: async () => {
         this.saveNote();
-
-        const noteLists = await this.getNoteList();
-        const urlNoteLists = this.findNotesByURL(
-          window.location.href,
-          noteLists
-        );
-
-        this.recentNoteLists = urlNoteLists;
-        this.title.render(this.Note.title, urlNoteLists);
       },
       hideNote: () => {
         this.hideApp();
@@ -134,13 +121,10 @@ export default class App {
       else if (e.key === "Delete") {
         Storage.clearStorage();
         console.log("모든 메모 삭제");
-      } else if (e.key === "]") {
-        Storage.printStorage();
       }
     });
 
     const $logo = this.$app.querySelector("#logo");
-    console.log($logo, "logo");
     $logo.addEventListener(
       "click",
       () => {
@@ -169,23 +153,21 @@ export default class App {
     });
   }
 
-  showRecentNoteList(noteList) {}
-
-  findNotesByURL(url, NoteLists) {
-    const urlNoteLists = [];
-    for (const note of NoteLists) {
-      if (note.url === url) urlNoteLists.push(note);
+  findNotesByURL(url, NoteList) {
+    const urlNoteList = [];
+    for (const note of NoteList) {
+      if (note.url === url) urlNoteList.push(note);
     }
 
-    if (urlNoteLists.length === 0) return null;
+    if (urlNoteList.length === 0) return null;
 
-    return urlNoteLists;
+    return urlNoteList;
   }
 
   deleteNote() {
     this.AppState = false;
     this.hideApp();
-    Storage.delNote(this.Note.id);
+    Storage.deleteNote(this.Note.id);
   }
 
   async getNoteList() {
@@ -197,22 +179,24 @@ export default class App {
     return noteLists;
   }
 
+  async getUrlNoteList() {
+    const noteLists = await this.getNoteList();
+    const urlNoteList = this.findNotesByURL(window.location.href, noteLists);
+    return urlNoteList;
+  }
+
   async createNote() {
     console.log("createMode");
 
     this.AppState = true;
 
-    const noteLists = await this.getNoteList();
-
-    const urlNoteLists = this.findNotesByURL(window.location.href, noteLists);
-
-    this.recentNoteLists = urlNoteLists;
+    const noteList = await this.getNoteList();
 
     const note = {
-      id: this.createNewId(noteLists),
+      id: this.createNewId(noteList),
     };
 
-    noteLists.push(note);
+    noteList.push(note);
 
     this.Note = Object.assign({}, note);
     this.Note.title = "제목 없는 문서";
@@ -221,10 +205,11 @@ export default class App {
     this.Note.updateTime = getCurTime();
     this.Note.state = false;
     this.Note.content = "<div><br /></div>";
-    this.title.render(this.Note.title, urlNoteLists);
-    this.content.render(this.Note.content, urlNoteLists);
 
-    Storage.setNoteInfoList(noteLists);
+    this.title.render(this.Note.title);
+    this.content.render(this.Note.content);
+
+    Storage.setNoteInfoList(noteList);
     Storage.setNote(this.Note);
   }
 
@@ -255,20 +240,14 @@ export default class App {
 
   async showApp() {
     if (!this.AppState) {
-      noteLists = await this.getNoteList();
+      const urlNoteList = await this.getUrlNoteList();
 
-      const urlNoteLists = this.findNotesByURL(window.location.href, noteLists);
-
-      this.recentNoteLists = urlNoteLists;
-
-      console.log(urlNoteLists, "url");
-
-      const recentNoteInfo = urlNoteLists ? urlNoteLists[0] : null;
-      if (recentNoteInfo) {
+      const recentNote = urlNoteList ? urlNoteList[0] : null;
+      if (recentNote) {
         this.AppState = true;
-        const note = await Storage.getNote(recentNoteInfo.id);
+        const note = await Storage.getNote(recentNote.id);
         this.Note = note;
-        this.title.render(this.Note.title, urlNoteLists);
+        this.title.render(this.Note.title);
         this.content.render(this.Note.content);
       } else {
         await this.createNote();
@@ -279,11 +258,13 @@ export default class App {
 
     this.content.$content.focus();
     this.Note.state = true;
+    this.saveNote();
   }
 
   hideApp() {
     this.$app.classList.remove("show");
     this.Note.state = false;
+    this.saveNote();
   }
 
   toggleApp() {

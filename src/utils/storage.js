@@ -2,7 +2,7 @@ const storage = chrome.storage.local;
 const mainKey = "Note everywhere";
 
 export default class Storage {
-  static async delNote(id) {
+  static async deleteNote(id) {
     this.setTitle(id, {});
     this.setContent(id, {});
     this.setUrl(id, {});
