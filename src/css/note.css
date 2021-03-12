@@ -119,7 +119,7 @@ ul {
 
 .web-docs-app .recent-list li:hover {
   background-color: rgb(98, 97, 102);
-  border-radius: 10px;
+  /* border-radius: 10px; */
   cursor: pointer;
 }
 
