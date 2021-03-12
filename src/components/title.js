@@ -47,6 +47,7 @@ export default class Title {
   }
 
   render(title) {
+    this.state = "init";
     this.$title.innerHTML = title;
   }
 
