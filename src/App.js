@@ -7,8 +7,6 @@ import { keyAlt } from "./utils/keyboardInput.js";
 
 export default class App {
   Note = null;
-  NoteLists = [];
-
   AppState = true; // 현재 열려있는 노트가 있는지, 없는지
 
   constructor({ $app, mode, noteId }) {
@@ -20,15 +18,9 @@ export default class App {
 
     console.log("app running");
 
-    this.NoteLists = await this.getNoteList();
-
-    console.log(this.NoteLists);
-
     if (mode === "normal") {
-      const urlNoteLists = this.findNotesByURL(
-        window.location.href,
-        this.NoteLists
-      );
+      const noteLists = await this.getNoteList();
+      const urlNoteLists = this.findNotesByURL(window.location.href, noteLists);
 
       this.recentNoteLists = urlNoteLists;
 
@@ -80,10 +72,10 @@ export default class App {
       saveNote: async () => {
         this.saveNote();
 
-        this.NoteLists = await this.getNoteList();
+        const noteLists = await this.getNoteList();
         const urlNoteLists = this.findNotesByURL(
           window.location.href,
-          this.NoteLists
+          noteLists
         );
 
         this.recentNoteLists = urlNoteLists;
@@ -211,20 +203,16 @@ export default class App {
     this.AppState = true;
 
     const noteLists = await this.getNoteList();
-    this.NoteLists = noteLists ? noteLists : [];
 
-    const urlNoteLists = this.findNotesByURL(
-      window.location.href,
-      this.NoteLists
-    );
+    const urlNoteLists = this.findNotesByURL(window.location.href, noteLists);
 
     this.recentNoteLists = urlNoteLists;
 
     const note = {
-      id: this.createNewId(this.NoteLists),
+      id: this.createNewId(noteLists),
     };
 
-    this.NoteLists.push(note);
+    noteLists.push(note);
 
     this.Note = Object.assign({}, note);
     this.Note.title = "제목 없는 문서";
@@ -236,7 +224,7 @@ export default class App {
     this.title.render(this.Note.title, urlNoteLists);
     this.content.render(this.Note.content, urlNoteLists);
 
-    Storage.setNoteInfoList(this.NoteLists);
+    Storage.setNoteInfoList(noteLists);
     Storage.setNote(this.Note);
   }
 
@@ -267,12 +255,9 @@ export default class App {
 
   async showApp() {
     if (!this.AppState) {
-      this.NoteLists = await this.getNoteList();
+      noteLists = await this.getNoteList();
 
-      const urlNoteLists = this.findNotesByURL(
-        window.location.href,
-        this.NoteLists
-      );
+      const urlNoteLists = this.findNotesByURL(window.location.href, noteLists);
 
       this.recentNoteLists = urlNoteLists;
 
