@@ -37,6 +37,7 @@ export default class App {
         this.AppState = false;
       } else {
         this.AppState = true;
+        console.log(recentNoteInfo);
         const note = await Storage.getNote(recentNoteInfo.id);
         this.Note = note;
         if (this.Note.state) {
@@ -76,8 +77,17 @@ export default class App {
       mode: mode,
       $target: this.$app,
       NoteData: this.Note,
-      saveNote: () => {
+      saveNote: async () => {
         this.saveNote();
+
+        this.NoteLists = await this.getNoteList();
+        const urlNoteLists = this.findNotesByURL(
+          window.location.href,
+          this.NoteLists
+        );
+
+        this.recentNoteLists = urlNoteLists;
+        this.title.render(this.Note.title, urlNoteLists);
       },
       hideNote: () => {
         this.hideApp();
@@ -238,7 +248,6 @@ export default class App {
     console.log(this.Note);
 
     Storage.setNote(this.Note);
-    this.getNoteList().then();
   }
 
   createNewId(noteLists) {
@@ -258,11 +267,7 @@ export default class App {
 
   async showApp() {
     if (!this.AppState) {
-      this.NoteLists = await this.getNoteInfoList();
-
-      this.NoteLists.sort((a, b) => {
-        return new Date(b.updateTime) - new Date(a.updateTime);
-      });
+      this.NoteLists = await this.getNoteList();
 
       const urlNoteLists = this.findNotesByURL(
         window.location.href,
