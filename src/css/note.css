@@ -76,10 +76,28 @@ ul {
 
 .web-docs-app .recent-list {
   display: none;
+
   position: absolute;
-  /* color: var(--text-color-white); */
-  top: 60px;
-  left: 65px;
+  top: 40px;
+  left: 58px;
+
+  max-height: 500px;
+  overflow-y: scroll;
+}
+
+.web-docs-app .recent-list::-webkit-scrollbar {
+  width: 10px;
+}
+
+.web-docs-app .recent-list::-webkit-scrollbar-thumb {
+  background-color: rgb(20, 20, 20);
+  border-radius: 5px;
+}
+
+.web-docs-app .recent-list::-webkit-scrollbar-track {
+  background-color: grey;
+  border-radius: 5px;
+  box-shadow: inset 0px 0px 5px white;
 }
 
 .web-docs-app .recent-list.showUp {
@@ -87,9 +105,16 @@ ul {
 }
 
 .web-docs-app .recent-list li {
-  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
   background-color: rgb(190, 189, 189);
   border: 1px solid black;
+
+  height: 35px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .web-docs-app .recent-list li:hover {
@@ -111,8 +136,11 @@ ul {
 
 .web-docs-app .recent-list .item-update {
   display: inline-block;
+
   width: 100px;
+
   text-align: right;
+  font-size: 12px;
 }
 
 .web-docs-app .title-wrapper {
@@ -145,6 +173,10 @@ ul {
   border: 2px solid transparent;
   border-radius: 5px;
   max-width: 350px;
+  min-width: 5px;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .web-docs-app .title:hover {
@@ -196,8 +228,7 @@ ul {
   margin: 5px;
   height: 100%;
   outline: 0px solid transparent;
-  overflow: scroll;
-  overflow-x: hidden;
+  overflow-y: scroll;
 
   font-size: 12pt;
   color: var(--text-color-white);

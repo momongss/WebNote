@@ -60,7 +60,7 @@ header {
 
   position: relative;
 
-  padding: 0 18px 0 18px;
+  padding: 0 0 0 18px;
   width: 700px;
   height: 48px;
   cursor: pointer;
@@ -73,7 +73,11 @@ header {
 
 .note-title {
   font-size: 14.5px;
-  width: 400px;
+  width: 300px;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .note-url {
@@ -85,6 +89,7 @@ header {
 
   padding: 0 10px 0 10px;
   border-radius: 23px;
+
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;

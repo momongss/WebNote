@@ -2,7 +2,8 @@ import Caret from "../utils/caret.js";
 import { keyBackspace, keyTab } from "../utils/keyboardInput.js";
 
 export default class Content {
-  constructor({ $target, NoteData, saveNote, hideNote, toggleNote }) {
+  constructor({ mode, $target, NoteData, saveNote, hideNote, toggleNote }) {
+    this.mode = mode;
     this.$content = $target.querySelector(".content");
 
     this.timeout = null;
@@ -11,12 +12,11 @@ export default class Content {
     this.toggleNote = toggleNote;
     this.saveNote = saveNote;
 
+    this.addEventListeners();
     this.render(NoteData ? NoteData.content : "<div><br /></div>");
   }
 
-  render(content) {
-    this.$content.innerHTML = content;
-
+  addEventListeners() {
     this.$content.addEventListener("click", () => {
       Caret.storeCaret();
     });
@@ -47,7 +47,9 @@ export default class Content {
         e.preventDefault();
         this.hideNote();
       }
+    });
 
+    this.$content.addEventListener("input", (e) => {
       clearTimeout(this.timeout);
 
       this.timeout = setTimeout(() => {
@@ -55,5 +57,9 @@ export default class Content {
         this.saveNote();
       }, 600);
     });
+  }
+
+  render(content) {
+    this.$content.innerHTML = content;
   }
 }

@@ -23,10 +23,10 @@ function addNoteList(noteInfo) {
     <div class="delete">삭제</div>
     <button class="option-btn"><img src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/more.svg" alt=":"></button>
     <div class="note-title">${noteInfo.title}</div>
+    <div class="note-time">${getTimeDiff(noteInfo.updateTime)}</div>
     <a target="_blank" href="${noteInfo.url}" class="note-url">${
     noteInfo.url
-  }</a>
-    <div class="note-time">${getTimeDiff(noteInfo.updateTime)}</div>`;
+  }</a>`;
   $noteLists.appendChild($list);
 
   $list.addEventListener("click", () => {

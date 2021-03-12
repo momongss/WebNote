@@ -20,7 +20,7 @@ export default class App {
 
     console.log("app running");
 
-    this.NoteLists = await Storage.getNoteInfoList();
+    this.NoteLists = await this.getNoteList();
 
     console.log(this.NoteLists);
 
@@ -37,7 +37,6 @@ export default class App {
         this.AppState = false;
       } else {
         this.AppState = true;
-        console.log(recentNoteInfo);
         const note = await Storage.getNote(recentNoteInfo.id);
         this.Note = note;
         if (this.Note.state) {
@@ -54,6 +53,7 @@ export default class App {
     }
 
     this.title = new Title({
+      mode: mode,
       $target: this.$app,
       NoteData: this.Note,
       recentNoteLists: this.recentNoteLists,
@@ -73,6 +73,7 @@ export default class App {
       },
     });
     this.content = new Content({
+      mode: mode,
       $target: this.$app,
       NoteData: this.Note,
       saveNote: () => {
@@ -176,10 +177,6 @@ export default class App {
 
     if (urlNoteLists.length === 0) return null;
 
-    urlNoteLists.sort((a, b) => {
-      return new Date(b.updateTime) - new Date(a.updateTime);
-    });
-
     return urlNoteLists;
   }
 
@@ -189,12 +186,21 @@ export default class App {
     Storage.delNote(this.Note.id);
   }
 
+  async getNoteList() {
+    const noteLists = await Storage.getNoteInfoList();
+    noteLists.sort((a, b) => {
+      return new Date(b.updateTime) - new Date(a.updateTime);
+    });
+
+    return noteLists;
+  }
+
   async createNote() {
     console.log("createMode");
 
     this.AppState = true;
 
-    const noteLists = await Storage.getNoteInfoList();
+    const noteLists = await this.getNoteList();
     this.NoteLists = noteLists ? noteLists : [];
 
     const urlNoteLists = this.findNotesByURL(
@@ -232,6 +238,7 @@ export default class App {
     console.log(this.Note);
 
     Storage.setNote(this.Note);
+    this.getNoteList().then();
   }
 
   createNewId(noteLists) {
@@ -251,7 +258,12 @@ export default class App {
 
   async showApp() {
     if (!this.AppState) {
-      this.NoteLists = await Storage.getNoteInfoList();
+      this.NoteLists = await this.getNoteInfoList();
+
+      this.NoteLists.sort((a, b) => {
+        return new Date(b.updateTime) - new Date(a.updateTime);
+      });
+
       const urlNoteLists = this.findNotesByURL(
         window.location.href,
         this.NoteLists
@@ -264,7 +276,7 @@ export default class App {
       const recentNoteInfo = urlNoteLists ? urlNoteLists[0] : null;
       if (recentNoteInfo) {
         this.AppState = true;
-        const note = await Storage.getNote(id);
+        const note = await Storage.getNote(recentNoteInfo.id);
         this.Note = note;
         this.title.render(this.Note.title, urlNoteLists);
         this.content.render(this.Note.content);
