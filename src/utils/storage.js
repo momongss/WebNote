@@ -2,6 +2,54 @@ const storage = chrome.storage.local;
 const mainKey = "Note everywhere";
 
 export default class Storage {
+  static async getNote(id) {
+    const note = {
+      id: id,
+      title: await this.getTitle(id),
+      content: await this.getContent(id),
+      url: await this.getUrl(id),
+      createTime: await this.getCreateTime(id),
+      updateTime: await this.getUpdateTime(id),
+      state: await this.getState(id),
+    };
+
+    return note;
+  }
+
+  static setNote(note) {
+    if (note.title != null) this.setTitle(note.id, note.title);
+    if (note.content != null) this.setContent(note.id, note.content);
+    if (note.url != null) this.setUrl(note.id, note.url);
+    if (note.createTime != null) this.setCreateTime(note.id, note.createTime);
+    if (note.updateTime != null) this.setUpdateTime(note.id, note.updateTime);
+    if (note.state != null) this.setState(note.id, note.state);
+  }
+
+  static async getNoteInfoList() {
+    const noteIdList = await this.getNoteIdList();
+    const noteInfoList = [];
+    for (const id of noteIdList) {
+      noteInfoList.push({
+        id: id,
+        title: await this.getTitle(id),
+        url: await this.getUrl(id),
+        createTime: await this.getCreateTime(id),
+        updateTime: await this.getUpdateTime(id),
+      });
+    }
+
+    return noteInfoList;
+  }
+
+  static setNoteInfoList(noteInfoList) {
+    const noteIdList = [];
+    for (const noteInfo of noteInfoList) {
+      noteIdList.push(noteInfo.id);
+    }
+
+    Storage.setNoteIdList(noteIdList);
+  }
+
   static async deleteNote(id) {
     this.setTitle(id, {});
     this.setContent(id, {});
@@ -68,66 +116,6 @@ export default class Storage {
 
   static async setState(id, state) {
     return await this.setItem(`state${id}`, state);
-  }
-
-  static async getNote(id) {
-    const note = {
-      id: id,
-      title: await this.getTitle(id),
-      content: await this.getContent(id),
-      url: await this.getUrl(id),
-      createTime: await this.getCreateTime(id),
-      updateTime: await this.getUpdateTime(id),
-      state: await this.getState(id),
-    };
-
-    return note;
-  }
-
-  static setNote(note) {
-    if (note.title != null) this.setTitle(note.id, note.title);
-    if (note.content != null) this.setContent(note.id, note.content);
-    if (note.url != null) this.setUrl(note.id, note.url);
-    if (note.createTime != null) this.setCreateTime(note.id, note.createTime);
-    if (note.updateTime != null) this.setUpdateTime(note.id, note.updateTime);
-    if (note.state != null) this.setState(note.id, note.state);
-  }
-
-  static async getNoteIdList() {
-    return await this.getItem("noteIdList");
-  }
-
-  static setNoteIdList(noteIdList) {
-    this.setItem("noteIdList", noteIdList);
-  }
-
-  static async getNoteInfoList() {
-    const noteIdList = await this.getNoteIdList();
-    const noteInfoList = [];
-    for (const id of noteIdList) {
-      noteInfoList.push({
-        id: id,
-        title: await this.getTitle(id),
-        url: await this.getUrl(id),
-        createTime: await this.getCreateTime(id),
-        updateTime: await this.getUpdateTime(id),
-      });
-    }
-
-    return noteInfoList;
-  }
-
-  static setNoteInfoList(noteInfoList) {
-    const noteIdList = [];
-    for (const noteInfo of noteInfoList) {
-      noteIdList.push(noteInfo.id);
-    }
-
-    Storage.setNoteIdList(noteIdList);
-  }
-
-  static delNoteById(id) {
-    this.setNoteById(id, {});
   }
 
   static getItem(key) {
