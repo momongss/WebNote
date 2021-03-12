@@ -25,6 +25,14 @@ export default class Storage {
     if (note.state != null) this.setState(note.id, note.state);
   }
 
+  static async getNoteIdList() {
+    return await this.getItem("noteIdList");
+  }
+
+  static setNoteIdList(noteIdList) {
+    this.setItem("noteIdList", noteIdList);
+  }
+
   static async getNoteInfoList() {
     const noteIdList = await this.getNoteIdList();
     const noteInfoList = [];
