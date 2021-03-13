@@ -7,7 +7,7 @@
     format("truetype");
 }
 
-ul {
+.web-docs-app ul {
   list-style: none;
 }
 
@@ -26,7 +26,7 @@ ul {
   --docs-padding: 12pt;
 }
 
-.web-docs-app header {
+.web-docs-app ._header {
   all: initial;
 }
 
@@ -47,6 +47,11 @@ ul {
   transform: translate(0, 0);
   transition: transform 0.8s;
 
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+
   display: flex;
   flex-direction: column;
   top: 0;
@@ -63,7 +68,7 @@ ul {
   font-family: Arial;
 }
 
-.web-docs-app header {
+.web-docs-app ._header {
   display: flex;
   background-color: inherit; /* 기본 header 속성 적용을 막기 위해 필요 */
   justify-content: space-between;
@@ -80,13 +85,13 @@ ul {
   display: none;
 
   position: absolute;
-  top: 30px;
-  left: 58px;
+  top: 65px;
+  left: 10px;
 }
 
 .web-docs-app .sel-all,
 .web-docs-app .sel-url {
-  all: unset;
+  /* all: unset; */
   cursor: pointer;
 
   width: 70px;
@@ -94,13 +99,13 @@ ul {
   font-size: 10pt;
   text-align: center;
 
-  position: relative;
-  left: 126px;
+  /* position: relative;
+  left: 126px; */
 }
 
 .web-docs-app .sel-all.set,
 .web-docs-app .sel-url.set {
-  background-color: cadetblue;
+  background-color: var(--color-button-dark);
 }
 
 .web-docs-app .recent-wrapper.showUp {
@@ -142,7 +147,6 @@ ul {
 
 .web-docs-app .recent-list li:hover {
   background-color: rgb(98, 97, 102);
-  /* border-radius: 10px; */
   cursor: pointer;
 }
 
@@ -159,7 +163,6 @@ ul {
 
 .web-docs-app .recent-list .item-update {
   display: inline-block;
-
   width: 100px;
 
   text-align: right;
@@ -173,7 +176,6 @@ ul {
 }
 
 .web-docs-app #logo {
-  /* font-size: 30px; */
   height: 40px;
   padding-left: 10px;
   padding-right: 10px;
