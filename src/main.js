@@ -11,7 +11,11 @@ $app.innerHTML = `
       <div class="title" contenteditable="true"></div>
       <img id="createBtn" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/add.svg" alt="문서">
       <img id="deleteBtn" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/trash.svg" alt="문서">
-      <ul class="recent-list"></ul>
+      <div class="recent-wrapper">
+        <button class="sel-all">전체 목록</button>
+        <button class="sel-url">현재 URL</button>
+        <ul class="recent-list"></ul>
+      </div>
     </div>
     <img id="closeBtn" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/delete.svg" alt="문서">
 </header>

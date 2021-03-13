@@ -74,13 +74,40 @@ ul {
   position: relative;
 }
 
-.web-docs-app .recent-list {
+/* 오른쪽 정렬 방법 */
+
+.web-docs-app .recent-wrapper {
   display: none;
 
   position: absolute;
-  top: 40px;
+  top: 30px;
   left: 58px;
+}
 
+.web-docs-app .sel-all,
+.web-docs-app .sel-url {
+  all: unset;
+  cursor: pointer;
+
+  width: 70px;
+  height: 30px;
+  font-size: 10pt;
+  text-align: center;
+
+  position: relative;
+  left: 126px;
+}
+
+.web-docs-app .sel-all.set,
+.web-docs-app .sel-url.set {
+  background-color: cadetblue;
+}
+
+.web-docs-app .recent-wrapper.showUp {
+  display: block;
+}
+
+.web-docs-app .recent-list {
   max-height: 500px;
   overflow-y: scroll;
 }
@@ -98,10 +125,6 @@ ul {
   background-color: grey;
   border-radius: 5px;
   box-shadow: inset 0px 0px 5px white;
-}
-
-.web-docs-app .recent-list.showUp {
-  display: block;
 }
 
 .web-docs-app .recent-list li {

@@ -2,6 +2,14 @@ const storage = chrome.storage.local;
 const mainKey = "Note everywhere";
 
 export default class Storage {
+  static async getListingMethod() {
+    return await this.getItem("L-method");
+  }
+
+  static async setListingMethod(method) {
+    await this.setItem("L-method", method);
+  }
+
   static async getNote(id) {
     const note = {
       id: id,

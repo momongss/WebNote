@@ -7,6 +7,8 @@ export default class Title {
     this.mode = mode;
     this.$target = $target;
     this.$title = $target.querySelector(".title");
+
+    this.$recentWrapper = $target.querySelector(".recent-wrapper");
     this.$recentNoteList = $target.querySelector(".recent-list");
     this.state = "init";
 
@@ -20,17 +22,31 @@ export default class Title {
   }
 
   toggleList() {
-    if (this.$recentNoteList.classList.contains("showUp")) {
+    if (this.$recentWrapper.classList.contains("showUp")) {
       this.hideList();
     } else {
-      this.showList();
+      Storage.getListingMethod().then((method) => {
+        this.showList(method);
+      });
     }
   }
 
-  async showList() {
-    this.$recentNoteList.classList.add("showUp");
+  async showList(method) {
+    this.$recentWrapper.classList.add("showUp");
 
-    const recentNoteList = await this.getUrlNoteList();
+    let recentNoteList;
+    if (method === "url") {
+      this.$target.querySelector(".sel-url").classList.add("set");
+      this.$target.querySelector(".sel-all").classList.remove("set");
+      recentNoteList = await this.getUrlNoteList();
+    } else {
+      this.$target.querySelector(".sel-all").classList.add("set");
+      this.$target.querySelector(".sel-url").classList.remove("set");
+      recentNoteList = await this.getNoteList();
+    }
+
+    console.log(recentNoteList);
+
     this.$recentNoteList.innerHTML = recentNoteList
       .map(
         (noteInfo) =>
@@ -43,36 +59,23 @@ export default class Title {
   }
 
   hideList() {
-    this.$recentNoteList.classList.remove("showUp");
+    this.$recentWrapper.classList.remove("showUp");
   }
 
   render(title) {
     this.state = "init";
     this.$title.innerHTML = title;
+    console.log(this.state);
   }
 
   eventListeners() {
     this.$title.addEventListener("click", (e) => {
       if (this.state === "init") Caret.selectTextAll(this.$title);
-      this.toggleList();
-    });
-
-    this.$title.addEventListener("blur", (e) => {
-      this.hideList();
-    });
-
-    this.$recentNoteList.addEventListener("mousedown", (e) => {
-      let $li;
-      if (e.target.tagName === "LI") {
-        $li = e.target;
-      } else {
-        $li = e.target.parentElement;
-      }
-
-      this.openNote($li.dataset.id);
     });
 
     this.$title.addEventListener("keydown", (e) => {
+      this.hideList();
+
       if (e.key === "Enter") {
         e.preventDefault();
         this.$target.querySelector(".content").focus();
@@ -95,6 +98,38 @@ export default class Title {
       this.timeout = setTimeout(() => {
         this.saveNote();
       }, 50);
+    });
+
+    if (this.mode !== "normal") return;
+
+    this.$title.addEventListener("click", (e) => {
+      this.toggleList();
+    });
+
+    this.$target.addEventListener("click", (e) => {
+      if (e.target.className === "title") {
+      } else if (e.target.className === "sel-all") {
+        const method = "all";
+        this.showList(method);
+        Storage.setListingMethod(method);
+      } else if (e.target.className === "sel-url") {
+        const method = "url";
+        this.showList(method);
+        Storage.setListingMethod(method);
+      } else {
+        this.hideList();
+      }
+    });
+
+    this.$recentNoteList.addEventListener("mousedown", (e) => {
+      let $li;
+      if (e.target.tagName === "LI") {
+        $li = e.target;
+      } else {
+        $li = e.target.parentElement;
+      }
+
+      this.openNote($li.dataset.id);
     });
   }
 

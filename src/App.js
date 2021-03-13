@@ -1,6 +1,7 @@
 import Title from "./components/title.js";
 import Content from "./components/content.js";
 import Storage from "./utils/storage.js";
+import Caret from "./utils/caret.js";
 
 import { getCurTime } from "./utils/time.js";
 import { keyAlt } from "./utils/keyboardInput.js";
@@ -138,6 +139,8 @@ export default class App {
       this.createNote();
       setTimeout(() => {
         this.showApp();
+        this.title.$title.focus();
+        Caret.selectTextAll(this.title.$title);
       }, 200);
     });
 
