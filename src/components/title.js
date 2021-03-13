@@ -12,7 +12,6 @@ export default class Title {
     this.$recentNoteList = $target.querySelector(".recent-list");
     this.state = "init";
 
-    this.timeout = null;
     this.hideNote = hideNote;
     this.saveNote = saveNote;
     this.openNote = openNote;
@@ -44,8 +43,6 @@ export default class Title {
       this.$target.querySelector(".sel-url").classList.remove("set");
       recentNoteList = await this.getNoteList();
     }
-
-    console.log(recentNoteList);
 
     this.$recentNoteList.innerHTML = recentNoteList
       .map(

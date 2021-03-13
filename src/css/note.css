@@ -113,6 +113,8 @@
 }
 
 .web-docs-app .recent-list {
+  padding: 0;
+  margin: 0;
   max-height: calc(35px * 14);
   overflow-y: scroll;
 }
@@ -290,4 +292,23 @@
 .web-docs-app .white-space {
   display: block;
   height: 100px;
+}
+
+.alarm-ui {
+  display: none;
+  position: fixed;
+  top: 3px;
+  right: 3px;
+  background-color: white;
+
+  padding: 3px 5px 3px 5px;
+
+  z-index: 2147483647;
+}
+
+/* position fixed 도 absolute 와 같이, 가장 가까운 컨테이닝 블록을
+기준으로 동작한다. */
+
+.alarm-ui.show {
+  display: block;
 }

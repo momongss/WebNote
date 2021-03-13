@@ -122,6 +122,12 @@ export default class App {
       else if (e.key === "Delete") {
         Storage.clearStorage();
         console.log("모든 메모 삭제");
+      } else if (e.key === "-") {
+        console.log("resize");
+        window.resizeBy(
+          window.screen.availWidth / 2,
+          window.screen.availHeight / 2
+        );
       }
     });
 
@@ -142,12 +148,29 @@ export default class App {
         this.title.$title.focus();
         Caret.selectTextAll(this.title.$title);
       }, 200);
+
+      this.showAlarmUI("새로운 노트가 열렸습니다");
     });
 
     const $deleteBtn = this.$app.querySelector("#deleteBtn");
-    $deleteBtn.addEventListener("click", () => {
+    $deleteBtn.addEventListener("click", async () => {
       console.log("trash!");
-      this.deleteNote();
+      await this.deleteNote();
+      const urlNoteList = await this.getUrlNoteList();
+
+      const recentNote = urlNoteList ? urlNoteList[0] : null;
+      if (recentNote != null) {
+        this.AppState = true;
+        const note = await Storage.getNote(recentNote.id);
+        this.Note = note;
+        this.title.render(this.Note.title);
+        this.content.render(this.Note.content);
+      } else {
+        this.hideApp();
+        this.AppState = false;
+      }
+
+      this.showAlarmUI("노트가 삭제되었습니다");
     });
 
     const $closeBtn = this.$app.querySelector("#closeBtn");
@@ -167,10 +190,20 @@ export default class App {
     return urlNoteList;
   }
 
-  deleteNote() {
-    this.AppState = false;
-    this.hideApp();
-    Storage.deleteNote(this.Note.id);
+  showAlarmUI(message) {
+    const $alarmUI = document.querySelector(".alarm-ui");
+    $alarmUI.innerHTML = message;
+    $alarmUI.classList.add("show");
+    clearTimeout(this.timeout);
+
+    this.timeout = setTimeout(() => {
+      $alarmUI.innerHTML = "";
+      $alarmUI.classList.remove("show");
+    }, 2000);
+  }
+
+  async deleteNote() {
+    await Storage.deleteNote(this.Note.id);
   }
 
   async getNoteList() {
