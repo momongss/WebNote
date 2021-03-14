@@ -56,11 +56,6 @@ export default class App {
         this.title.render(this.Note.title);
         this.content.render(this.Note.content);
       },
-
-      showList: async () => {
-        //
-        this.sho;
-      },
     });
     this.content = new Content({
       mode: mode,
@@ -88,6 +83,9 @@ export default class App {
         keyAlt.isAltPressed = true;
       } else if (keyAlt.isAltPressed && (e.key === "w" || e.key === "W")) {
         this.toggleApp();
+      } else if (e.key === "Escape") {
+        e.preventDefault();
+        this.hideApp();
       }
     });
 
@@ -145,8 +143,6 @@ export default class App {
       this.createNote();
       setTimeout(() => {
         this.showApp();
-        this.title.$title.focus();
-        Caret.selectTextAll(this.title.$title);
       }, 200);
 
       this.showAlarmUI("새로운 노트가 열렸습니다");
@@ -245,6 +241,9 @@ export default class App {
     this.title.render(this.Note.title);
     this.content.render(this.Note.content);
 
+    this.title.$title.focus();
+    Caret.selectTextAll(this.title.$title);
+
     Storage.setNoteInfoList(noteList);
     Storage.setNote(this.Note);
   }
@@ -301,6 +300,9 @@ export default class App {
     this.$app.classList.remove("show");
     this.Note.state = false;
     this.saveNote();
+
+    this.title.$title.blur();
+    this.content.$content.blur();
   }
 
   toggleApp() {

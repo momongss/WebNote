@@ -3,7 +3,7 @@ import { getTimeDiff } from "../utils/time.js";
 import Storage from "../utils/storage.js";
 
 export default class Title {
-  constructor({ mode, $target, NoteData, saveNote, hideNote, openNote }) {
+  constructor({ mode, $target, NoteData, saveNote, openNote }) {
     this.mode = mode;
     this.$target = $target;
     this.$title = $target.querySelector(".title");
@@ -12,7 +12,6 @@ export default class Title {
     this.$recentNoteList = $target.querySelector(".recent-list");
     this.state = "init";
 
-    this.hideNote = hideNote;
     this.saveNote = saveNote;
     this.openNote = openNote;
 
@@ -43,6 +42,8 @@ export default class Title {
       this.$target.querySelector(".sel-url").classList.remove("set");
       recentNoteList = await this.getNoteList();
     }
+
+    recentNoteList = recentNoteList ? recentNoteList : [];
 
     this.$recentNoteList.innerHTML = recentNoteList
       .map(
@@ -82,8 +83,6 @@ export default class Title {
           this.state = "init";
         }
         return;
-      } else if (e.key === "Escape") {
-        this.hideNote();
       }
 
       this.state = "stated";

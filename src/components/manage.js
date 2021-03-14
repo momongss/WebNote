@@ -51,7 +51,7 @@ function addNoteList(noteInfo) {
   $delete.addEventListener("mousedown", (e) => {
     e.stopPropagation();
     $list.remove();
-    Storage.delNote(noteInfo.id);
+    Storage.deleteNote(noteInfo.id);
   });
 
   $optionBtn.addEventListener("blur", (e) => {

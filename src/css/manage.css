@@ -68,7 +68,7 @@ header {
 
 .note:hover {
   background-color: rgb(182, 185, 192);
-  border-radius: 30px;
+  /* border-radius: 30px; */
 }
 
 .note-title {

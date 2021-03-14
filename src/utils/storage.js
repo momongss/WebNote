@@ -79,7 +79,7 @@ export default class Storage {
     for (let i = 0; i < noteIdList.length; i++) {
       if (noteIdList[i] === id) {
         noteIdList.splice(i, 1);
-        Storage.setNoteIdList(noteIdList);
+        await Storage.setNoteIdList(noteIdList);
         return;
       }
     }

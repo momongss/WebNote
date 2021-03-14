@@ -2,13 +2,12 @@ import Caret from "../utils/caret.js";
 import { keyBackspace, keyTab } from "../utils/keyboardInput.js";
 
 export default class Content {
-  constructor({ mode, $target, NoteData, saveNote, hideNote, toggleNote }) {
+  constructor({ mode, $target, NoteData, saveNote, toggleNote }) {
     this.mode = mode;
     this.$content = $target.querySelector(".content");
 
     this.timeout = null;
 
-    this.hideNote = hideNote;
     this.toggleNote = toggleNote;
     this.saveNote = saveNote;
 
@@ -43,9 +42,6 @@ export default class Content {
         }
 
         keyBackspace();
-      } else if (e.key === "Escape") {
-        e.preventDefault();
-        this.hideNote();
       }
     });
 
