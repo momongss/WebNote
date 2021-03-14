@@ -41,7 +41,7 @@ export default class App {
     this.title = new Title({
       mode: mode,
       $target: this.$app,
-      NoteData: this.Note,
+      note: this.Note,
       saveNote: () => {
         this.saveNote();
       },
@@ -53,8 +53,13 @@ export default class App {
         this.AppState = true;
         const note = await Storage.getNote(id);
         this.Note = note;
-        this.title.render(this.Note.title);
+        this.title.render(this.Note);
         this.content.render(this.Note.content);
+      },
+
+      onStarClick: async (star) => {
+        this.Note.star = star;
+        Storage.setStar(this.Note.id, this.Note.star);
       },
     });
     this.content = new Content({
@@ -81,7 +86,7 @@ export default class App {
 
       if (e.key === "Alt") {
         keyAlt.isAltPressed = true;
-      } else if (keyAlt.isAltPressed && (e.key === "w" || e.key === "W")) {
+      } else if (keyAlt.isAltPressed && e.key === "1") {
         this.toggleApp();
       } else if (e.key === "Escape") {
         e.preventDefault();
@@ -100,7 +105,7 @@ export default class App {
     window.addEventListener("keydown", (e) => {
       if (e.key === "Alt") {
         keyAlt.isAltPressed = true;
-      } else if (keyAlt.isAltPressed && (e.key === "w" || e.key === "W")) {
+      } else if (keyAlt.isAltPressed && e.key === "1") {
         this.toggleApp();
       } else if (e.key === "Escape") {
         this.hideApp();
@@ -128,6 +133,8 @@ export default class App {
         );
       }
     });
+
+    // 이 버튼 이벤트들 싹다 title 로 보내기.
 
     const $logo = this.$app.querySelector("#logo");
     $logo.addEventListener(
@@ -159,7 +166,7 @@ export default class App {
         this.AppState = true;
         const note = await Storage.getNote(recentNote.id);
         this.Note = note;
-        this.title.render(this.Note.title);
+        this.title.render(this.Note);
         this.content.render(this.Note.content);
       } else {
         this.hideApp();
@@ -236,9 +243,10 @@ export default class App {
     this.Note.createTime = getCurTime();
     this.Note.updateTime = getCurTime();
     this.Note.state = false;
+    this.Note.star = false;
     this.Note.content = "<div><br /></div>";
 
-    this.title.render(this.Note.title);
+    this.title.render(this.Note);
     this.content.render(this.Note.content);
 
     this.title.$title.focus();
@@ -282,7 +290,7 @@ export default class App {
         this.AppState = true;
         const note = await Storage.getNote(recentNote.id);
         this.Note = note;
-        this.title.render(this.Note.title);
+        this.title.render(this.Note);
         this.content.render(this.Note.content);
       } else {
         await this.createNote();

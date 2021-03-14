@@ -17,11 +17,14 @@ const $noteLists = document.querySelector(".note-list");
 })();
 
 function addNoteList(noteInfo) {
+  const starUrl = noteInfo.star === true ? "star_b" : "star_e";
+
   const $list = document.createElement("list");
   $list.className = "note";
   $list.innerHTML = `
     <div class="delete">삭제</div>
     <button class="option-btn"><img src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/more.svg" alt=":"></button>
+    <img id="starBtn" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/${starUrl}.svg" alt="문서">
     <div class="note-title">${noteInfo.title}</div>
     <div class="note-time">${getTimeDiff(noteInfo.updateTime)}</div>
     <a target="_blank" href="${noteInfo.url}" class="note-url">${
@@ -42,6 +45,25 @@ function addNoteList(noteInfo) {
 
   const $optionBtn = $list.querySelector(".option-btn");
   const $delete = $list.querySelector(".delete");
+  const $starBtn = $list.querySelector("#starBtn");
+
+  if (noteInfo.star === true) $starBtn.classList.add("stared");
+
+  $starBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+
+    if ($starBtn.classList.contains("stared")) {
+      $starBtn.classList.remove("stared");
+      $starBtn.src =
+        "chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/star_e.svg";
+      Storage.setStar(noteInfo.id, false);
+    } else {
+      $starBtn.classList.add("stared");
+      $starBtn.src =
+        "chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/star_b.svg";
+      Storage.setStar(noteInfo.id, true);
+    }
+  });
 
   $optionBtn.addEventListener("click", (e) => {
     e.stopPropagation();

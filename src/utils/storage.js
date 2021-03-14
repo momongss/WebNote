@@ -18,6 +18,7 @@ export default class Storage {
       url: await this.getUrl(id),
       createTime: await this.getCreateTime(id),
       updateTime: await this.getUpdateTime(id),
+      star: await this.getStar(id),
       state: await this.getState(id),
     };
 
@@ -30,6 +31,7 @@ export default class Storage {
     if (note.url != null) this.setUrl(note.id, note.url);
     if (note.createTime != null) this.setCreateTime(note.id, note.createTime);
     if (note.updateTime != null) this.setUpdateTime(note.id, note.updateTime);
+    if (note.star != null) this.setStar(note.id, note.star);
     if (note.state != null) this.setState(note.id, note.state);
   }
 
@@ -51,6 +53,7 @@ export default class Storage {
         url: await this.getUrl(id),
         createTime: await this.getCreateTime(id),
         updateTime: await this.getUpdateTime(id),
+        star: await this.getStar(id),
       });
     }
 
@@ -72,6 +75,7 @@ export default class Storage {
     this.setUrl(id, {});
     this.setCreateTime(id, {});
     this.setUpdateTime(id, {});
+    this.setStar(id, {});
     this.setState(id, {});
 
     const noteIdList = await this.getNoteIdList();
@@ -106,6 +110,10 @@ export default class Storage {
     return await this.getItem(`updateTime${id}`);
   }
 
+  static async getStar(id) {
+    return await this.getItem(`star${id}`);
+  }
+
   static async getState(id) {
     return await this.getItem(`state${id}`);
   }
@@ -128,6 +136,10 @@ export default class Storage {
 
   static async setUpdateTime(id, updateTime) {
     return await this.setItem(`updateTime${id}`, updateTime);
+  }
+
+  static async setStar(id, star) {
+    return await this.setItem(`star${id}`, star);
   }
 
   static async setState(id, state) {

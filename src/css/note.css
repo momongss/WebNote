@@ -26,10 +26,6 @@
   --docs-padding: 12pt;
 }
 
-.web-docs-app ._header {
-  all: initial;
-}
-
 /* all: initial 일 때 contenteditable 이 안됨. */
 
 /* transform 정리 */
@@ -73,7 +69,6 @@
   background-color: inherit; /* 기본 header 속성 적용을 막기 위해 필요 */
   justify-content: space-between;
   align-items: center;
-  width: 100%;
   padding-bottom: 15px;
 
   position: relative;
@@ -228,6 +223,24 @@
 .web-docs-app #deleteBtn:hover {
   filter: brightness(0%);
   cursor: pointer;
+}
+
+.web-docs-app #starBtn {
+  height: 20px;
+  margin-left: 10px;
+}
+
+.web-docs-app #starBtn:hover {
+  filter: brightness(0%);
+  cursor: pointer;
+}
+
+.web-docs-app #starBtn.stared {
+  filter: brightness(90%);
+}
+
+.web-docs-app #starBtn.stared:hover {
+  filter: brightness(90%);
 }
 
 .web-docs-app #closeBtn {

@@ -4,12 +4,12 @@ import App from "./App.js";
 const $app = document.createElement("div");
 $app.className = "web-docs-app";
 $app.innerHTML = `
-<header>
+<div class="_header">
     <div class="title-wrapper">
-    <img id="logo" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/docs.svg" alt="문서">
-      <div class="title" contenteditable="true"></div>      
+      <div class="title" contenteditable="true"></div>
+      <img id="starBtn" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/star_e.svg" alt="문서">
     </div>
-</header>
+</div>
 <div class="docs-wrapper">
     <div class="content" contenteditable="true">
         <div><br /></div>

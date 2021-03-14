@@ -3,19 +3,21 @@ import { getTimeDiff } from "../utils/time.js";
 import Storage from "../utils/storage.js";
 
 export default class Title {
-  constructor({ mode, $target, NoteData, saveNote, openNote }) {
+  constructor({ mode, $target, note, saveNote, openNote, onStarClick }) {
     this.mode = mode;
     this.$target = $target;
     this.$title = $target.querySelector(".title");
 
     this.$recentWrapper = $target.querySelector(".recent-wrapper");
     this.$recentNoteList = $target.querySelector(".recent-list");
+    this.$starBtn = $target.querySelector("#starBtn");
     this.state = "init";
 
     this.saveNote = saveNote;
     this.openNote = openNote;
+    this.onStarClick = onStarClick;
 
-    this.render(NoteData ? NoteData.title : "");
+    this.render(note);
     this.eventListeners();
   }
 
@@ -60,10 +62,21 @@ export default class Title {
     this.$recentWrapper.classList.remove("showUp");
   }
 
-  render(title) {
+  render(note) {
+    console.log(note);
+
     this.state = "init";
-    this.$title.innerHTML = title;
-    console.log(this.state);
+    if (note == null) return;
+    this.$title.innerHTML = note.title;
+    if (note.star === true) {
+      this.$starBtn.classList.add("stared");
+      this.$starBtn.src =
+        "chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/star_b.svg";
+    } else {
+      this.$starBtn.classList.remove("stared");
+      this.$starBtn.src =
+        "chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/star_e.svg";
+    }
   }
 
   eventListeners() {
@@ -126,6 +139,20 @@ export default class Title {
       }
 
       this.openNote($li.dataset.id);
+    });
+
+    this.$starBtn.addEventListener("click", () => {
+      if (this.$starBtn.classList.contains("stared")) {
+        this.$starBtn.classList.remove("stared");
+        this.$starBtn.src =
+          "chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/star_e.svg";
+        this.onStarClick(false);
+      } else {
+        this.$starBtn.classList.add("stared");
+        this.$starBtn.src =
+          "chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/star_b.svg";
+        this.onStarClick(true);
+      }
     });
   }
 
