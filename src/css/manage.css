@@ -53,6 +53,19 @@ header {
   padding-bottom: 30px;
 }
 
+.navbar {
+  position: absolute;
+  top: 150px;
+  left: 50px;
+  border: 1px solid black;
+
+  font-size: 12pt;
+}
+
+.navbar .important {
+  border: 1px solid black;
+}
+
 .search-wrapper {
   display: flex;
   align-items: center;

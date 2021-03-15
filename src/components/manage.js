@@ -5,6 +5,9 @@ console.log("managing");
 const $noteLists = document.querySelector(".note-list");
 const $search = document.querySelector(".search");
 
+const $totalBtn = document.querySelector(".total");
+const $staredBtn = document.querySelector(".important");
+
 (async () => {
   const noteInfoList = await Storage.getNoteInfoList();
   renderNoteList(noteInfoList);
@@ -16,6 +19,21 @@ const $search = document.querySelector(".search");
     timeout = setTimeout(() => {
       search($search.value, noteInfoList);
     }, 200);
+  });
+
+  $totalBtn.addEventListener("click", (e) => {
+    renderNoteList(noteInfoList);
+  });
+
+  $staredBtn.addEventListener("click", (e) => {
+    const staredList = [];
+    for (const note of noteInfoList) {
+      if (note.star === true) {
+        staredList.push(note);
+      }
+    }
+
+    renderNoteList(staredList);
   });
 })();
 
