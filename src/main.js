@@ -26,6 +26,7 @@ $app.innerHTML = `
     </div>
 </div>
 `;
+
 const $alarmUI = document.createElement("div");
 $alarmUI.className = "alarm-ui";
 

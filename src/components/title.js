@@ -80,6 +80,20 @@ export default class Title {
   }
 
   eventListeners() {
+    this.$starBtn.addEventListener("click", () => {
+      if (this.$starBtn.classList.contains("stared")) {
+        this.$starBtn.classList.remove("stared");
+        this.$starBtn.src =
+          "chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/star_e.svg";
+        this.onStarClick(false);
+      } else {
+        this.$starBtn.classList.add("stared");
+        this.$starBtn.src =
+          "chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/star_b.svg";
+        this.onStarClick(true);
+      }
+    });
+
     this.$title.addEventListener("click", (e) => {
       if (this.state === "init") Caret.selectTextAll(this.$title);
     });
@@ -139,20 +153,6 @@ export default class Title {
       }
 
       this.openNote($li.dataset.id);
-    });
-
-    this.$starBtn.addEventListener("click", () => {
-      if (this.$starBtn.classList.contains("stared")) {
-        this.$starBtn.classList.remove("stared");
-        this.$starBtn.src =
-          "chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/star_e.svg";
-        this.onStarClick(false);
-      } else {
-        this.$starBtn.classList.add("stared");
-        this.$starBtn.src =
-          "chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/star_b.svg";
-        this.onStarClick(true);
-      }
     });
   }
 

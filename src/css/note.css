@@ -24,6 +24,8 @@
   --app-height: 85vh;
   --docs-margin: 20px;
   --docs-padding: 12pt;
+
+  --btn-height-move: 150px;
 }
 
 /* all: initial 일 때 contenteditable 이 안됨. */
@@ -37,8 +39,7 @@
 
 .web-docs-app {
   position: fixed;
-  top: 50%;
-  z-index: 2147483647;
+  z-index: 2147483646;
 
   transform: translate(0, 0);
   transition: transform 0.8s;
@@ -62,6 +63,11 @@
 
   /* font-family: note-sans; */
   font-family: Arial;
+}
+
+.web-docs-app.top-left {
+  top: 0;
+  left: 0;
 }
 
 .web-docs-app ._header {
@@ -305,6 +311,54 @@
 .web-docs-app .white-space {
   display: block;
   height: 100px;
+}
+
+#moveBtn {
+  display: none;
+  position: absolute;
+  top: calc(50% - var(--btn-height-move) / 2);
+  left: calc(50% - var(--btn-height-move) / 2);
+
+  width: var(--btn-height-move);
+  height: var(--btn-height-move);
+
+  z-index: 2147483647;
+}
+
+#moveBtn.move {
+  display: block;
+}
+
+.move-area {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+
+  display: none;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+
+  align-items: center;
+  justify-items: center;
+
+  z-index: 2147483647;
+}
+
+.move-area.move {
+  display: grid;
+}
+
+/* grid 정렬, justify-items */
+
+.move-area > div {
+  width: 100%;
+  height: 100%;
+}
+
+.move-area > div.drag-hover {
+  border: 2px dashed black;
 }
 
 .alarm-ui {

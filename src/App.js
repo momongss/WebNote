@@ -58,10 +58,12 @@ export default class App {
       },
 
       onStarClick: async (star) => {
+        console.log(star);
         this.Note.star = star;
         Storage.setStar(this.Note.id, this.Note.star);
       },
     });
+
     this.content = new Content({
       mode: mode,
       $target: this.$app,

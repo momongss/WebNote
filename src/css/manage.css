@@ -5,9 +5,15 @@ body {
   flex-direction: column;
   align-items: center;
 
-  background-color: rgb(200, 205, 210);
+  background-color: rgb(255, 255, 255);
   padding-left: 20px;
   padding-top: 10px;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 button {
@@ -45,6 +51,25 @@ h1 {
 header {
   padding-left: 10px;
   padding-bottom: 30px;
+}
+
+.search-wrapper {
+  display: flex;
+  align-items: center;
+
+  height: 30px;
+  background-color: rgb(223, 221, 221);
+}
+
+#searchBtn {
+  height: 15px;
+  padding: 10px;
+}
+
+.search {
+  all: unset;
+  width: 200px;
+  font-size: 10pt;
 }
 
 .note-list {
@@ -104,14 +129,14 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
 
   border-radius: 100%;
 }
 
 .option-btn:hover {
-  background-color: bisque;
+  background-color: rgb(255, 255, 255);
 }
 
 .option-btn img {
