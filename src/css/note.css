@@ -198,13 +198,13 @@
   font-size: 18.5px;
   color: var(--title-color-white);
 
-  text-align: center;
   display: inline-block;
   padding: 0px 8px 1px 8px;
   border: 2px solid transparent;
   border-radius: 5px;
-  max-width: 350px;
+  max-width: 200px;
   min-width: 5px;
+  background-color: inherit;
 
   text-overflow: ellipsis;
   white-space: nowrap;

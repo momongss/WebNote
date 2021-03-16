@@ -67,7 +67,7 @@ export default class Title {
 
     this.state = "init";
     if (note == null) return;
-    this.$title.innerHTML = note.title;
+    this.$title.value = note.title;
     if (note.star === true) {
       this.$starBtn.classList.add("stared");
       this.$starBtn.src =
@@ -95,7 +95,8 @@ export default class Title {
     });
 
     this.$title.addEventListener("click", (e) => {
-      if (this.state === "init") Caret.selectTextAll(this.$title);
+      if (this.state === "init") this.$title.select();
+      // if (this.state === "init") Caret.selectTextAll(this.$title);
     });
 
     this.$title.addEventListener("keydown", (e) => {
@@ -105,8 +106,8 @@ export default class Title {
         e.preventDefault();
         this.$target.querySelector(".content").focus();
         Caret.restoreCaret();
-        if (this.$title.innerHTML === "") {
-          this.$title.innerHTML = "제목 없는 문서";
+        if (this.$title.value === "") {
+          this.$title.value = "제목 없는 문서";
           this.state = "init";
         }
         return;

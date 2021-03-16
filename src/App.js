@@ -259,7 +259,7 @@ export default class App {
   }
 
   saveNote() {
-    this.Note.title = this.title.$title.innerHTML;
+    this.Note.title = this.title.$title.value;
     this.Note.content = this.content.$content.innerHTML;
     this.Note.updateTime = getCurTime();
 

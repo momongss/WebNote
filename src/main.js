@@ -1,6 +1,7 @@
 import App from "./App.js";
 
 // app
+// <input class="title" placeholder="제목"/>
 // <div class="title" contenteditable="true"></div>
 const $app = document.createElement("div");
 $app.className = "web-docs-app";
@@ -8,7 +9,7 @@ $app.innerHTML = `
 <div class="_header">
     <div class="title-wrapper">
       <img id="logo" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/docs.svg" alt="문서">
-      <div class="title" contenteditable="true"></div>
+      <input class="title" placeholder="제목"/>
       <img id="createBtn" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/add.svg" alt="문서">
       <img id="deleteBtn" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/trash.svg" alt="문서">
       <img id="starBtn" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/star_e.svg" alt="문서">
