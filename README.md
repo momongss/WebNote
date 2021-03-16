@@ -43,7 +43,7 @@
 
 ### 알게된 것, 인상깊었던 것
 
-- arrow function 은 this 바인딩을 안함.
+- arrow function 의 this는 lexical scope 를 따른다.
   <br>(이걸 알기전에는 let that = this 식으로 했었음.
   <br>이런 방식의 문제는 이름 일괄변경이 안된다는 것.)
 
