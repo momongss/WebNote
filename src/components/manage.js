@@ -1,7 +1,6 @@
 import Storage from "../utils/storage.js";
 import { getCurTime, getTimeDiff } from "../utils/time.js";
 
-console.log("managing");
 const $noteLists = document.querySelector(".note-list");
 const $search = document.querySelector(".search");
 
@@ -21,11 +20,13 @@ const $staredBtn = document.querySelector(".important");
     }, 200);
   });
 
-  $totalBtn.addEventListener("click", (e) => {
+  $totalBtn.addEventListener("click", async (e) => {
+    const noteInfoList = await Storage.getNoteInfoList();
     renderNoteList(noteInfoList);
   });
 
-  $staredBtn.addEventListener("click", (e) => {
+  $staredBtn.addEventListener("click", async (e) => {
+    const noteInfoList = await Storage.getNoteInfoList();
     const staredList = [];
     for (const note of noteInfoList) {
       if (note.star === true) {
@@ -38,11 +39,11 @@ const $staredBtn = document.querySelector(".important");
 })();
 
 function search(target, noteInfoList) {
-  target = target.toUpperCase();
+  target = target.replace(" ", "").toUpperCase();
 
   const searchedList = [];
   for (const note of noteInfoList) {
-    const title = note.title.toUpperCase();
+    const title = note.title.replace(" ", "").toUpperCase();
     const url = note.url.toUpperCase();
     if (isMatching(title, target) || isMatching(url, target)) {
       searchedList.push(note);
@@ -70,7 +71,7 @@ function renderNoteList(noteInfoList) {
     const $list = document.createElement("list");
     $list.className = "note";
     $list.innerHTML = `
-      <div class="delete">삭제</div>
+      <div class="delete"><img src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/trash.svg" alt="del"></div>
       <button class="option-btn"><img src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/more.svg" alt=":"></button>
       <img id="starBtn" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/${starUrl}.svg" alt="문서">
       <div class="note-title">${noteInfo.title}</div>
