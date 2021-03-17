@@ -6,7 +6,7 @@ $app.className = "web-docs-app";
 $app.innerHTML = `
 <div class="_header">
     <div class="title-wrapper">
-      <div class="title" contenteditable="true"></div>
+    <input class="title" placeholder="제목"/>
       <img id="starBtn" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/star_e.svg" alt="문서">
     </div>
 </div>
