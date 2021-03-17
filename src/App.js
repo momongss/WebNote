@@ -153,8 +153,7 @@ export default class App {
       setTimeout(() => {
         this.showApp();
       }, 200);
-
-      this.showAlarmUI("새로운 노트가 열렸습니다");
+      // 여기서 왜 setTimeout 을 썻더라?
     });
 
     const $deleteBtn = this.$app.querySelector("#deleteBtn");
@@ -252,7 +251,7 @@ export default class App {
     this.content.render(this.Note.content);
 
     this.title.$title.focus();
-    Caret.selectTextAll(this.title.$title);
+    Caret.selectLineAll(this.title.$title);
 
     Storage.setNoteInfoList(noteList);
     Storage.setNote(this.Note);
@@ -262,8 +261,6 @@ export default class App {
     this.Note.title = this.title.$title.value;
     this.Note.content = this.content.$content.innerHTML;
     this.Note.updateTime = getCurTime();
-
-    console.log(this.Note);
 
     Storage.setNote(this.Note);
   }
@@ -304,6 +301,8 @@ export default class App {
     this.content.$content.focus();
     this.Note.state = true;
     this.saveNote();
+
+    this.showAlarmUI("새로운 노트가 열렸습니다");
   }
 
   hideApp() {
