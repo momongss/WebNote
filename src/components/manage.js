@@ -119,16 +119,17 @@ function renderNoteList(noteInfoList) {
       $delete.classList.toggle("show");
     });
 
-    $delete.addEventListener("mousedown", (e) => {
+    $delete.addEventListener("click", (e) => {
       e.stopPropagation();
       $list.remove();
       Storage.deleteNote(noteInfo.id);
     });
 
-    $optionBtn.addEventListener("blur", (e) => {
+    window.addEventListener("click", (e) => {
       $delete.classList.remove("show");
     });
   }
 }
 
-// 공부할 것 : 최외각에서 await 을 쓰고 싶은 경우
+// 최외각에서 await 을 쓰고 싶은 경우
+// mousedown vs click
