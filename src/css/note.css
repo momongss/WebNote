@@ -211,7 +211,7 @@
 }
 
 .web-docs-app .title:hover {
-  border: 2px solid rgba(209, 209, 209, 0.4);
+  /* border: 2px solid rgba(209, 209, 209, 0.4); */
 }
 
 .web-docs-app #createBtn {
@@ -283,9 +283,15 @@
   color: var(--text-color-white);
 }
 
-.web-docs-app .content * {
+.web-docs-app .content > div {
   color: var(--text-color-white);
   margin-bottom: 5px;
+}
+
+.web-docs-app .content > div.h1 {
+  font-weight: bold;
+  font-size: 30px;
+  height: 41.6px;
 }
 
 .web-docs-app .content img {

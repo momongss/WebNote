@@ -1,5 +1,10 @@
 import Caret from "../utils/caret.js";
-import { keyBackspace, keyTab } from "../utils/keyboardInput.js";
+import {
+  keyBackspace,
+  keyTab,
+  keySpace,
+  keyEnter,
+} from "../utils/keyboardInput.js";
 
 export default class Content {
   constructor({ mode, $target, NoteData, saveNote, toggleNote }) {
@@ -20,32 +25,21 @@ export default class Content {
       Caret.storeCaret();
     });
 
-    this.$content.addEventListener("keyup", (e) => {
-      // 첫 줄의 div 영역이 지워지는 걸 방지
-      let text = this.$content.innerHTML;
-      if (text.slice(0, 5) !== "<div>") {
-        text = "<div>" + text + "</div>";
-        this.$content.innerHTML = text;
-      }
-    });
-
     this.$content.addEventListener("keydown", (e) => {
       if (e.key === "Tab") {
         e.preventDefault();
         keyTab();
       } else if (e.key === "Backspace") {
-        // 첫 줄의 div 영역이 지워지는 걸 방지
-        const line = this.$content.innerHTML.trim();
-        if (line === "<div><br></div>") {
-          e.preventDefault();
-          return;
-        }
-
-        keyBackspace();
+        keyBackspace(e, this.$content);
+      } else if (e.keyCode == 0 || e.keyCode == 32) {
+        keySpace(e);
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        keyEnter();
       }
     });
 
-    this.$content.addEventListener("input", (e) => {
+    this.$content.addEventListener("keydown", (e) => {
       clearTimeout(this.timeout);
 
       this.timeout = setTimeout(() => {

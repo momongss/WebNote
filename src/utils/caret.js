@@ -19,15 +19,20 @@ export default class Caret {
     return this.caret;
   }
 
+  static setCaret($el) {
+    console.log($el);
+    $el.select();
+  }
+
   static setCaretbyIndex($el, index) {
     this.caret = document.createRange();
-    this.caret.setStart($el.lastChild, index);
-    this.caret.setEnd($el.lastChild, index);
+    this.caret.setStart($el, index);
+    this.caret.setEnd($el, index);
 
     document.getSelection().addRange(this.caret);
   }
 
-  static selectTextAll($element) {
+  static selectLineAll($element) {
     let sel, range;
     if (window.getSelection && document.createRange) {
       //Browser compatibility
@@ -51,5 +56,10 @@ export default class Caret {
         range.select(); //make selection.
       }
     }
+  }
+
+  static getCurrentLine() {
+    const selection = document.getSelection();
+    return selection.anchorNode;
   }
 }
