@@ -4,12 +4,12 @@ import App from "./App.js";
 const $app = document.createElement("div");
 $app.className = "web-docs-app";
 $app.innerHTML = `
-<div class="_header">
+<header>
     <div class="title-wrapper">
     <input class="title" placeholder="제목"/>
       <img id="starBtn" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/star_e.svg" alt="문서">
     </div>
-</div>
+</header>
 <div class="docs-wrapper">
     <div class="content" contenteditable="true">
         <div><br /></div>

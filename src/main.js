@@ -23,7 +23,7 @@ $app.innerHTML = `
 </div>
 <div class="docs-wrapper">
     <div class="content" contenteditable="true">
-        <div><br /></div>
+        <div class="normal_line"><br /></div>
     </div>
 </div>
 `;
