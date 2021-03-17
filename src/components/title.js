@@ -63,8 +63,6 @@ export default class Title {
   }
 
   render(note) {
-    console.log(note);
-
     this.state = "init";
     if (note == null) return;
     this.$title.value = note.title;
@@ -96,12 +94,9 @@ export default class Title {
 
     this.$title.addEventListener("click", (e) => {
       if (this.state === "init") this.$title.select();
-      // if (this.state === "init") Caret.selectTextAll(this.$title);
     });
 
     this.$title.addEventListener("keydown", (e) => {
-      this.hideList();
-
       if (e.key === "Enter") {
         e.preventDefault();
         this.$target.querySelector(".content").focus();
@@ -125,6 +120,10 @@ export default class Title {
     });
 
     if (this.mode !== "normal") return;
+
+    this.$title.addEventListener("keydown", (e) => {
+      this.hideList();
+    });
 
     this.$title.addEventListener("click", (e) => {
       this.toggleList();
