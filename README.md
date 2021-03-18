@@ -68,13 +68,13 @@
 ### 앞으로 개선할 것들
 
 - tab 동작 개선
-- <span style="color:pink">페이지에서 열리는 노트에서 최근 작성한 노트 목록을 볼 수 있게</span>
-- <span style="color:pink">관리 페이지 노트 정렬 기능<span style="color:pink">
-- <span style="color:pink">노트 삭제, 중요 표시 기능<span style="color:pink">
-- <span style="color:pink">icon : 지금 fontawesome 의 icon 을 사용중인데, 노션, 깃헙 등에서 이를 막는 경우가 있음. 로컬에 저장해서 사용할 수 있는 icon 구하기<span style="color:pink">
+- ~~페이지에서 열리는 노트에서 최근 작성한 노트 목록을 볼 수 있게~~
+- ~~관리 페이지 노트 정렬 기능~~
+- ~~노트 삭제, 중요 표시 기능~~
+- ~~icon : 지금 fontawesome 의 icon 을 사용중인데, 노션, 깃헙 등에서 이를 막는 경우가 있음. 로컬에 저장해서 사용할 수 있는 icon 구하기~~
 - font : 노산 폰트를 사용 중.. 버그 적음. (ex. 먛, 븇 => 이런 거 공백으로 나오는 폰트들 많음.) <br> But, 가독성이 좋지 않은 듯함. 글자간격이 너무 좁음. -> 기본 arial 폰트 사용
 
-  <span style="background-color:pink">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> : 완료
+  ~~&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;~~ : 완료
 
   더 자세한 기록 :
   <https://www.notion.so/2-5e55bb53ae8e4d1a85122509bb40dbf9>
