@@ -4,8 +4,10 @@ import App from "./App.js";
 // <input class="title" placeholder="제목"/>
 // <div class="title" contenteditable="true"></div>
 const $app = document.createElement("div");
+$app.style.width = "440px";
 $app.className = "web-docs-app";
 $app.innerHTML = `
+<div class="resize-btn-left"><div class="visible"></div></div>
 <div class="_header">
     <div class="title-wrapper">
       <img id="logo" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/docs.svg" alt="문서">

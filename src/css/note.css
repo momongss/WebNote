@@ -66,6 +66,32 @@
   font-family: Arial;
 }
 
+.web-docs-app .resize-btn-left {
+  position: absolute;
+
+  left: 0px;
+  width: 20px;
+  height: 94%;
+}
+
+.web-docs-app .resize-btn-left:hover {
+  cursor: w-resize;
+}
+
+.web-docs-app .resize-btn-left .visible {
+  position: absolute;
+
+  left: 5px;
+  width: 9px;
+  height: 100%;
+
+  border-radius: 10px;
+}
+
+.web-docs-app .resize-btn-left:hover .visible {
+  background-color: rgb(163, 163, 163);
+}
+
 .web-docs-app.top-left {
   top: 0;
   left: 0;

@@ -5,6 +5,7 @@ import Caret from "./utils/caret.js";
 
 import { getCurTime } from "./utils/time.js";
 import { keyAlt } from "./utils/keyboardInput.js";
+import { isEmpty } from "./utils/checkNull.js";
 
 export default class App {
   Note = null;
@@ -31,6 +32,10 @@ export default class App {
         } else {
           this.$app.classList.remove("show");
         }
+        this.$app.style.width = isEmpty(this.Note.width)
+          ? "440px"
+          : this.Note.width;
+        console.log(this.Note.width != null, this.$app.style.width);
       } else {
         this.AppState = false;
       }
@@ -83,6 +88,28 @@ export default class App {
   }
 
   appEventListeners() {
+    let resizable = false;
+    let initX, initWidth;
+
+    this.$app.addEventListener("mousedown", (e) => {
+      resizable = true;
+      initX = e.clientX;
+      initWidth = parseInt(this.$app.style.width.slice(0, -2));
+      console.log(initX, initWidth);
+    });
+
+    this.$app.addEventListener("mouseup", (e) => {
+      resizable = false;
+
+      this.saveNote();
+    });
+
+    window.addEventListener("mousemove", (e) => {
+      if (resizable) {
+        this.$app.style.width = `${initWidth + initX - e.clientX}px`;
+      }
+    });
+
     this.$app.addEventListener("keydown", (e) => {
       e.stopPropagation();
 
@@ -261,6 +288,7 @@ export default class App {
     this.Note.title = this.title.$title.value;
     this.Note.content = this.content.$content.innerHTML;
     this.Note.updateTime = getCurTime();
+    this.Note.width = this.$app.style.width;
 
     Storage.setNote(this.Note);
   }

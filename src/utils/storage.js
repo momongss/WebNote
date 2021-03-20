@@ -20,6 +20,7 @@ export default class Storage {
       updateTime: await this.getUpdateTime(id),
       star: await this.getStar(id),
       state: await this.getState(id),
+      width: await this.getWidth(id),
     };
 
     return note;
@@ -33,6 +34,7 @@ export default class Storage {
     if (note.updateTime != null) this.setUpdateTime(note.id, note.updateTime);
     if (note.star != null) this.setStar(note.id, note.star);
     if (note.state != null) this.setState(note.id, note.state);
+    if (note.width != null) this.setWidth(note.id, note.width);
   }
 
   static async getNoteIdList() {
@@ -77,6 +79,7 @@ export default class Storage {
     this.setUpdateTime(id, {});
     this.setStar(id, {});
     this.setState(id, {});
+    this.setWidth(id, {});
 
     const noteIdList = await this.getNoteIdList();
 
@@ -118,6 +121,10 @@ export default class Storage {
     return await this.getItem(`state${id}`);
   }
 
+  static async getWidth(id) {
+    return await this.getItem(`width${id}`);
+  }
+
   static async setTitle(id, title) {
     return await this.setItem(`title${id}`, title);
   }
@@ -146,6 +153,10 @@ export default class Storage {
     return await this.setItem(`state${id}`, state);
   }
 
+  static async setWidth(id, width) {
+    return await this.setItem(`width${id}`, width);
+  }
+
   static getItem(key) {
     let gettingItem = new Promise((resolve) =>
       storage.get(mainKey + key, resolve)
@@ -153,7 +164,7 @@ export default class Storage {
 
     return gettingItem.then((re) => {
       if (Object.keys(re).length === 0 && re.constructor === Object) {
-        return [];
+        return null;
       }
       return re[mainKey + key];
     });
