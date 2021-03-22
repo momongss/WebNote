@@ -10,18 +10,18 @@ $app.innerHTML = `
 <div class="resize-btn-left"><div class="visible"></div></div>
 <div class="_header">
     <div class="title-wrapper">
-      <img id="logo" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/docs.svg" alt="문서">
+      <img id="logo" src="chrome-extension://${chrome.runtime.id}/assets/docs.svg" alt="문서">
       <input class="title" placeholder="제목"/>
-      <img id="createBtn" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/add.svg" alt="문서">
-      <img id="deleteBtn" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/trash.svg" alt="문서">
-      <img id="starBtn" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/star_e.svg" alt="문서">
+      <img id="createBtn" src="chrome-extension://${chrome.runtime.id}/assets/add.svg" alt="문서">
+      <img id="deleteBtn" src="chrome-extension://${chrome.runtime.id}/assets/trash.svg" alt="문서">
+      <img id="starBtn" src="chrome-extension://${chrome.runtime.id}/assets/star_e.svg" alt="문서">
       <div class="recent-wrapper">
         <button class="sel-all">전체</button>
         <button class="sel-url">URL</button>
         <ul class="recent-list"></ul>
       </div>
     </div>
-    <img id="closeBtn" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/delete.svg" alt="문서">
+    <img id="closeBtn" src="chrome-extension://${chrome.runtime.id}/assets/delete.svg" alt="문서">
 </div>
 <div class="docs-wrapper">
     <div class="content" contenteditable="true">

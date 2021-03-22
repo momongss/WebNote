@@ -62,4 +62,6 @@ export default class Caret {
     const selection = document.getSelection();
     return selection.anchorNode;
   }
+
+  // anchorNode는?
 }

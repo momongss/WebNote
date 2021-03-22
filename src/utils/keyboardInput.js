@@ -1,32 +1,84 @@
 import Caret from "./caret.js";
 
-function keyBackspace(e, $content) {
-  // 첫 줄 영역이 지워지는 걸 방지
-  const line = Caret.getCurrentLine();
-  if (line.nodeType === Node.ELEMENT_NODE) {
-    if (line.classList.contains("h1")) {
-      line.className = "";
-      e.preventDefault();
-      return;
-    } else if ($content.firstChild === line) {
-      e.preventDefault();
-      return;
-    }
+function keyBackspace(e) {
+  const range = document.getSelection().getRangeAt(0);
+  let node = range.startContainer;
+  while (!node.parentElement.classList.contains("content") && node.tagName !== "BODY") {
+    node = node.parentElement;
   }
 
-  const selection = document.getSelection();
-  if (selection.anchorOffset - 3 > 0) {
-    const newRange = document.createRange();
-    newRange.setStart(selection.anchorNode, selection.anchorOffset - 3);
-    newRange.setEnd(selection.anchorNode, selection.anchorOffset);
-    if (newRange.toString().trim().length === 0) {
-      newRange.deleteContents();
-    }
+  const removeHeadings = () => {
+    node.classList.remove("h1");
+    node.classList.remove("h2");
+    node.classList.remove("h3");
+    node.classList.remove("h4");
+    node.classList.remove("h5");
   }
+
+  if (!(range.startOffset === 0 && range.endOffset === 0)) {
+    return;
+  }
+  if (node.classList.contains("h1") || node.classList.contains("h2") ||
+    node.classList.contains("h3") || node.classList.contains("h4") ||node.classList.contains("h5")) {
+    console.log("hit");
+    e.preventDefault();
+    removeHeadings();
+  } else if (node.classList.contains("tab1")) {
+    e.preventDefault();
+    node.classList.remove("tab1");
+  } else if (node.classList.contains("tab2")) {
+    e.preventDefault();
+    node.classList.add("tab1");
+    node.classList.remove("tab2");
+  } else if (node.classList.contains("tab3")) {
+    e.preventDefault();
+    node.classList.add("tab2");
+    node.classList.remove("tab3");
+  } else if (node.classList.contains("tab4")) {
+    e.preventDefault();
+    node.classList.add("tab3");
+    node.classList.remove("tab4");
+  } else if (node.classList.contains("tab5")) {
+    e.preventDefault();
+    node.classList.add("tab4");
+    node.classList.remove("tab5");
+  }
+  console.log(node);
+  console.log("--");
 }
 
 function keyTab() {
-  document.execCommand("insertText", false, "    ");
+  const range = document.getSelection().getRangeAt(0);
+  let node = range.startContainer;
+  while (!node.parentElement.classList.contains("content") && node.tagName !== "BODY") {
+    node = node.parentElement;
+  }
+
+  const removeTabs = () => {
+    node.classList.remove("tab1");
+    node.classList.remove("tab2");
+    node.classList.remove("tab3");
+    node.classList.remove("tab4");
+    node.classList.remove("tab5");
+  };
+
+  if (node.classList.contains("tab1")) {
+    removeTabs();
+    node.classList.add("tab2");
+  } else if (node.classList.contains("tab2")) {
+    removeTabs();
+    node.classList.add("tab3");
+  } else if (node.classList.contains("tab3")) {
+    removeTabs();
+    node.classList.add("tab4");
+  } else if (node.classList.contains("tab4")) {
+    removeTabs();
+    node.classList.add("tab5");
+  } else if (node.classList.contains("tab5")) {
+
+  } else {
+    node.classList.add("tab1");
+  }
 }
 
 function keySpace(e) {
@@ -34,8 +86,21 @@ function keySpace(e) {
   const line = anchorNode.textContent;
   if (line === "#") {
     e.preventDefault();
-    console.log(anchorNode, anchorNode.parentElement);
     anchorNode.parentElement.classList.add("h1");
+    anchorNode.parentElement.classList.remove("h2");
+    anchorNode.parentElement.classList.remove("h3");
+    anchorNode.parentElement.innerHTML = "";
+  } else if (line === "##") {
+    e.preventDefault();
+    anchorNode.parentElement.classList.add("h2");
+    anchorNode.parentElement.classList.remove("h1");
+    anchorNode.parentElement.classList.remove("h3");
+    anchorNode.parentElement.innerHTML = "";
+  } else if (line === "###") {
+    e.preventDefault();
+    anchorNode.parentElement.classList.add("h3");
+    anchorNode.parentElement.classList.remove("h1");
+    anchorNode.parentElement.classList.remove("h2");
     anchorNode.parentElement.innerHTML = "";
   }
 }

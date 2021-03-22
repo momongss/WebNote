@@ -7,7 +7,7 @@ $app.innerHTML = `
 <header>
     <div class="title-wrapper">
     <input class="title" placeholder="제목"/>
-      <img id="starBtn" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/star_e.svg" alt="문서">
+      <img id="starBtn" src="chrome-extension://${chrome.runtime.id}/assets/star_e.svg" alt="문서">
     </div>
 </header>
 <div class="docs-wrapper">

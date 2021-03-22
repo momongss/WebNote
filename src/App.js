@@ -23,6 +23,8 @@ export default class App {
     if (mode === "normal") {
       const urlNoteList = await this.getUrlNoteList();
 
+      console.log(urlNoteList);
+
       const recentNote = urlNoteList ? urlNoteList[0] : null;
       if (recentNote) {
         this.AppState = true;

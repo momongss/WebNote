@@ -69,11 +69,11 @@ export default class Title {
     if (note.star === true) {
       this.$starBtn.classList.add("stared");
       this.$starBtn.src =
-        "chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/star_b.svg";
+        `chrome-extension://${chrome.runtime.id}/assets/star_b.svg`;
     } else {
       this.$starBtn.classList.remove("stared");
       this.$starBtn.src =
-        "chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/star_e.svg";
+        `chrome-extension://${chrome.runtime.id}/assets/star_e.svg`;
     }
   }
 
@@ -82,12 +82,12 @@ export default class Title {
       if (this.$starBtn.classList.contains("stared")) {
         this.$starBtn.classList.remove("stared");
         this.$starBtn.src =
-          "chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/star_e.svg";
+          `chrome-extension://${chrome.runtime.id}/assets/star_e.svg`;
         this.onStarClick(false);
       } else {
         this.$starBtn.classList.add("stared");
         this.$starBtn.src =
-          "chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/star_b.svg";
+          `chrome-extension://${chrome.runtime.id}/assets/star_b.svg`;
         this.onStarClick(true);
       }
     });

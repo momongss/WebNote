@@ -71,9 +71,9 @@ function renderNoteList(noteInfoList) {
     const $list = document.createElement("list");
     $list.className = "note";
     $list.innerHTML = `
-      <div class="delete"><img src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/trash.svg" alt="del"></div>
-      <button class="option-btn"><img src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/more.svg" alt=":"></button>
-      <img id="starBtn" src="chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/${starUrl}.svg" alt="문서">
+      <div class="delete"><img src="chrome-extension://${chrome.runtime.id}/assets/trash.svg" alt="del"></div>
+      <button class="option-btn"><img src="chrome-extension://${chrome.runtime.id}/assets/more.svg" alt=":"></button>
+      <img id="starBtn" src="chrome-extension://${chrome.runtime.id}/assets/${starUrl}.svg" alt="문서">
       <div class="note-title">${noteInfo.title}</div>
       <div class="note-time">${getTimeDiff(noteInfo.updateTime)}</div>
       <a target="_blank" href="${noteInfo.url}" class="note-url">${
@@ -104,12 +104,12 @@ function renderNoteList(noteInfoList) {
       if ($starBtn.classList.contains("stared")) {
         $starBtn.classList.remove("stared");
         $starBtn.src =
-          "chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/star_e.svg";
+          `chrome-extension://${chrome.runtime.id}/assets/star_e.svg`;
         Storage.setStar(noteInfo.id, false);
       } else {
         $starBtn.classList.add("stared");
         $starBtn.src =
-          "chrome-extension://mgffajndabdbnejmehloekjclmaikagb/assets/star_b.svg";
+          `chrome-extension://${chrome.runtime.id}/assets/star_b.svg`;
         Storage.setStar(noteInfo.id, true);
       }
     });

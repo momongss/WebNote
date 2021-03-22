@@ -46,7 +46,8 @@ export default class Storage {
   }
 
   static async getNoteInfoList() {
-    const noteIdList = await this.getNoteIdList();
+    let noteIdList = await this.getNoteIdList();
+    noteIdList = noteIdList == null ? [] : noteIdList;
     const noteInfoList = [];
     for (const id of noteIdList) {
       noteInfoList.push({
