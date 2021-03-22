@@ -11,15 +11,13 @@ function keyBackspace(e) {
     node.classList.remove("h1");
     node.classList.remove("h2");
     node.classList.remove("h3");
-    node.classList.remove("h4");
-    node.classList.remove("h5");
   }
 
   if (!(range.startOffset === 0 && range.endOffset === 0)) {
     return;
   }
   if (node.classList.contains("h1") || node.classList.contains("h2") ||
-    node.classList.contains("h3") || node.classList.contains("h4") ||node.classList.contains("h5")) {
+    node.classList.contains("h3")) {
     console.log("hit");
     e.preventDefault();
     removeHeadings();
