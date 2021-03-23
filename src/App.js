@@ -288,6 +288,8 @@ export default class App {
 
     Storage.setNoteInfoList(noteList);
     Storage.setNote(this.Note);
+
+    this.showAlarmUI("새로운 노트가 열렸습니다");
   }
 
   saveNote() {
@@ -335,8 +337,6 @@ export default class App {
     this.content.$content.focus();
     this.Note.state = true;
     this.saveNote();
-
-    this.showAlarmUI("새로운 노트가 열렸습니다");
   }
 
   hideApp() {
