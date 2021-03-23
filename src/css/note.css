@@ -25,16 +25,18 @@
 /* transform 정리 */
 
 .web-docs-app.show {
-  transform: translateX(-520px);
-  transition: transform 0.8s;
+  /* transform: translateX(-520px); */
+  transform: scale(1);
+  transition: transform 0.7s;
 }
 
 .web-docs-app {
   position: fixed;
   z-index: 2147483646;
 
-  transform: translate(0, 0);
-  transition: transform 0.8s;
+  /* transform: translate(0, 0); */
+  transform: scale(0);
+  transition: transform 0.7s;
 
   -webkit-user-select: text;
   -moz-user-select: text;
@@ -44,7 +46,7 @@
   display: flex;
   flex-direction: column;
   top: 0;
-  right: -520px;
+  right: 0px;
   bottom: 0;
   width: 440px;
 
