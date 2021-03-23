@@ -93,18 +93,22 @@ export default class App {
     let resizable = false;
     let initX, initWidth;
 
-    this.$app.addEventListener("mousedown", (e) => {
-      resizable = true;
-      initX = e.clientX;
-      initWidth = parseInt(this.$app.style.width.slice(0, -2));
-      console.log(initX, initWidth);
-    });
+    this.$app
+      .querySelector(".resize-btn-left")
+      .addEventListener("mousedown", (e) => {
+        resizable = true;
+        initX = e.clientX;
+        initWidth = parseInt(this.$app.style.width.slice(0, -2));
+        console.log(initX, initWidth);
+      });
 
-    this.$app.addEventListener("mouseup", (e) => {
-      resizable = false;
+    this.$app
+      .querySelector(".resize-btn-left")
+      .addEventListener("mouseup", (e) => {
+        resizable = false;
 
-      this.saveNote();
-    });
+        this.saveNote();
+      });
 
     window.addEventListener("mousemove", (e) => {
       if (resizable) {
