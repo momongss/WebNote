@@ -1,26 +1,40 @@
 import Caret from "./caret.js";
 
+const removeHeadings = (node) => {
+  node.classList.remove("h1");
+  node.classList.remove("h2");
+  node.classList.remove("h3");
+};
+
+const removeTabs = (node) => {
+  node.classList.remove("tab1");
+  node.classList.remove("tab2");
+  node.classList.remove("tab3");
+  node.classList.remove("tab4");
+  node.classList.remove("tab5");
+};
+
 function keyBackspace(e) {
   const range = document.getSelection().getRangeAt(0);
   let node = range.startContainer;
-  while (!node.parentElement.classList.contains("content") && node.tagName !== "BODY") {
+  while (
+    !node.parentElement.classList.contains("content") &&
+    node.tagName !== "BODY"
+  ) {
     node = node.parentElement;
-  }
-
-  const removeHeadings = () => {
-    node.classList.remove("h1");
-    node.classList.remove("h2");
-    node.classList.remove("h3");
   }
 
   if (!(range.startOffset === 0 && range.endOffset === 0)) {
     return;
   }
-  if (node.classList.contains("h1") || node.classList.contains("h2") ||
-    node.classList.contains("h3")) {
+  if (
+    node.classList.contains("h1") ||
+    node.classList.contains("h2") ||
+    node.classList.contains("h3")
+  ) {
     console.log("hit");
     e.preventDefault();
-    removeHeadings();
+    removeHeadings(node);
   } else if (node.classList.contains("tab1")) {
     e.preventDefault();
     node.classList.remove("tab1");
@@ -41,39 +55,32 @@ function keyBackspace(e) {
     node.classList.add("tab4");
     node.classList.remove("tab5");
   }
-  console.log(node);
-  console.log("--");
 }
 
 function keyTab() {
   const range = document.getSelection().getRangeAt(0);
   let node = range.startContainer;
-  while (!node.parentElement.classList.contains("content") && node.tagName !== "BODY") {
+  while (
+    !node.parentElement.classList.contains("content") &&
+    node.tagName !== "BODY"
+  ) {
     node = node.parentElement;
   }
 
-  const removeTabs = () => {
-    node.classList.remove("tab1");
-    node.classList.remove("tab2");
-    node.classList.remove("tab3");
-    node.classList.remove("tab4");
-    node.classList.remove("tab5");
-  };
-
   if (node.classList.contains("tab1")) {
-    removeTabs();
+    removeTabs(node);
     node.classList.add("tab2");
   } else if (node.classList.contains("tab2")) {
-    removeTabs();
+    removeTabs(node);
     node.classList.add("tab3");
   } else if (node.classList.contains("tab3")) {
-    removeTabs();
+    removeTabs(node);
     node.classList.add("tab4");
   } else if (node.classList.contains("tab4")) {
-    removeTabs();
+    removeTabs(node);
     node.classList.add("tab5");
   } else if (node.classList.contains("tab5")) {
-
+    // pass
   } else {
     node.classList.add("tab1");
   }
@@ -104,18 +111,9 @@ function keySpace(e) {
 }
 
 function keyEnter() {
-  const anchorNode = Caret.getCurrentLine();
-  let lineNode;
-  if (anchorNode.nodeType === Node.ELEMENT_NODE) {
-    lineNode = anchorNode;
-  } else if (anchorNode.nodeType === Node.TEXT_NODE) {
-    lineNode = anchorNode.parentElement;
-  }
-
-  const $nextLine = document.createElement("div");
-  $nextLine.innerHTML = "</br>";
-  lineNode.after($nextLine);
-  Caret.selectLineAll($nextLine);
+  const range = document.getSelection().getRangeAt(0);
+  const $newLine = range.startContainer;
+  removeHeadings($newLine);
 }
 
 class KeyAlt {

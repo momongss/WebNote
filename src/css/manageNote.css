@@ -1,4 +1,20 @@
-@import url(chrome-extension://pchenpkondppbplajhcbckknidjfgbdl/src/css/note.css);
+:root {
+  --color-background-dark: rgb(45, 50, 54);
+  --color-docs-dark: rgb(53, 59, 61);
+
+  --color-button-white: rgb(240, 242, 244);
+  --color-button-dark: rgb(80, 82, 86);
+  --color-button-hover: black;
+
+  --title-color-white: rgb(235, 230, 225);
+  --text-color-white: rgb(235, 230, 225);
+
+  --app-height: 85vh;
+  --docs-margin: 20px;
+  --docs-padding: 12pt;
+
+  --btn-height-move: 150px;
+}
 
 body {
   padding: 0;
@@ -6,22 +22,25 @@ body {
 }
 
 .web-docs-app {
+  transform: scale(1);
+
+  min-width: calc(440px / 0.95);
   width: calc(100% - 42px);
   height: calc(100% - 42px);
 
+  padding: 20px;
+  border-radius: 0px;
+
   display: flex;
+  position: fixed;
+
   left: 0;
-  min-width: calc(440px / 0.95);
   flex-direction: column;
   align-items: center;
-  border-radius: 0px;
-}
 
-.web-docs-app #star {
-  position: fixed;
-  top: 24px;
-  right: 45px;
-  height: 22px;
+  background-color: var(--color-background-dark);
+
+  font-family: Arial;
 }
 
 header {

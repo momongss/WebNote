@@ -3,6 +3,7 @@ import {
   keyBackspace,
   keyTab,
   keySpace,
+  keyEnter,
 } from "../utils/keyboardInput.js";
 
 export default class Content {
@@ -59,7 +60,13 @@ export default class Content {
         keyBackspace(e);
       } else if (e.keyCode == 0 || e.keyCode == 32) {
         keySpace(e);
-      } 
+      }
+    });
+
+    this.$content.addEventListener("keyup", (e) => {
+      if (e.key === "Enter") {
+        keyEnter();
+      }
     });
 
     this.$content.addEventListener("keydown", (e) => {

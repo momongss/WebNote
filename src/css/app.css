@@ -1,0 +1,100 @@
+:root {
+  --color-background-dark: rgb(45, 50, 54);
+  --color-docs-dark: rgb(53, 59, 61);
+
+  --color-button-white: rgb(240, 242, 244);
+  --color-button-dark: rgb(80, 82, 86);
+  --color-button-hover: black;
+
+  --title-color-white: rgb(235, 230, 225);
+  --text-color-white: rgb(235, 230, 225);
+
+  --app-height: 85vh;
+  --docs-margin: 20px;
+  --docs-padding: 12pt;
+
+  --btn-height-move: 150px;
+}
+
+.alarm-ui {
+  display: none;
+  position: fixed;
+  top: 3px;
+  right: 3px;
+  background-color: white;
+
+  padding: 3px 5px 3px 5px;
+
+  z-index: 2147483647;
+}
+
+/* position fixed 도 absolute 와 같이, 가장 가까운 컨테이닝 블록을
+  기준으로 동작한다. */
+
+.alarm-ui.show {
+  display: block;
+}
+
+/* all: initial 일 때 contenteditable 이 안됨. */
+
+/* transform 정리 */
+
+.web-docs-app.show {
+  /* transform: translateX(-520px); */
+  transform: scale(1);
+  transition: transform 0.7s;
+}
+
+.web-docs-app {
+  position: fixed;
+  z-index: 2147483646;
+
+  /* transform: translate(0, 0); */
+  transform: scale(0);
+  transition: transform 0.7s;
+
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+
+  display: flex;
+  flex-direction: column;
+  top: 0;
+  right: 0px;
+  bottom: 0;
+  width: 440px;
+
+  background-color: var(--color-background-dark);
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 15px;
+  padding: 20px;
+
+  font-family: Arial;
+}
+
+.web-docs-app .resize-btn-left {
+  position: absolute;
+
+  left: 0px;
+  width: 20px;
+  height: 94%;
+}
+
+.web-docs-app .resize-btn-left:hover {
+  cursor: w-resize;
+}
+
+.web-docs-app .resize-btn-left .visible {
+  position: absolute;
+
+  left: 5px;
+  width: 9px;
+  height: 100%;
+
+  border-radius: 10px;
+}
+
+.web-docs-app .resize-btn-left:hover .visible {
+  background-color: rgb(163, 163, 163);
+}
