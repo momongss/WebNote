@@ -303,7 +303,6 @@
 .web-docs-app .content > div {
   color: var(--text-color-white);
   margin-bottom: 5px;
-  height: 29px;
 }
 
 .web-docs-app .content > div.h1 {
