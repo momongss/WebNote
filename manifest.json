@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+  "name": "Note anywhere",
+  "version": "0.0.1",
+  "description": "make note anywhere",
+  "author": "taehyung",
+  "background": {
+    "scripts": ["src/background.js"],
+    "persistent": false
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "css": ["src/css/app.css", "src/css/header.css", "src/css/content.css"],
+      "js": ["src/contentScript.js"]
+    }
+  ],
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "fontSettings",
+    "storage",
+    "unlimitedStorage"
+  ],
+  "web_accessible_resources": ["src/*", "fonts/*", "assets/*"]
+}

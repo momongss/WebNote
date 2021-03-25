@@ -1,0 +1,231 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background-color: rgb(255, 255, 255);
+  padding-left: 20px;
+  padding-top: 10px;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding-bottom: 100px;
+}
+
+* {
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+
+  -ms-user-select: none;
+  user-select: none;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  padding: 0;
+  margin: 0;
+
+  list-style: none;
+}
+
+a:visited {
+  color: #4b70fd;
+}
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 10px;
+  padding-top: 20px;
+
+  width: 700px;
+}
+
+.logo {
+  width: fit-content;
+  padding: 0;
+  margin: 0;
+  font-size: 25px;
+
+  padding-bottom: 20px;
+}
+
+.nav-wrapper {
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+}
+
+.navbar {
+  display: flex;
+
+  font-size: 12pt;
+}
+
+.navbar li {
+  padding-left: 5px;
+}
+
+.navbar button {
+  width: 105px;
+  height: 40px;
+
+  font-size: 11pt;
+}
+
+.search-wrapper {
+  display: flex;
+  align-items: center;
+
+  height: 40px;
+  background-color: rgb(224, 225, 226);
+}
+
+#searchBtn {
+  width: 15px;
+  height: 15px;
+  margin-left: 15px;
+  margin-right: 10px;
+}
+
+.search {
+  all: unset;
+  width: 200px;
+  font-size: 11.5pt;
+}
+
+.note-list {
+}
+
+.note {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgb(179, 179, 179);
+
+  position: relative;
+
+  width: 700px;
+  height: 48px;
+  cursor: pointer;
+}
+
+.note:hover {
+  background-color: rgb(182, 185, 192);
+  /* border-radius: 30px; */
+}
+
+.note-title {
+  font-size: 14.5px;
+  width: 300px;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.note-time {
+  width: 80px;
+}
+
+.note-url {
+  display: inline-block;
+  line-height: 48px;
+  width: 255px;
+  height: 100%;
+  color: rgb(75, 75, 75);
+
+  padding: 0 10px 0 10px;
+  border-radius: 7px;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.note-url:hover {
+  background-color: rgb(85, 85, 85);
+  color: rgb(235, 235, 235);
+}
+
+.option-btn {
+  all: unset;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 100%;
+
+  border-radius: 12px;
+}
+
+/* border-radius 가 size에 미치는 영향 */
+
+.option-btn:hover {
+  background-color: rgb(232, 235, 238);
+}
+
+.option-btn img {
+  height: 12px;
+  filter: brightness(1);
+}
+
+.delete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: -54px;
+
+  visibility: hidden;
+
+  background-color: rgb(200, 205, 210);
+  width: 50px;
+  height: 46px;
+  border: 1px solid black;
+  border-radius: 10%;
+
+  font-size: 14.5px;
+
+  z-index: 10;
+}
+
+.delete img {
+  height: 20px;
+}
+
+.delete.show {
+  visibility: visible;
+}
+
+.delete:hover {
+  background-color: rgb(182, 185, 192);
+  color: rgb(223, 223, 223);
+}
+
+#starBtn {
+  height: 20px;
+  margin-left: 10px;
+  margin-right: 20px;
+}
+
+#starBtn:hover {
+  filter: brightness(0%);
+  cursor: pointer;
+}
+
+#starBtn.stared:hover {
+  filter: brightness(100%);
+  cursor: pointer;
+}

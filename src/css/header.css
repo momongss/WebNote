@@ -1,0 +1,243 @@
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190 ul {
+  list-style: none;
+}
+
+:root {
+  --color-background-dark: rgb(45, 50, 54);
+  --color-docs-dark: rgb(53, 59, 61);
+
+  --color-button-white: rgb(240, 242, 244);
+  --color-button-dark: rgb(80, 82, 86);
+  --color-button-hover: black;
+
+  --title-color-white: rgb(235, 230, 225);
+  --text-color-white: rgb(235, 230, 225);
+
+  --app-height: 85vh;
+  --docs-margin: 20px;
+  --docs-padding: 12pt;
+
+  --btn-height-move: 150px;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  ._header-8f8894ba7a1f5c7a94a170b7dc841190 {
+  display: flex;
+  background-color: inherit; /* 기본 header 속성 적용을 막기 위해 필요 */
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+
+  position: relative;
+}
+
+/* 오른쪽 정렬 방법 */
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .recent-wrapper-8f8894ba7a1f5c7a94a170b7dc841190 {
+  display: none;
+
+  position: absolute;
+  top: 65px;
+  left: 10px;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .sel-all-8f8894ba7a1f5c7a94a170b7dc841190,
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .sel-url-8f8894ba7a1f5c7a94a170b7dc841190 {
+  cursor: pointer;
+
+  width: 70px;
+  height: 30px;
+  font-size: 10pt;
+  text-align: center;
+
+  background-color: var(--color-button-white);
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .sel-all-8f8894ba7a1f5c7a94a170b7dc841190.set-8f8894ba7a1f5c7a94a170b7dc841190,
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .sel-url-8f8894ba7a1f5c7a94a170b7dc841190.set-8f8894ba7a1f5c7a94a170b7dc841190 {
+  background-color: var(--color-button-dark);
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .recent-wrapper-8f8894ba7a1f5c7a94a170b7dc841190.showUp-8f8894ba7a1f5c7a94a170b7dc841190 {
+  display: block;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .recent-list-8f8894ba7a1f5c7a94a170b7dc841190 {
+  padding: 0;
+  margin: 0;
+  max-height: calc(35px * 14);
+  overflow-y: scroll;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .recent-list-8f8894ba7a1f5c7a94a170b7dc841190::-webkit-scrollbar {
+  width: 10px;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .recent-list-8f8894ba7a1f5c7a94a170b7dc841190::-webkit-scrollbar-thumb {
+  background-color: rgb(20, 20, 20);
+  border-radius: 2.5px;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .recent-list-8f8894ba7a1f5c7a94a170b7dc841190::-webkit-scrollbar-track {
+  background-color: grey;
+  border-radius: 2.5px;
+  box-shadow: inset 0px 0px 5px white;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .recent-list-8f8894ba7a1f5c7a94a170b7dc841190
+  li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: rgb(238, 238, 238);
+  border: 1px solid black;
+
+  height: 35px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .recent-list-8f8894ba7a1f5c7a94a170b7dc841190
+  li:hover {
+  background-color: rgb(98, 97, 102);
+  cursor: pointer;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .recent-list-8f8894ba7a1f5c7a94a170b7dc841190
+  .item-title-8f8894ba7a1f5c7a94a170b7dc841190 {
+  display: inline-block;
+  width: 150px;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .recent-list-8f8894ba7a1f5c7a94a170b7dc841190
+  .item-update-8f8894ba7a1f5c7a94a170b7dc841190 {
+  display: inline-block;
+  width: 100px;
+
+  text-align: right;
+  font-size: 12px;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .title-wrapper-8f8894ba7a1f5c7a94a170b7dc841190 {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  width: 90%;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  #logo-8f8894ba7a1f5c7a94a170b7dc841190 {
+  height: 40px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  margin: 0;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  #logo-8f8894ba7a1f5c7a94a170b7dc841190:hover {
+  filter: brightness(0%);
+  cursor: pointer;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .title-8f8894ba7a1f5c7a94a170b7dc841190 {
+  font-size: 18.5px;
+  color: var(--title-color-white);
+
+  display: inline-block;
+  padding: 0px 8px 1px 8px;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  width: 80%;
+  min-width: 5px;
+  background-color: inherit;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  font-family: Arial;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .title-8f8894ba7a1f5c7a94a170b7dc841190:hover {
+  border: 2px solid rgba(209, 209, 209, 0.4);
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  #createBtn-8f8894ba7a1f5c7a94a170b7dc841190 {
+  height: 20px;
+  margin-left: 10px;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  #createBtn-8f8894ba7a1f5c7a94a170b7dc841190:hover {
+  filter: brightness(0%);
+  cursor: pointer;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  #deleteBtn-8f8894ba7a1f5c7a94a170b7dc841190 {
+  height: 20px;
+  margin-left: 10px;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  #deleteBtn-8f8894ba7a1f5c7a94a170b7dc841190:hover {
+  filter: brightness(0%);
+  cursor: pointer;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  #starBtn-8f8894ba7a1f5c7a94a170b7dc841190 {
+  height: 20px;
+  margin-left: 10px;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  #starBtn-8f8894ba7a1f5c7a94a170b7dc841190:hover {
+  filter: brightness(0%);
+  cursor: pointer;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  #starBtn-8f8894ba7a1f5c7a94a170b7dc841190.stared {
+  filter: brightness(90%);
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  #starBtn-8f8894ba7a1f5c7a94a170b7dc841190.stared-8f8894ba7a1f5c7a94a170b7dc841190:hover {
+  filter: brightness(90%);
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  #closeBtn-8f8894ba7a1f5c7a94a170b7dc841190 {
+  height: 16px;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  #closeBtn-8f8894ba7a1f5c7a94a170b7dc841190:hover {
+  filter: brightness(0%);
+  cursor: pointer;
+}
