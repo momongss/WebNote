@@ -109,6 +109,11 @@ export default class Content {
     });
 
     this.$content.addEventListener("input", (e) => {
+      this.$content.querySelectorAll("img").forEach(($img) => {
+        console.log($img);
+        $img.className = "";
+      });
+
       clearTimeout(this.timeout);
 
       this.timeout = setTimeout(() => {

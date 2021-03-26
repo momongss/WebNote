@@ -117,6 +117,8 @@
   .content-8f8894ba7a1f5c7a94a170b7dc841190
   img {
   width: 380px !important;
+
+  display: inline !important;
 }
 
 .web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190

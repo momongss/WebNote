@@ -3,9 +3,8 @@ body {
   flex-direction: column;
   align-items: center;
 
-  background-color: rgb(255, 255, 255);
-  padding-left: 20px;
-  padding-top: 10px;
+  background-color: white;
+  padding: 10px 30px 0px 30px;
 }
 
 main {
@@ -17,11 +16,7 @@ main {
 }
 
 * {
-  -moz-user-select: -moz-none;
-  -khtml-user-select: none;
   -webkit-user-select: none;
-
-  -ms-user-select: none;
   user-select: none;
 }
 
@@ -40,6 +35,7 @@ li {
 a:visited {
   color: #4b70fd;
 }
+
 header {
   display: flex;
   flex-direction: column;
@@ -47,16 +43,35 @@ header {
   padding-bottom: 10px;
   padding-top: 20px;
 
-  width: 700px;
+  width: 750px;
+}
+
+.logo-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  margin-bottom: 15px;
+
+  width: 100%;
 }
 
 .logo {
-  width: fit-content;
-  padding: 0;
   margin: 0;
-  font-size: 25px;
+  padding: 0;
+  justify-self: center;
+}
 
-  padding-bottom: 20px;
+#createBtn {
+  justify-self: flex-start;
+  position: relative;
+  top: 2.5px;
+  left: 104px;
+
+  cursor: pointer;
+}
+
+#createBtn:hover {
+  filter: brightness(0);
 }
 
 .nav-wrapper {
@@ -87,6 +102,7 @@ header {
   display: flex;
   align-items: center;
 
+  width: 270px;
   height: 40px;
   background-color: rgb(224, 225, 226);
 }
@@ -100,8 +116,8 @@ header {
 
 .search {
   all: unset;
-  width: 200px;
-  font-size: 11.5pt;
+  width: 220px;
+  height: 40px;
 }
 
 .note-list {
@@ -115,7 +131,7 @@ header {
 
   position: relative;
 
-  width: 700px;
+  width: 750px;
   height: 48px;
   cursor: pointer;
 }
@@ -135,7 +151,7 @@ header {
 }
 
 .note-time {
-  width: 80px;
+  width: 70px;
 }
 
 .note-url {
@@ -154,8 +170,8 @@ header {
 }
 
 .note-url:hover {
-  background-color: rgb(85, 85, 85);
-  color: rgb(235, 235, 235);
+  background-color: rgb(114, 114, 114);
+  color: white;
 }
 
 .option-btn {
@@ -164,16 +180,18 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50px;
-  height: 100%;
+  width: 40px;
+  height: 40px;
+  margin-left: 5px;
 
-  border-radius: 12px;
+  border-radius: 20px;
 }
 
 /* border-radius 가 size에 미치는 영향 */
 
 .option-btn:hover {
-  background-color: rgb(232, 235, 238);
+  background-color: rgb(143, 143, 143);
+  /* background-color: rgb(85, 85, 85); */
 }
 
 .option-btn img {
@@ -186,15 +204,15 @@ header {
   align-items: center;
   justify-content: center;
   position: absolute;
-  left: -54px;
+  top: 48px;
 
   visibility: hidden;
 
   background-color: rgb(200, 205, 210);
-  width: 50px;
-  height: 46px;
+  width: 100px;
+  height: 48px;
   border: 1px solid black;
-  border-radius: 10%;
+  border-radius: 10px;
 
   font-size: 14.5px;
 
@@ -214,15 +232,21 @@ header {
   color: rgb(223, 223, 223);
 }
 
-#starBtn {
-  height: 20px;
-  margin-left: 10px;
-  margin-right: 20px;
+.star-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 40px;
+  cursor: pointer;
 }
 
-#starBtn:hover {
+#starBtn {
+  height: 20px;
+}
+
+.star-btn-wrapper:hover > #starBtn {
   filter: brightness(0%);
-  cursor: pointer;
 }
 
 #starBtn.stared:hover {

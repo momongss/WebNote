@@ -6,8 +6,53 @@ const $search = document.querySelector(".search");
 
 const $totalBtn = document.querySelector(".total");
 const $staredBtn = document.querySelector(".important");
+const $createBtn = document.querySelector("#createBtn");
 const $searchBtn = document.querySelector("#searchBtn");
+
+$createBtn.src = `chrome-extension://${chrome.runtime.id}/assets/plus1.svg`;
 $searchBtn.src = `chrome-extension://${chrome.runtime.id}/assets/search.svg`;
+
+$createBtn.addEventListener("click", async (e) => {
+  const note = await createNote();
+  chrome.runtime.sendMessage({ path: "docs", noteId: note.id });
+});
+
+const createNote = async () => {
+  const noteIdList = await Storage.getNoteIdList();
+
+  const createNewId = (noteLists) => {
+    let newId = 0;
+    while (true) {
+      let flag = true;
+      for (const id of noteLists) {
+        if (id === newId) {
+          flag = false;
+          break;
+        }
+      }
+      if (flag) return newId;
+      newId++;
+    }
+  };
+
+  const newId = createNewId(noteIdList);
+  noteIdList.push(newId);
+  await Storage.setNoteIdList(noteIdList);
+
+  const Note = {
+    id: newId,
+  };
+  Note.title = "제목 없는 문서";
+  Note.url = "";
+  Note.createTime = getCurTime();
+  Note.updateTime = getCurTime();
+  Note.state = false;
+  Note.star = false;
+  Note.content = "<div><br /></div>";
+
+  await Storage.setNote(Note);
+  return Note;
+};
 
 (async () => {
   const noteInfoList = await Storage.getNoteInfoList();
@@ -68,20 +113,26 @@ function renderNoteList(noteInfoList) {
   $noteLists.innerHTML = "";
 
   for (const noteInfo of noteInfoList) {
-    const starUrl = noteInfo.star === true ? "star_b" : "star_e";
+    const starUrl = noteInfo.star === true ? "star_b" : "star_m";
 
     const $list = document.createElement("list");
     $list.className = "note";
     $list.innerHTML = `
-      <div class="delete"><img src="chrome-extension://${
-        chrome.runtime.id
-      }/assets/trash.svg" alt="del"></div>
-      <button class="option-btn"><img src="chrome-extension://${
-        chrome.runtime.id
-      }/assets/more.svg" alt=":"></button>
-      <img id="starBtn" src="chrome-extension://${
-        chrome.runtime.id
-      }/assets/${starUrl}.svg" alt="문서">
+      <div class="delete">
+        <img src="chrome-extension://${
+          chrome.runtime.id
+        }/assets/trash.svg" alt="del">
+      </div>
+      <button class="option-btn">
+        <img src="chrome-extension://${
+          chrome.runtime.id
+        }/assets/more.svg" alt=":">
+      </button>
+      <div class="star-btn-wrapper">
+        <img id="starBtn" src="chrome-extension://${
+          chrome.runtime.id
+        }/assets/${starUrl}.svg" alt="문서">
+      </div>
       <div class="note-title">${noteInfo.title}</div>
       <div class="note-time">${getTimeDiff(noteInfo.updateTime)}</div>
       <a target="_blank" href="${noteInfo.url}" class="note-url">${

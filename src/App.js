@@ -324,8 +324,6 @@ export default class App {
     this.Note.width = this.$app.style.width;
     this.Note.right = this.$app.style.right;
 
-    console.log(this.$app.style.width);
-
     Storage.setNote(this.Note);
   }
 
@@ -345,6 +343,7 @@ export default class App {
 
   hideApp() {
     this.$app.classList.remove("show-8f8894ba7a1f5c7a94a170b7dc841190");
+    if (this.Note == null) return;
     this.Note.state = false;
     this.saveNote();
 

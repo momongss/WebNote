@@ -8,6 +8,9 @@
     "scripts": ["src/background.js"],
     "persistent": false
   },
+  "browser_action": {
+    "default_popup": "manage.html"
+  },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
