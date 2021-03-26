@@ -55,6 +55,11 @@ header {
   width: 100%;
 }
 
+.logo-wrapper > a {
+  justify-self: center;
+  color: #000;
+}
+
 .logo {
   margin: 0;
   padding: 0;
