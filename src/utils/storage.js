@@ -20,7 +20,10 @@ export default class Storage {
       updateTime: await this.getUpdateTime(id),
       star: await this.getStar(id),
       state: await this.getState(id),
+      top: await this.getTop(id),
+      bottom: await this.getBottom(id),
       width: await this.getWidth(id),
+      right: await this.getRight(id),
     };
 
     return note;
@@ -34,11 +37,15 @@ export default class Storage {
     if (note.updateTime != null) this.setUpdateTime(note.id, note.updateTime);
     if (note.star != null) this.setStar(note.id, note.star);
     if (note.state != null) this.setState(note.id, note.state);
+    if (note.top != null) this.setTop(note.id, note.top);
+    if (note.bottom != null) this.setBottom(note.id, note.bottom);
     if (note.width != null) this.setWidth(note.id, note.width);
+    if (note.right != null) this.setRight(note.id, note.right);
   }
 
   static async getNoteIdList() {
-    return await this.getItem("noteIdList");
+    const noteIdList = await this.getItem("noteIdList");
+    return noteIdList == null ? [] : noteIdList;
   }
 
   static setNoteIdList(noteIdList) {
@@ -80,7 +87,10 @@ export default class Storage {
     this.setUpdateTime(id, {});
     this.setStar(id, {});
     this.setState(id, {});
+    this.setTop(id, {});
+    this.setBottom(id, {});
     this.setWidth(id, {});
+    this.setRight(id, {});
 
     const noteIdList = await this.getNoteIdList();
 
@@ -126,6 +136,18 @@ export default class Storage {
     return await this.getItem(`width${id}`);
   }
 
+  static async getTop(id) {
+    return await this.getItem(`top${id}`);
+  }
+
+  static async getBottom(id) {
+    return await this.getItem(`bottom${id}`);
+  }
+
+  static async getRight(id) {
+    return await this.getItem(`right${id}`);
+  }
+
   static async setTitle(id, title) {
     return await this.setItem(`title${id}`, title);
   }
@@ -158,6 +180,18 @@ export default class Storage {
     return await this.setItem(`width${id}`, width);
   }
 
+  static async setTop(id, top) {
+    return await this.setItem(`top${id}`, top);
+  }
+
+  static async setBottom(id, bottom) {
+    return await this.setItem(`bottom${id}`, bottom);
+  }
+
+  static async setRight(id, right) {
+    return await this.setItem(`right${id}`, right);
+  }
+
   static getItem(key) {
     let gettingItem = new Promise((resolve) =>
       storage.get(mainKey + key, resolve)
@@ -180,7 +214,7 @@ export default class Storage {
         resolve
       );
     }).catch((err) => {
-      console.warn(err);
+      console.error(err);
     });
   }
 
@@ -192,30 +226,4 @@ export default class Storage {
       }
     });
   }
-
-  static printStorage() {
-    let gettingItem = new Promise((resolve) =>
-      storage.get(mainKey + "noteLists", resolve)
-    );
-    gettingItem.then((re) => {
-      Object.keys(re[mainKey + "noteLists"]).forEach((url) => {
-        console.log(url);
-      });
-      Object.keys(re[mainKey + "noteLists"]).forEach((url) => {
-        console.log(re[mainKey + "noteLists"][url]);
-      });
-    });
-
-    gettingItem = new Promise((resolve) =>
-      storage.get(mainKey + "recentNoteId", resolve)
-    );
-    gettingItem.then((re) => {
-      console.log(re);
-    });
-  }
 }
-
-// throw e , console.error 차이
-// 위에서 resolve 가 어떻게 쓰이고 있는지
-
-// re constructor 가 뭔지. 왜 썼는지.

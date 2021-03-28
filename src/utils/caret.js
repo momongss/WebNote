@@ -2,7 +2,9 @@ export default class Caret {
   caret = null;
 
   static restoreCaret() {
-    const $content = document.querySelector(".content");
+    const $content = document.querySelector(
+      ".content-8f8894ba7a1f5c7a94a170b7dc841190"
+    );
     if (this.caret == null) {
       this.caret = document.createRange();
       this.caret.setStart($content.firstChild, 0);
@@ -20,7 +22,6 @@ export default class Caret {
   }
 
   static setCaret($el) {
-    console.log($el);
     $el.select();
   }
 
@@ -32,36 +33,8 @@ export default class Caret {
     document.getSelection().addRange(this.caret);
   }
 
-  static selectLineAll($element) {
-    let sel, range;
-    if (window.getSelection && document.createRange) {
-      //Browser compatibility
-      sel = window.getSelection();
-      if (sel.toString() == "") {
-        //no text selection
-        window.setTimeout(function () {
-          range = document.createRange(); //range object
-          range.selectNodeContents($element); //sets Range
-          sel.removeAllRanges(); //remove all ranges from selection
-          sel.addRange(range); //add Range to a Selection.
-        }, 1);
-      }
-    } else if (document.selection) {
-      //older ie
-      sel = document.selection.createRange();
-      if (sel.text == "") {
-        //no text selection
-        range = document.body.createTextRange(); //Creates TextRange object
-        range.moveToElementText($element); //sets Range
-        range.select(); //make selection.
-      }
-    }
-  }
-
   static getCurrentLine() {
     const selection = document.getSelection();
     return selection.anchorNode;
   }
-
-  // anchorNode는?
 }

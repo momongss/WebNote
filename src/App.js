@@ -9,7 +9,7 @@ import { isEmpty } from "./utils/checkNull.js";
 
 export default class App {
   Note = null;
-  AppState = true; // 현재 열려있는 노트가 있는지, 없는지
+  running = true;
 
   constructor({ $app, mode, noteId }) {
     this._constructor($app, mode, noteId);
@@ -18,28 +18,29 @@ export default class App {
   async _constructor($app, mode, noteId) {
     this.$app = $app;
 
-    console.log("app running");
-
     if (mode === "normal") {
-      const urlNoteList = await this.getUrlNoteList();
-
-      console.log(urlNoteList);
-
-      const recentNote = urlNoteList ? urlNoteList[0] : null;
+      const recentNote = await this.getRecentNote();
       if (recentNote) {
-        this.AppState = true;
+        this.running = true;
         this.Note = await Storage.getNote(recentNote.id);
         if (this.Note.state) {
-          this.$app.classList.add("show");
+          this.$app.classList.add("show-8f8894ba7a1f5c7a94a170b7dc841190");
         } else {
-          this.$app.classList.remove("show");
+          this.$app.classList.remove("show-8f8894ba7a1f5c7a94a170b7dc841190");
         }
+
+        this.$app.style.top = isEmpty(this.Note.top) ? "0px" : this.Note.top;
+        this.$app.style.bottom = isEmpty(this.Note.bottom)
+          ? "0px"
+          : this.Note.bottom;
         this.$app.style.width = isEmpty(this.Note.width)
           ? "440px"
           : this.Note.width;
-        console.log(this.Note.width != null, this.$app.style.width);
+        this.$app.style.right = isEmpty(this.Note.right)
+          ? "0px"
+          : this.Note.right;
       } else {
-        this.AppState = false;
+        this.running = false;
       }
     } else if (mode === "manage") {
       this.Note = await Storage.getNote(noteId);
@@ -52,12 +53,9 @@ export default class App {
       saveNote: () => {
         this.saveNote();
       },
-      hideNote: () => {
-        this.hideApp();
-      },
 
       openNote: async (id) => {
-        this.AppState = true;
+        this.running = true;
         const note = await Storage.getNote(id);
         this.Note = note;
         this.title.render(this.Note);
@@ -65,7 +63,6 @@ export default class App {
       },
 
       onStarClick: async (star) => {
-        console.log(star);
         this.Note.star = star;
         Storage.setStar(this.Note.id, this.Note.star);
       },
@@ -78,44 +75,12 @@ export default class App {
       saveNote: async () => {
         this.saveNote();
       },
-      hideNote: () => {
-        this.hideApp();
-      },
-      toggleNote: () => {
-        this.toggleApp;
-      },
     });
 
     if (mode === "normal") this.appEventListeners();
   }
 
   appEventListeners() {
-    let resizable = false;
-    let initX, initWidth;
-
-    this.$app
-      .querySelector(".resize-btn-left")
-      .addEventListener("mousedown", (e) => {
-        resizable = true;
-        initX = e.clientX;
-        initWidth = parseInt(this.$app.style.width.slice(0, -2));
-        console.log(initX, initWidth);
-      });
-
-    this.$app
-      .querySelector(".resize-btn-left")
-      .addEventListener("mouseup", (e) => {
-        resizable = false;
-
-        this.saveNote();
-      });
-
-    window.addEventListener("mousemove", (e) => {
-      if (resizable) {
-        this.$app.style.width = `${initWidth + initX - e.clientX}px`;
-      }
-    });
-
     this.$app.addEventListener("keydown", (e) => {
       e.stopPropagation();
 
@@ -144,10 +109,9 @@ export default class App {
         this.toggleApp();
       } else if (e.key === "Escape") {
         this.hideApp();
-      } else if (e.key === "]") {
-        Storage.getNoteInfoList().then((noteLists) => {
-          console.log(noteLists);
-        });
+      } else if (e.key === "-") {
+        Storage.clearStorage();
+        console.log("clear");
       }
     });
 
@@ -155,23 +119,11 @@ export default class App {
       if (e.key === "Alt") {
         keyAlt.isAltPressed = false;
       }
-
-      // Debug
-      else if (e.key === "Delete") {
-        Storage.clearStorage();
-        console.log("모든 메모 삭제");
-      } else if (e.key === "-") {
-        console.log("resize");
-        window.resizeBy(
-          window.screen.availWidth / 2,
-          window.screen.availHeight / 2
-        );
-      }
     });
 
-    // 이 버튼 이벤트들 싹다 title 로 보내기.
-
-    const $logo = this.$app.querySelector("#logo");
+    const $logo = this.$app.querySelector(
+      "#logo-8f8894ba7a1f5c7a94a170b7dc841190"
+    );
     $logo.addEventListener(
       "click",
       () => {
@@ -180,40 +132,176 @@ export default class App {
       true
     );
 
-    const $createBtn = this.$app.querySelector("#createBtn");
-    $createBtn.addEventListener("click", () => {
-      this.createNote();
-      setTimeout(() => {
-        this.showApp();
-      }, 200);
-      // 여기서 왜 setTimeout 을 썻더라?
+    const $createBtn = this.$app.querySelector(
+      "#createBtn-8f8894ba7a1f5c7a94a170b7dc841190"
+    );
+    $createBtn.addEventListener("click", async () => {
+      await this.createNote();
+      this.showApp({ createMode: true });
     });
 
-    const $deleteBtn = this.$app.querySelector("#deleteBtn");
+    const $deleteBtn = this.$app.querySelector(
+      "#deleteBtn-8f8894ba7a1f5c7a94a170b7dc841190"
+    );
     $deleteBtn.addEventListener("click", async () => {
-      console.log("trash!");
       await this.deleteNote();
-      const urlNoteList = await this.getUrlNoteList();
 
-      const recentNote = urlNoteList ? urlNoteList[0] : null;
+      const recentNote = await this.getRecentNote();
       if (recentNote != null) {
-        this.AppState = true;
+        this.running = true;
         const note = await Storage.getNote(recentNote.id);
         this.Note = note;
         this.title.render(this.Note);
         this.content.render(this.Note.content);
       } else {
         this.hideApp();
-        this.AppState = false;
+        this.running = false;
       }
 
       this.showAlarmUI("노트가 삭제되었습니다");
     });
 
-    const $closeBtn = this.$app.querySelector("#closeBtn");
+    const $closeBtn = this.$app.querySelector(
+      "#closeBtn-8f8894ba7a1f5c7a94a170b7dc841190"
+    );
     $closeBtn.addEventListener("click", () => {
       this.hideApp();
     });
+
+    // resize event
+    let resizeTop = false;
+    let resizeBottom = false;
+    let resizeLeft = false;
+    let resizeRight = false;
+
+    let initX, initY;
+
+    let initTop;
+    let initBottom;
+    let initWidth;
+    let initRight;
+
+    // top
+    this.$app
+      .querySelector(".resize-btn-top-8f8894ba7a1f5c7a94a170b7dc841190")
+      .addEventListener("mousedown", (e) => {
+        resizeTop = true;
+        initY = e.clientY;
+        initTop = parseInt(this.$app.style.top.slice(0, -2));
+      });
+
+    // bottom
+    this.$app
+      .querySelector(".resize-btn-bottom-8f8894ba7a1f5c7a94a170b7dc841190")
+      .addEventListener("mousedown", (e) => {
+        resizeBottom = true;
+        initY = e.clientY;
+        initBottom = parseInt(this.$app.style.bottom.slice(0, -2));
+      });
+
+    // left
+    this.$app
+      .querySelector(".resize-btn-left-8f8894ba7a1f5c7a94a170b7dc841190")
+      .addEventListener("mousedown", (e) => {
+        resizeLeft = true;
+        initX = e.clientX;
+        initWidth = parseInt(this.$app.style.width.slice(0, -2));
+      });
+
+    // right
+    this.$app
+      .querySelector(".resize-btn-right-8f8894ba7a1f5c7a94a170b7dc841190")
+      .addEventListener("mousedown", (e) => {
+        resizeRight = true;
+        initX = e.clientX;
+        initRight = parseInt(this.$app.style.right.slice(0, -2));
+        initWidth = parseInt(this.$app.style.width.slice(0, -2));
+      });
+
+    this.$app.addEventListener("mouseup", (e) => {
+      if (resizeTop || resizeBottom || resizeLeft || resizeRight)
+        this.saveNote();
+      resizeTop = false;
+      resizeBottom = false;
+      resizeLeft = false;
+      resizeRight = false;
+    });
+
+    window.addEventListener("mouseup", (e) => {
+      if (resizeTop || resizeBottom || resizeLeft || resizeRight)
+        this.saveNote();
+      resizeTop = false;
+      resizeBottom = false;
+      resizeLeft = false;
+      resizeRight = false;
+    });
+
+    const MINWIDTH = 250;
+    window.addEventListener("mousemove", (e) => {
+      if (resizeTop) {
+        const top = initTop - initY + e.clientY;
+        this.$app.style.top = `${top}px`;
+      } else if (resizeBottom) {
+        const bottom = initBottom + initY - e.clientY;
+        this.$app.style.bottom = `${bottom}px`;
+      } else if (resizeLeft) {
+        const width = initWidth + initX - e.clientX;
+        if (width < MINWIDTH) return;
+        this.$app.style.width = `${width}px`;
+      } else if (resizeRight) {
+        const width = initWidth - initX + e.clientX;
+        if (width < MINWIDTH) return;
+        this.$app.style.right = `${initRight + initX - e.clientX}px`;
+        this.$app.style.width = `${width}px`;
+      }
+    });
+
+    let preURL = window.location.href;
+    setInterval(() => {
+      if (preURL !== window.location.href) {
+        preURL = window.location.href;
+        this.running = false;
+        this.hideApp();
+      }
+    }, 1000);
+  }
+
+  showAlarmUI(message) {
+    const $alarmUI = document.querySelector(
+      ".alarm-ui-8f8894ba7a1f5c7a94a170b7dc841190"
+    );
+    $alarmUI.innerHTML = message;
+    $alarmUI.classList.add("show-8f8894ba7a1f5c7a94a170b7dc841190");
+    clearTimeout(this.timeout);
+
+    this.timeout = setTimeout(() => {
+      $alarmUI.innerHTML = "";
+      $alarmUI.classList.remove("show-8f8894ba7a1f5c7a94a170b7dc841190");
+    }, 2000);
+  }
+
+  async deleteNote() {
+    await Storage.deleteNote(this.Note.id);
+  }
+
+  async getRecentNote() {
+    const urlNoteList = await this.getUrlNoteList();
+    return urlNoteList ? urlNoteList[0] : null;
+  }
+
+  async getUrlNoteList() {
+    const noteLists = await this.getNoteList();
+    const urlNoteList = this.findNotesByURL(window.location.href, noteLists);
+    return urlNoteList;
+  }
+
+  async getNoteList() {
+    const noteLists = await Storage.getNoteInfoList();
+    noteLists.sort((a, b) => {
+      return new Date(b.updateTime) - new Date(a.updateTime);
+    });
+
+    return noteLists;
   }
 
   findNotesByURL(url, NoteList) {
@@ -227,52 +315,94 @@ export default class App {
     return urlNoteList;
   }
 
-  showAlarmUI(message) {
-    const $alarmUI = document.querySelector(".alarm-ui");
-    $alarmUI.innerHTML = message;
-    $alarmUI.classList.add("show");
-    clearTimeout(this.timeout);
+  saveNote() {
+    this.Note.title = this.title.$title.value;
+    this.Note.content = this.content.$content.innerHTML;
+    this.Note.updateTime = getCurTime();
+    this.Note.top = this.$app.style.top;
+    this.Note.bottom = this.$app.style.bottom;
+    this.Note.width = this.$app.style.width;
+    this.Note.right = this.$app.style.right;
 
-    this.timeout = setTimeout(() => {
-      $alarmUI.innerHTML = "";
-      $alarmUI.classList.remove("show");
-    }, 2000);
+    Storage.setNote(this.Note);
   }
 
-  async deleteNote() {
-    await Storage.deleteNote(this.Note.id);
+  showApp({ createMode }) {
+    this.$app.classList.add("show-8f8894ba7a1f5c7a94a170b7dc841190");
+    this.Note.state = true;
+    this.saveNote();
+
+    if (createMode) {
+      this.title.$title.focus();
+      this.title.$title.select();
+    } else {
+      this.content.$content.focus();
+      Caret.restoreCaret();
+    }
   }
 
-  async getNoteList() {
-    const noteLists = await Storage.getNoteInfoList();
-    noteLists.sort((a, b) => {
-      return new Date(b.updateTime) - new Date(a.updateTime);
-    });
+  hideApp() {
+    this.$app.classList.remove("show-8f8894ba7a1f5c7a94a170b7dc841190");
+    if (this.Note == null) return;
+    this.Note.state = false;
+    this.saveNote();
 
-    return noteLists;
+    this.title.$title.blur();
+    this.content.$content.blur();
   }
 
-  async getUrlNoteList() {
-    const noteLists = await this.getNoteList();
-    const urlNoteList = this.findNotesByURL(window.location.href, noteLists);
-    return urlNoteList;
+  async toggleApp() {
+    if (this.$app.classList.contains("show-8f8894ba7a1f5c7a94a170b7dc841190")) {
+      this.hideApp();
+    } else {
+      if (this.running) {
+        this.showApp({});
+      } else {
+        this.running = true;
+
+        const recentNote = await this.getRecentNote();
+        if (recentNote) {
+          const note = await Storage.getNote(recentNote.id);
+          this.Note = note;
+          this.title.render(this.Note);
+          this.content.render(this.Note.content);
+          this.showApp({});
+        } else {
+          await this.createNote();
+          this.showApp({ createMode: true });
+        }
+      }
+    }
   }
 
   async createNote() {
-    console.log("createMode");
+    const noteIdList = await Storage.getNoteIdList();
 
-    this.AppState = true;
-
-    const noteList = await this.getNoteList();
-
-    const note = {
-      id: this.createNewId(noteList),
+    const createNewId = (noteLists) => {
+      let newId = 0;
+      while (true) {
+        let flag = true;
+        for (const id of noteLists) {
+          if (id === newId) {
+            flag = false;
+            break;
+          }
+        }
+        if (flag) return newId;
+        newId++;
+      }
     };
 
-    noteList.push(note);
+    const newId = createNewId(noteIdList);
+    noteIdList.push(newId);
+    Storage.setNoteIdList(noteIdList);
 
-    this.Note = Object.assign({}, note);
-    this.Note.title = "제목 없는 문서";
+    console.log(noteIdList, newId);
+
+    this.Note = {
+      id: newId,
+    };
+    this.Note.title = `${document.querySelector("title").innerHTML}`;
     this.Note.url = window.location.href;
     this.Note.createTime = getCurTime();
     this.Note.updateTime = getCurTime();
@@ -283,76 +413,8 @@ export default class App {
     this.title.render(this.Note);
     this.content.render(this.Note.content);
 
-    this.title.$title.focus();
-    Caret.selectLineAll(this.title.$title);
-
-    Storage.setNoteInfoList(noteList);
     Storage.setNote(this.Note);
 
     this.showAlarmUI("새로운 노트가 열렸습니다");
-  }
-
-  saveNote() {
-    this.Note.title = this.title.$title.value;
-    this.Note.content = this.content.$content.innerHTML;
-    this.Note.updateTime = getCurTime();
-    this.Note.width = this.$app.style.width;
-
-    Storage.setNote(this.Note);
-  }
-
-  createNewId(noteLists) {
-    let id = 0;
-    while (true) {
-      let flag = true;
-      for (const note of noteLists) {
-        if (note.id === id) {
-          flag = false;
-          break;
-        }
-      }
-      if (flag) return id;
-      id++;
-    }
-  }
-
-  async showApp() {
-    if (!this.AppState) {
-      const urlNoteList = await this.getUrlNoteList();
-
-      const recentNote = urlNoteList ? urlNoteList[0] : null;
-      if (recentNote) {
-        this.AppState = true;
-        const note = await Storage.getNote(recentNote.id);
-        this.Note = note;
-        this.title.render(this.Note);
-        this.content.render(this.Note.content);
-      } else {
-        await this.createNote();
-      }
-    }
-
-    this.$app.classList.add("show");
-
-    this.content.$content.focus();
-    this.Note.state = true;
-    this.saveNote();
-  }
-
-  hideApp() {
-    this.$app.classList.remove("show");
-    this.Note.state = false;
-    this.saveNote();
-
-    this.title.$title.blur();
-    this.content.$content.blur();
-  }
-
-  toggleApp() {
-    if (this.$app.classList.contains("show")) {
-      this.hideApp();
-    } else {
-      this.showApp();
-    }
   }
 }

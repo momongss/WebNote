@@ -135,6 +135,8 @@
   background: rgba(69, 127, 131, 0.41);
 }
 
+/* scrollbar 공부, width, height */
+
 .web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
   .content-8f8894ba7a1f5c7a94a170b7dc841190::-webkit-scrollbar {
   width: 10px;

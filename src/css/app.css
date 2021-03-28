@@ -16,7 +16,7 @@
   --btn-height-move: 150px;
 }
 
-.alarm-ui {
+.alarm-ui-8f8894ba7a1f5c7a94a170b7dc841190 {
   display: none;
   position: fixed;
   top: 3px;
@@ -28,28 +28,19 @@
   z-index: 2147483647;
 }
 
-/* position fixed 도 absolute 와 같이, 가장 가까운 컨테이닝 블록을
-  기준으로 동작한다. */
-
-.alarm-ui.show {
+.alarm-ui-8f8894ba7a1f5c7a94a170b7dc841190.show-8f8894ba7a1f5c7a94a170b7dc841190 {
   display: block;
 }
 
-/* all: initial 일 때 contenteditable 이 안됨. */
-
-/* transform 정리 */
-
-.web-docs-app.show {
-  /* transform: translateX(-520px); */
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190.show-8f8894ba7a1f5c7a94a170b7dc841190 {
   transform: scale(1);
   transition: transform 0.7s;
 }
 
-.web-docs-app {
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190 {
   position: fixed;
   z-index: 2147483646;
 
-  /* transform: translate(0, 0); */
   transform: scale(0);
   transition: transform 0.7s;
 
@@ -61,40 +52,144 @@
   display: flex;
   flex-direction: column;
   top: 0;
-  right: 0px;
   bottom: 0;
   width: 440px;
+  right: 0;
 
   background-color: var(--color-background-dark);
   border: 1px solid rgb(0, 0, 0);
   border-radius: 15px;
   padding: 20px;
-
-  font-family: Arial;
 }
 
-.web-docs-app .resize-btn-left {
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .resize-btn-top-8f8894ba7a1f5c7a94a170b7dc841190 {
+  position: absolute;
+
+  top: 0px;
+  width: 100%;
+  height: 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .resize-btn-top-8f8894ba7a1f5c7a94a170b7dc841190:hover {
+  cursor: n-resize;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .resize-btn-top-8f8894ba7a1f5c7a94a170b7dc841190
+  .visible-8f8894ba7a1f5c7a94a170b7dc841190 {
+  width: 40%;
+  height: 9px;
+
+  border-radius: 10px;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .resize-btn-top-8f8894ba7a1f5c7a94a170b7dc841190:hover
+  .visible-8f8894ba7a1f5c7a94a170b7dc841190 {
+  background-color: rgb(163, 163, 163);
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .resize-btn-bottom-8f8894ba7a1f5c7a94a170b7dc841190 {
+  position: absolute;
+
+  bottom: 0px;
+  width: 100%;
+  height: 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .resize-btn-bottom-8f8894ba7a1f5c7a94a170b7dc841190:hover {
+  cursor: n-resize;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .resize-btn-bottom-8f8894ba7a1f5c7a94a170b7dc841190
+  .visible-8f8894ba7a1f5c7a94a170b7dc841190 {
+  width: 40%;
+  height: 9px;
+
+  border-radius: 10px;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .resize-btn-bottom-8f8894ba7a1f5c7a94a170b7dc841190:hover
+  .visible-8f8894ba7a1f5c7a94a170b7dc841190 {
+  background-color: rgb(163, 163, 163);
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .resize-btn-left-8f8894ba7a1f5c7a94a170b7dc841190 {
   position: absolute;
 
   left: 0px;
   width: 20px;
   height: 94%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.web-docs-app .resize-btn-left:hover {
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .resize-btn-left-8f8894ba7a1f5c7a94a170b7dc841190:hover {
   cursor: w-resize;
 }
 
-.web-docs-app .resize-btn-left .visible {
-  position: absolute;
-
-  left: 5px;
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .resize-btn-left-8f8894ba7a1f5c7a94a170b7dc841190
+  .visible-8f8894ba7a1f5c7a94a170b7dc841190 {
   width: 9px;
-  height: 100%;
+  height: 40%;
 
   border-radius: 10px;
 }
 
-.web-docs-app .resize-btn-left:hover .visible {
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .resize-btn-left-8f8894ba7a1f5c7a94a170b7dc841190:hover
+  .visible-8f8894ba7a1f5c7a94a170b7dc841190 {
+  background-color: rgb(163, 163, 163);
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .resize-btn-right-8f8894ba7a1f5c7a94a170b7dc841190 {
+  position: absolute;
+
+  right: 0px;
+  width: 20px;
+  height: 94%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .resize-btn-right-8f8894ba7a1f5c7a94a170b7dc841190:hover {
+  cursor: w-resize;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .resize-btn-right-8f8894ba7a1f5c7a94a170b7dc841190
+  .visible-8f8894ba7a1f5c7a94a170b7dc841190 {
+  width: 9px;
+  height: 40%;
+
+  border-radius: 10px;
+}
+
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .resize-btn-right-8f8894ba7a1f5c7a94a170b7dc841190:hover
+  .visible-8f8894ba7a1f5c7a94a170b7dc841190 {
   background-color: rgb(163, 163, 163);
 }

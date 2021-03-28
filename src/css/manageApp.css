@@ -21,7 +21,7 @@ body {
   margin: 0;
 }
 
-.web-docs-app {
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190 {
   transform: scale(1);
 
   min-width: calc(440px / 0.95);
@@ -47,7 +47,8 @@ header {
   padding-bottom: 21px;
 }
 
-.web-docs-app .title {
+.web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+  .title-8f8894ba7a1f5c7a94a170b7dc841190 {
   font-size: 20pt;
 
   width: 500px;
@@ -56,16 +57,18 @@ header {
 
 /* position: absolute vs fixed 컨테이닝 블록 */
 
-@media screen and (min-width: 760px) {
-  .web-docs-app header,
-  .web-docs-app .docs-wrapper {
-    width: 680px;
+@media screen and (min-width: 1000px) {
+  .web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190 header,
+  .web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+    .docs-wrapper-8f8894ba7a1f5c7a94a170b7dc841190 {
+    width: 900px;
   }
 }
 
-@media screen and (max-width: 760px) {
-  .web-docs-app header,
-  .web-docs-app .docs-wrapper {
+@media screen and (max-width: 1000px) {
+  .web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190 header,
+  .web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
+    .docs-wrapper-8f8894ba7a1f5c7a94a170b7dc841190 {
     width: 95%;
     min-width: 440px;
   }

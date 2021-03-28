@@ -1,48 +1,42 @@
 import App from "./App.js";
 
-// app
-// <input class="title" placeholder="제목"/>
-// <div class="title" contenteditable="true"></div>
 const $app = document.createElement("div");
+$app.style.top = "0px";
+$app.style.bottom = "0px";
 $app.style.width = "440px";
-$app.className = "web-docs-app";
+$app.style.right = "0px";
+$app.className = "web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190";
 $app.innerHTML = `
-<div class="resize-btn-left"><div class="visible"></div></div>
-<div class="_header">
-    <div class="title-wrapper">
-      <img id="logo" src="chrome-extension://${chrome.runtime.id}/assets/docs.svg" alt="문서">
-      <input class="title" placeholder="제목"/>
-      <img id="createBtn" src="chrome-extension://${chrome.runtime.id}/assets/add.svg" alt="문서">
-      <img id="deleteBtn" src="chrome-extension://${chrome.runtime.id}/assets/trash.svg" alt="문서">
-      <img id="starBtn" src="chrome-extension://${chrome.runtime.id}/assets/star_e.svg" alt="문서">
-      <div class="recent-wrapper">
-        <button class="sel-all">전체</button>
-        <button class="sel-url">URL</button>
-        <ul class="recent-list"></ul>
+<div class="resize-btn-top-8f8894ba7a1f5c7a94a170b7dc841190"><div class="visible-8f8894ba7a1f5c7a94a170b7dc841190"></div></div>
+<div class="resize-btn-bottom-8f8894ba7a1f5c7a94a170b7dc841190"><div class="visible-8f8894ba7a1f5c7a94a170b7dc841190"></div></div>
+<div class="resize-btn-left-8f8894ba7a1f5c7a94a170b7dc841190"><div class="visible-8f8894ba7a1f5c7a94a170b7dc841190"></div></div>
+<div class="resize-btn-right-8f8894ba7a1f5c7a94a170b7dc841190"><div class="visible-8f8894ba7a1f5c7a94a170b7dc841190"></div></div>
+<div class="_header-8f8894ba7a1f5c7a94a170b7dc841190">
+    <div class="title-wrapper-8f8894ba7a1f5c7a94a170b7dc841190">
+      <img id="logo-8f8894ba7a1f5c7a94a170b7dc841190" src="chrome-extension://${chrome.runtime.id}/assets/docs.svg" alt="문서">
+      <input class="title-8f8894ba7a1f5c7a94a170b7dc841190" placeholder="제목"/>
+      <img id="createBtn-8f8894ba7a1f5c7a94a170b7dc841190" src="chrome-extension://${chrome.runtime.id}/assets/add.svg" alt="문서">
+      <img id="deleteBtn-8f8894ba7a1f5c7a94a170b7dc841190" src="chrome-extension://${chrome.runtime.id}/assets/trash.svg" alt="문서">
+      <img id="starBtn-8f8894ba7a1f5c7a94a170b7dc841190" src="chrome-extension://${chrome.runtime.id}/assets/star_e.svg" alt="문서">
+      <div class="recent-wrapper-8f8894ba7a1f5c7a94a170b7dc841190">
+        <button class="sel-all-8f8894ba7a1f5c7a94a170b7dc841190">전체</button>
+        <button class="sel-url-8f8894ba7a1f5c7a94a170b7dc841190">URL</button>
+        <ul class="recent-list-8f8894ba7a1f5c7a94a170b7dc841190"></ul>
       </div>
     </div>
-    <img id="closeBtn" src="chrome-extension://${chrome.runtime.id}/assets/delete.svg" alt="문서">
+    <img id="closeBtn-8f8894ba7a1f5c7a94a170b7dc841190" src="chrome-extension://${chrome.runtime.id}/assets/delete.svg" alt="문서">
 </div>
-<div class="docs-wrapper">
-    <div class="content" contenteditable="true">
-        <div class="normal_line"><br /></div>
+<div class="docs-wrapper-8f8894ba7a1f5c7a94a170b7dc841190">
+    <div class="content-8f8894ba7a1f5c7a94a170b7dc841190" contenteditable="true">
+        <div><br /></div>
     </div>
 </div>
 `;
 
 const $alarmUI = document.createElement("div");
-$alarmUI.className = "alarm-ui";
+$alarmUI.className = "alarm-ui-8f8894ba7a1f5c7a94a170b7dc841190";
 
 document.body.appendChild($app);
 document.body.appendChild($alarmUI);
 
 const app = new App({ $app: $app, mode: "normal" });
-
-// svg
-// https://svgontheweb.com/ko/
-// https://nykim.work/35
-
-// 프로미스와 콜백의 차이, 콜백 함수를 받는 함수를 프로미스로 실행 하려면??
-// => 프로미스를 생성하여 resolve 를 콜백함수로 넘겨주면 된다.
-
-// html 안에서 classList 추가
