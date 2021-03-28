@@ -7,13 +7,14 @@ import {
 } from "../utils/keyboardInput.js";
 
 export default class Content {
-  constructor({ mode, $target, NoteData, saveNote, toggleNote }) {
+  constructor({ mode, $target, NoteData, saveNote }) {
     this.mode = mode;
-    this.$content = $target.querySelector(".content");
+    this.$content = $target.querySelector(
+      ".content-8f8894ba7a1f5c7a94a170b7dc841190"
+    );
 
     this.timeout = null;
 
-    this.toggleNote = toggleNote;
     this.saveNote = saveNote;
 
     this.addEventListeners();
@@ -21,12 +22,51 @@ export default class Content {
   }
 
   addEventListeners() {
-    this.$content.addEventListener("click", () => {
-      Caret.storeCaret();
+    let imgResize = false;
+    let $img;
+    let rect;
+    let initWidth;
+    let initX;
+    this.$content.addEventListener("mousedown", (e) => {
+      if (e.target.tagName === "IMG") {
+        imgResize = true;
+        $img = e.target;
+        rect = $img.getBoundingClientRect();
+        initWidth = rect.width;
+        initX = e.clientX;
+
+        $img.removeAttribute("width");
+        $img.removeAttribute("height");
+      }
+    });
+
+    this.$content.addEventListener("mousemove", (e) => {
+      if (imgResize && $img != null) {
+        e.preventDefault();
+        $img.style.cssText = `
+          display: inline-block;
+          outline: dashed 6px black;
+          filter: brightness(0.8);
+          width: ${initWidth - initX + e.clientX}px !important`;
+      }
+    });
+
+    this.$content.addEventListener("mouseup", (e) => {
+      if (imgResize) {
+        $img.style.cssText = `
+        width: ${initWidth - initX + e.clientX}px !important`;
+        imgResize = false;
+        this.saveNote();
+      }
+    });
+
+    // target vs currentTarget
+
+    this.$content.addEventListener("click", (e) => {
+      if (e.target.tagName !== "IMG") Caret.storeCaret();
     });
 
     this.$content.addEventListener("keydown", (e) => {
-      // 첫 줄 요소가 없어지는 걸 방지
       if (this.$content.childElementCount === 0) {
         const $div = document.createElement("div");
         $div.innerHTML = "<br>";
@@ -69,13 +109,29 @@ export default class Content {
       }
     });
 
-    this.$content.addEventListener("keydown", (e) => {
+    this.$content.addEventListener("input", (e) => {
+      this.$content.querySelectorAll("img").forEach(($img) => {
+        $img.className = "";
+      });
+
       clearTimeout(this.timeout);
 
       this.timeout = setTimeout(() => {
         Caret.storeCaret();
         this.saveNote();
       }, 600);
+
+      const lastChild = this.$content.lastChild;
+      if (lastChild == null) return;
+      if (
+        lastChild.tagName !== "DIV" ||
+        lastChild.className !== "" ||
+        lastChild.innerHTML.trim() !== "<br>"
+      ) {
+        const $div = document.createElement("div");
+        $div.innerHTML = "<br>";
+        this.$content.appendChild($div);
+      }
     });
   }
 

@@ -6,11 +6,19 @@ export default class Title {
   constructor({ mode, $target, note, saveNote, openNote, onStarClick }) {
     this.mode = mode;
     this.$target = $target;
-    this.$title = $target.querySelector(".title");
+    this.$title = $target.querySelector(
+      ".title-8f8894ba7a1f5c7a94a170b7dc841190"
+    );
 
-    this.$recentWrapper = $target.querySelector(".recent-wrapper");
-    this.$recentNoteList = $target.querySelector(".recent-list");
-    this.$starBtn = $target.querySelector("#starBtn");
+    this.$recentWrapper = $target.querySelector(
+      ".recent-wrapper-8f8894ba7a1f5c7a94a170b7dc841190"
+    );
+    this.$recentNoteList = $target.querySelector(
+      ".recent-list-8f8894ba7a1f5c7a94a170b7dc841190"
+    );
+    this.$starBtn = $target.querySelector(
+      "#starBtn-8f8894ba7a1f5c7a94a170b7dc841190"
+    );
     this.state = "init";
 
     this.saveNote = saveNote;
@@ -22,7 +30,11 @@ export default class Title {
   }
 
   toggleList() {
-    if (this.$recentWrapper.classList.contains("showUp")) {
+    if (
+      this.$recentWrapper.classList.contains(
+        "showUp-8f8894ba7a1f5c7a94a170b7dc841190"
+      )
+    ) {
       this.hideList();
     } else {
       Storage.getListingMethod().then((method) => {
@@ -32,16 +44,26 @@ export default class Title {
   }
 
   async showList(method) {
-    this.$recentWrapper.classList.add("showUp");
+    this.$recentWrapper.classList.add(
+      "showUp-8f8894ba7a1f5c7a94a170b7dc841190"
+    );
 
     let recentNoteList;
     if (method === "url") {
-      this.$target.querySelector(".sel-url").classList.add("set");
-      this.$target.querySelector(".sel-all").classList.remove("set");
+      this.$target
+        .querySelector(".sel-url-8f8894ba7a1f5c7a94a170b7dc841190")
+        .classList.add("set-8f8894ba7a1f5c7a94a170b7dc841190");
+      this.$target
+        .querySelector(".sel-all-8f8894ba7a1f5c7a94a170b7dc841190")
+        .classList.remove("set-8f8894ba7a1f5c7a94a170b7dc841190");
       recentNoteList = await this.getUrlNoteList();
     } else {
-      this.$target.querySelector(".sel-all").classList.add("set");
-      this.$target.querySelector(".sel-url").classList.remove("set");
+      this.$target
+        .querySelector(".sel-all-8f8894ba7a1f5c7a94a170b7dc841190")
+        .classList.add("set-8f8894ba7a1f5c7a94a170b7dc841190");
+      this.$target
+        .querySelector(".sel-url-8f8894ba7a1f5c7a94a170b7dc841190")
+        .classList.remove("set-8f8894ba7a1f5c7a94a170b7dc841190");
       recentNoteList = await this.getNoteList();
     }
 
@@ -51,15 +73,21 @@ export default class Title {
       .map(
         (noteInfo) =>
           `<li data-id=${noteInfo.id}>
-        <span class="item-title">${noteInfo.title}</span>
-        <span class="item-update">${getTimeDiff(noteInfo.updateTime)}</span>
+        <span class="item-title-8f8894ba7a1f5c7a94a170b7dc841190">${
+          noteInfo.title
+        }</span>
+        <span class="item-update-8f8894ba7a1f5c7a94a170b7dc841190">${getTimeDiff(
+          noteInfo.updateTime
+        )}</span>
       </li>`
       )
       .join("");
   }
 
   hideList() {
-    this.$recentWrapper.classList.remove("showUp");
+    this.$recentWrapper.classList.remove(
+      "showUp-8f8894ba7a1f5c7a94a170b7dc841190"
+    );
   }
 
   render(note) {
@@ -67,27 +95,29 @@ export default class Title {
     if (note == null) return;
     this.$title.value = note.title;
     if (note.star === true) {
-      this.$starBtn.classList.add("stared");
-      this.$starBtn.src =
-        `chrome-extension://${chrome.runtime.id}/assets/star_b.svg`;
+      this.$starBtn.classList.add("stared-8f8894ba7a1f5c7a94a170b7dc841190");
+      this.$starBtn.src = `chrome-extension://${chrome.runtime.id}/assets/star_b.svg`;
     } else {
-      this.$starBtn.classList.remove("stared");
-      this.$starBtn.src =
-        `chrome-extension://${chrome.runtime.id}/assets/star_e.svg`;
+      this.$starBtn.classList.remove("stared-8f8894ba7a1f5c7a94a170b7dc841190");
+      this.$starBtn.src = `chrome-extension://${chrome.runtime.id}/assets/star_e.svg`;
     }
   }
 
   eventListeners() {
     this.$starBtn.addEventListener("click", () => {
-      if (this.$starBtn.classList.contains("stared")) {
-        this.$starBtn.classList.remove("stared");
-        this.$starBtn.src =
-          `chrome-extension://${chrome.runtime.id}/assets/star_e.svg`;
+      if (
+        this.$starBtn.classList.contains(
+          "stared-8f8894ba7a1f5c7a94a170b7dc841190"
+        )
+      ) {
+        this.$starBtn.classList.remove(
+          "stared-8f8894ba7a1f5c7a94a170b7dc841190"
+        );
+        this.$starBtn.src = `chrome-extension://${chrome.runtime.id}/assets/star_e.svg`;
         this.onStarClick(false);
       } else {
-        this.$starBtn.classList.add("stared");
-        this.$starBtn.src =
-          `chrome-extension://${chrome.runtime.id}/assets/star_b.svg`;
+        this.$starBtn.classList.add("stared-8f8894ba7a1f5c7a94a170b7dc841190");
+        this.$starBtn.src = `chrome-extension://${chrome.runtime.id}/assets/star_b.svg`;
         this.onStarClick(true);
       }
     });
@@ -96,13 +126,15 @@ export default class Title {
       if (this.state === "init") this.$title.select();
     });
 
-    this.$title.addEventListener("keydown", (e) => {
+    this.$title.addEventListener("keyup", (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
-        this.$target.querySelector(".content").focus();
+        this.$target
+          .querySelector(".content-8f8894ba7a1f5c7a94a170b7dc841190")
+          .focus();
         Caret.restoreCaret();
         if (this.$title.value === "") {
-          this.$title.value = "제목 없는 문서";
+          this.$title.value = `${document.querySelector("title").innerHTML}`;
           this.state = "init";
         }
         return;
@@ -131,11 +163,15 @@ export default class Title {
 
     this.$target.addEventListener("click", (e) => {
       if (e.target.className === "title") {
-      } else if (e.target.className === "sel-all") {
+      } else if (
+        e.target.className === "sel-all-8f8894ba7a1f5c7a94a170b7dc841190"
+      ) {
         const method = "all";
         this.showList(method);
         Storage.setListingMethod(method);
-      } else if (e.target.className === "sel-url") {
+      } else if (
+        e.target.className === "sel-url-8f8894ba7a1f5c7a94a170b7dc841190"
+      ) {
         const method = "url";
         this.showList(method);
         Storage.setListingMethod(method);

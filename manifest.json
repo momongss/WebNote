@@ -1,12 +1,15 @@
 {
   "manifest_version": 2,
-  "name": "Note everywhere",
+  "name": "Quick Note",
   "version": "0.0.1",
-  "description": "make note everywhere",
+  "description": "단축키로 빠르게 불러와 사용할 수 있는 노트앱 ",
   "author": "taehyung",
   "background": {
     "scripts": ["src/background.js"],
     "persistent": false
+  },
+  "browser_action": {
+    "default_popup": "popup.html"
   },
   "content_scripts": [
     {
@@ -15,12 +18,6 @@
       "js": ["src/contentScript.js"]
     }
   ],
-  "permissions": [
-    "tabs",
-    "activeTab",
-    "fontSettings",
-    "storage",
-    "unlimitedStorage"
-  ],
-  "web_accessible_resources": ["src/*", "fonts/*", "assets/*"]
+  "permissions": ["activeTab", "fontSettings", "storage", "unlimitedStorage"],
+  "web_accessible_resources": ["src/*", "assets/*"]
 }
