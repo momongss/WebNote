@@ -44,8 +44,9 @@ export default class Content {
       if (imgResize && $img != null) {
         e.preventDefault();
         $img.style.cssText = `
+          display: inline-block;
           outline: dashed 6px black;
-          filter: brightness(0.8); 
+          filter: brightness(0.8);
           width: ${initWidth - initX + e.clientX}px !important`;
       }
     });
@@ -110,7 +111,6 @@ export default class Content {
 
     this.$content.addEventListener("input", (e) => {
       this.$content.querySelectorAll("img").forEach(($img) => {
-        console.log($img);
         $img.className = "";
       });
 
@@ -120,6 +120,18 @@ export default class Content {
         Caret.storeCaret();
         this.saveNote();
       }, 600);
+
+      const lastChild = this.$content.lastChild;
+      if (lastChild == null) return;
+      if (
+        lastChild.tagName !== "DIV" ||
+        lastChild.className !== "" ||
+        lastChild.innerHTML.trim() !== "<br>"
+      ) {
+        const $div = document.createElement("div");
+        $div.innerHTML = "<br>";
+        this.$content.appendChild($div);
+      }
     });
   }
 

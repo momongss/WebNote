@@ -263,7 +263,7 @@ export default class App {
         this.running = false;
         this.hideApp();
       }
-    }, 2000);
+    }, 1000);
   }
 
   showAlarmUI(message) {

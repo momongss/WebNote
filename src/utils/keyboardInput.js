@@ -17,6 +17,7 @@ const removeTabs = (node) => {
 function keyBackspace(e) {
   const range = document.getSelection().getRangeAt(0);
   let node = range.startContainer;
+  if (node == null) return;
   while (
     !node.parentElement.classList.contains(
       "content-8f8894ba7a1f5c7a94a170b7dc841190"
@@ -134,6 +135,7 @@ function keySpace(e) {
 function keyEnter() {
   const range = document.getSelection().getRangeAt(0);
   const $newLine = range.startContainer;
+  if ($newLine == null) return;
   removeHeadings($newLine);
 }
 
