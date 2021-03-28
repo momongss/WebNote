@@ -18,7 +18,7 @@
 
 <br>
 
-## <img src="./img/고양이_스크린샷.png">
+## <img src="./img/cat_full.png">
 
 ---
 
