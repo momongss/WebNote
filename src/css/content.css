@@ -126,7 +126,6 @@
   .content-8f8894ba7a1f5c7a94a170b7dc841190
   img:hover {
   outline: dashed 6px black;
-  filter: brightness(0.8);
   cursor: ew-resize;
 }
 

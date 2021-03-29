@@ -46,7 +46,6 @@ export default class Content {
         $img.style.cssText = `
           display: inline-block;
           outline: dashed 6px black;
-          filter: brightness(0.8);
           width: ${initWidth - initX + e.clientX}px !important`;
       }
     });
@@ -122,6 +121,11 @@ export default class Content {
     this.$content.addEventListener("input", (e) => {
       this.$content.querySelectorAll("img").forEach(($img) => {
         $img.className = "";
+      });
+
+      this.$content.querySelectorAll("a").forEach(($anchor) => {
+        console.log($anchor);
+        $anchor.setAttribute("contenteditable", "false");
       });
 
       clearTimeout(this.timeout);
