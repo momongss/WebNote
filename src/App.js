@@ -255,15 +255,6 @@ export default class App {
         this.$app.style.width = `${width}px`;
       }
     });
-
-    let preURL = window.location.href;
-    setInterval(() => {
-      if (preURL !== window.location.href) {
-        preURL = window.location.href;
-        this.running = false;
-        this.hideApp();
-      }
-    }, 1000);
   }
 
   showAlarmUI(message) {
@@ -285,7 +276,8 @@ export default class App {
   }
 
   async getRecentNote() {
-    const urlNoteList = await this.getUrlNoteList();
+    // const urlNoteList = await this.getUrlNoteList();
+    const urlNoteList = await this.getNoteList();
     return urlNoteList ? urlNoteList[0] : null;
   }
 

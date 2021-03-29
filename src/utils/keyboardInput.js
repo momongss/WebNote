@@ -1,6 +1,7 @@
 import Caret from "./caret.js";
 
 const removeHeadings = (node) => {
+  if (node == null) return;
   node.classList.remove("h1-8f8894ba7a1f5c7a94a170b7dc841190");
   node.classList.remove("h2-8f8894ba7a1f5c7a94a170b7dc841190");
   node.classList.remove("h3-8f8894ba7a1f5c7a94a170b7dc841190");
@@ -91,44 +92,52 @@ function keyTab() {
 }
 
 function keySpace(e) {
+  const range = document.getSelection().getRangeAt(0);
   const anchorNode = Caret.getCurrentLine();
-  const line = anchorNode.textContent;
-  if (line === "#") {
-    e.preventDefault();
-    anchorNode.parentElement.classList.add(
-      "h1-8f8894ba7a1f5c7a94a170b7dc841190"
-    );
-    anchorNode.parentElement.classList.remove(
-      "h2-8f8894ba7a1f5c7a94a170b7dc841190"
-    );
-    anchorNode.parentElement.classList.remove(
-      "h3-8f8894ba7a1f5c7a94a170b7dc841190"
-    );
-    anchorNode.parentElement.innerHTML = "";
-  } else if (line === "##") {
-    e.preventDefault();
-    anchorNode.parentElement.classList.add(
-      "h2-8f8894ba7a1f5c7a94a170b7dc841190"
-    );
-    anchorNode.parentElement.classList.remove(
-      "h1-8f8894ba7a1f5c7a94a170b7dc841190"
-    );
-    anchorNode.parentElement.classList.remove(
-      "h3-8f8894ba7a1f5c7a94a170b7dc841190"
-    );
-    anchorNode.parentElement.innerHTML = "";
-  } else if (line === "###") {
-    e.preventDefault();
-    anchorNode.parentElement.classList.add(
-      "h3-8f8894ba7a1f5c7a94a170b7dc841190"
-    );
-    anchorNode.parentElement.classList.remove(
-      "h1-8f8894ba7a1f5c7a94a170b7dc841190"
-    );
-    anchorNode.parentElement.classList.remove(
-      "h2-8f8894ba7a1f5c7a94a170b7dc841190"
-    );
-    anchorNode.parentElement.innerHTML = "";
+
+  const line = range.startContainer.textContent;
+  if (range.startOffset === 1) {
+    if (line.slice(0, 1) === "#") {
+      e.preventDefault();
+      anchorNode.parentElement.classList.add(
+        "h1-8f8894ba7a1f5c7a94a170b7dc841190"
+      );
+      anchorNode.parentElement.classList.remove(
+        "h2-8f8894ba7a1f5c7a94a170b7dc841190"
+      );
+      anchorNode.parentElement.classList.remove(
+        "h3-8f8894ba7a1f5c7a94a170b7dc841190"
+      );
+      anchorNode.parentElement.innerHTML = line.slice(1, line.length);
+    }
+  } else if (range.startOffset === 2) {
+    if (range.startContainer.textContent.slice(0, 2) === "##") {
+      e.preventDefault();
+      anchorNode.parentElement.classList.add(
+        "h2-8f8894ba7a1f5c7a94a170b7dc841190"
+      );
+      anchorNode.parentElement.classList.remove(
+        "h1-8f8894ba7a1f5c7a94a170b7dc841190"
+      );
+      anchorNode.parentElement.classList.remove(
+        "h3-8f8894ba7a1f5c7a94a170b7dc841190"
+      );
+      anchorNode.parentElement.innerHTML = line.slice(2, line.length);
+    }
+  } else if (range.startOffset === 3) {
+    if (range.startContainer.textContent.slice(0, 3) === "###") {
+      e.preventDefault();
+      anchorNode.parentElement.classList.add(
+        "h3-8f8894ba7a1f5c7a94a170b7dc841190"
+      );
+      anchorNode.parentElement.classList.remove(
+        "h1-8f8894ba7a1f5c7a94a170b7dc841190"
+      );
+      anchorNode.parentElement.classList.remove(
+        "h2-8f8894ba7a1f5c7a94a170b7dc841190"
+      );
+      anchorNode.parentElement.innerHTML = line.slice(3, line.length);
+    }
   }
 }
 

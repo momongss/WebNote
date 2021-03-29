@@ -48,8 +48,9 @@
 
 .web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190
   .content-8f8894ba7a1f5c7a94a170b7dc841190
-  > div {
+  > * {
   color: var(--text-color-white);
+  min-height: 24px;
   margin-bottom: 5px;
 }
 
@@ -58,8 +59,8 @@
   > div.h1-8f8894ba7a1f5c7a94a170b7dc841190 {
   font-weight: bold;
   font-size: 30px;
-  height: 30px;
-  margin-top: 33px;
+  min-height: 45px;
+  margin-top: 10px;
   margin-bottom: 10px;
 }
 
@@ -68,8 +69,8 @@
   > div.h2-8f8894ba7a1f5c7a94a170b7dc841190 {
   font-weight: bold;
   font-size: 25px;
-  height: 25px;
-  margin-top: 32px;
+  min-height: 38px;
+  margin-top: 10px;
   margin-bottom: 10px;
 }
 
@@ -78,8 +79,8 @@
   > div.h3-8f8894ba7a1f5c7a94a170b7dc841190 {
   font-weight: bold;
   font-size: 21px;
-  height: 21px;
-  margin-top: 30px;
+  min-height: 30px;
+  margin-top: 10px;
   margin-bottom: 10px;
 }
 

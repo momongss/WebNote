@@ -66,6 +66,8 @@ export default class Content {
       if (e.target.tagName !== "IMG") Caret.storeCaret();
     });
 
+    let isControl = false;
+
     this.$content.addEventListener("keydown", (e) => {
       if (this.$content.childElementCount === 0) {
         const $div = document.createElement("div");
@@ -98,14 +100,22 @@ export default class Content {
         keyTab();
       } else if (e.key === "Backspace") {
         keyBackspace(e);
-      } else if (e.keyCode == 0 || e.keyCode == 32) {
+      } else if (e.keyCode === 0 || e.keyCode === 32) {
         keySpace(e);
+      } else if (e.key === "Control") {
+        isControl = true;
+      } else if (e.key === "z" || e.key === "Z") {
+        if (isControl) {
+          keyBackspace(e);
+        }
       }
     });
 
     this.$content.addEventListener("keyup", (e) => {
       if (e.key === "Enter") {
         keyEnter();
+      } else if (e.key === "Control") {
+        isControl = false;
       }
     });
 
