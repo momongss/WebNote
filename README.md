@@ -1,6 +1,12 @@
-# 크롬 익스텐션 노트앱
+# QUICK NOTE
 
-아무 웹페이지에서나 단축키(alt+w)를 눌러 노트를 작성할 수 있는 크롬 확장프로그램
+## 사용 영상
+
+<iframe width="560" height="315" src="https://www.youtube.com/watch?v=CgzX46kSQHE" frameborder="0" allowfullscreen></iframe>
+
+---
+
+아무 웹페이지에서나 단축키(alt+1)를 눌러 노트를 작성할 수 있는 크롬 확장프로그램
 
 평소 노션과 구글 독스를 사용하며 개선됬으면 좋겠다 생각했던 요소들을 넣었다.
 
