@@ -1,5 +1,9 @@
 # QUICK NOTE
 
+### 웹스토어 링크
+
+https://chrome.google.com/webstore/detail/quick-note/ldihmbgbjpdelokhkhhgobjhbjkadifg?hl=ko
+
 ## 사용 영상
 
 [![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/CgzX46kSQHE/0.jpg)](http://www.youtube.com/watch?v=CgzX46kSQHE)
