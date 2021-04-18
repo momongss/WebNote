@@ -1,5 +1,5 @@
 const storage = chrome.storage.local;
-const mainKey = "Note everywhere";
+const mainKey = "e352cadab3cc08";
 
 export default class Storage {
   static async getListingMethod() {
@@ -192,6 +192,14 @@ export default class Storage {
     return await this.setItem(`right${id}`, right);
   }
 
+  static async setUrlNoteState(url, state) {
+    return await this.setItem(`urlNoteState${url}`, state);
+  }
+
+  static async getUrlNoteState(url) {
+    return await this.getItem(`urlNoteState${url}`);
+  }
+
   static getItem(key) {
     let gettingItem = new Promise((resolve) =>
       storage.get(mainKey + key, resolve)
@@ -215,15 +223,6 @@ export default class Storage {
       );
     }).catch((err) => {
       console.error(err);
-    });
-  }
-
-  static clearStorage() {
-    storage.clear(function () {
-      const error = chrome.runtime.lastError;
-      if (error) {
-        console.error(error);
-      }
     });
   }
 }

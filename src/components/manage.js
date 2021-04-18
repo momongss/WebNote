@@ -62,7 +62,8 @@ const createNote = async () => {
   $search.addEventListener("input", (e) => {
     clearTimeout(timeout);
 
-    timeout = setTimeout(() => {
+    timeout = setTimeout(async () => {
+      const noteInfoList = await Storage.getNoteInfoList();
       search($search.value, noteInfoList);
     }, 200);
   });

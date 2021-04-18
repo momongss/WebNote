@@ -1,13 +1,14 @@
 import Caret from "./caret.js";
 
 const removeHeadings = (node) => {
-  if (node == null) return;
+  if (node == null || node.classList == null) return;
   node.classList.remove("h1-8f8894ba7a1f5c7a94a170b7dc841190");
   node.classList.remove("h2-8f8894ba7a1f5c7a94a170b7dc841190");
   node.classList.remove("h3-8f8894ba7a1f5c7a94a170b7dc841190");
 };
 
 const removeTabs = (node) => {
+  if (node == null || node.classList == null) return;
   node.classList.remove("tab1-8f8894ba7a1f5c7a94a170b7dc841190");
   node.classList.remove("tab2-8f8894ba7a1f5c7a94a170b7dc841190");
   node.classList.remove("tab3-8f8894ba7a1f5c7a94a170b7dc841190");

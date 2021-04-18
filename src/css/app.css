@@ -56,6 +56,8 @@
   width: 440px;
   right: 0;
 
+  font-family: Arial;
+
   background-color: var(--color-background-dark);
   border: 1px solid rgb(0, 0, 0);
   border-radius: 15px;

@@ -23,7 +23,10 @@ export default class App {
       if (recentNote) {
         this.running = true;
         this.Note = await Storage.getNote(recentNote.id);
-        if (this.Note.state) {
+        const urlNoteState = await Storage.getUrlNoteState(
+          window.location.href
+        );
+        if (urlNoteState) {
           this.$app.classList.add("show-8f8894ba7a1f5c7a94a170b7dc841190");
         } else {
           this.$app.classList.remove("show-8f8894ba7a1f5c7a94a170b7dc841190");
@@ -109,9 +112,6 @@ export default class App {
         this.toggleApp();
       } else if (e.key === "Escape") {
         this.hideApp();
-      } else if (e.key === "-") {
-        Storage.clearStorage();
-        console.log("clear");
       }
     });
 
@@ -317,6 +317,7 @@ export default class App {
     this.Note.right = this.$app.style.right;
 
     Storage.setNote(this.Note);
+    Storage.setUrlNoteState(window.location.href, this.Note.state);
   }
 
   showApp({ createMode }) {
@@ -388,8 +389,6 @@ export default class App {
     const newId = createNewId(noteIdList);
     noteIdList.push(newId);
     Storage.setNoteIdList(noteIdList);
-
-    console.log(noteIdList, newId);
 
     this.Note = {
       id: newId,

@@ -125,6 +125,10 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+
+  font-family: Arial;
+  font-size: 13px;
+  font-weight: 520;
 }
 
 .web-docs-app-8f8894ba7a1f5c7a94a170b7dc841190

@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name": "Quick Note",
-  "version": "0.0.1",
-  "description": "단축키로 빠르게 불러와 사용할 수 있는 노트앱_",
+  "version": "0.0.2",
+  "description": "단축키로 빠르게 불러와 사용할 수 있는 노트앱",
   "author": "taehyung",
   "icons": {
     "128": "assets/docs128.png"
@@ -21,6 +21,6 @@
       "js": ["src/contentScript.js"]
     }
   ],
-  "permissions": ["activeTab", "fontSettings", "storage", "unlimitedStorage"],
+  "permissions": ["storage", "unlimitedStorage"],
   "web_accessible_resources": ["src/*", "assets/*"]
 }

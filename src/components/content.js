@@ -124,7 +124,6 @@ export default class Content {
       });
 
       this.$content.querySelectorAll("a").forEach(($anchor) => {
-        console.log($anchor);
         $anchor.setAttribute("contenteditable", "false");
       });
 
