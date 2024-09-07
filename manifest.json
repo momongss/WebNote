@@ -1,18 +1,17 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Quick Note",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "단축키로 빠르게 불러와 사용할 수 있는 노트앱",
   "author": "taehyung",
   "icons": {
     "128": "assets/docs128.png"
   },
-  "background": {
-    "scripts": ["src/background.js"],
-    "persistent": false
-  },
-  "browser_action": {
+  "action": {
     "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "src/background.js"
   },
   "content_scripts": [
     {
@@ -21,6 +20,12 @@
       "js": ["src/contentScript.js"]
     }
   ],
-  "permissions": ["storage", "unlimitedStorage"],
-  "web_accessible_resources": ["src/*", "assets/*"]
+  "permissions": ["storage", "unlimitedStorage", "activeTab"],
+  "host_permissions": ["<all_urls>"],
+  "web_accessible_resources": [
+    {
+      "resources": ["src/*", "assets/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }
